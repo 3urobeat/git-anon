@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-23 19:03:10
+ * Last Modified: 2024-03-23 20:59:04
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -27,12 +27,14 @@
 
         <!-- Title bar -->
         <div id="titlebar" class="flex justify-center pb-5">
+            <PhList class="absolute cursor-pointer left-3 top-2.5 md:hidden block" size="25px"></PhList>
+
             <div class="pt-2 w-28 text-center">Git Anon</div>               <!-- Title -->
             <hr class="absolute h-0.5 mt-10 w-full bg-gray-500 border-0"> <!-- Border below -->
         </div>
 
         <!-- Left navigation bar -->
-        <nav id="navbar" class="absolute h-full hidden lg:block md:w-1/6 w-1/2 bg-white border-2 border-x-gray-500 border-l-0"> <!-- hidden lg:block hides this div on mobiles on init -->
+        <nav id="navbar" class="absolute hidden md:block h-full md:w-1/6 w-1/2 bg-white border-2 border-x-gray-500 border-l-0">
             <div class="flex flex-col px-5 md:px-10">                          <!-- px-10 gives every element in this div space on the sides -->
                 <div class="my-2"></div>                                       <!-- Add some space above everything-->
                 <button class="my-1">Home</button>
@@ -67,6 +69,7 @@
 
 
 <script setup lang="ts">
+    import { PhList } from "@phosphor-icons/vue";
     import packagejson from "./package.json";
 
     /**
