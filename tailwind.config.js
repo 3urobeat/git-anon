@@ -1,11 +1,10 @@
-<!--
 /*
- * File: index.vue
+ * File: tailwind.config.js
  * Project: git-anon
- * Created Date: 2024-03-23 13:03:16
+ * Created Date: 2024-03-23 14:31:06
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-23 14:35:46
+ * Last Modified: 2024-03-23 14:31:06
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -14,11 +13,19 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
--->
 
 
-<template>
-    <div class="text-center">
-        Hello World!
-    </div>
-</template>
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+    theme: {
+        extend: {
+            colors: {
+                background: "rgb(184, 184, 184)",
+                playbtn: "rgb(0, 185, 99)",
+                footerColor: "rgb(102, 102, 102)"
+            }
+        },
+    },
+    plugins: [],
+};
