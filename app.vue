@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 13:08:57
+ * Last Modified: 2024-03-24 13:38:24
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -27,9 +27,12 @@
 
         <!-- Title bar -->
         <div id="titlebar" class="flex justify-center pb-5">
-            <PhList class="absolute cursor-pointer left-3 top-2.5 md:hidden block" size="25px"></PhList>
+            <PhList class="absolute cursor-pointer left-3 top-2 md:hidden block" size="25px"></PhList>
 
-            <div class="pt-2 w-28 text-center">Git Anon</div>               <!-- Title -->
+            <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold"> <!-- Title -->
+                <PhDetective class="mr-2 size-5"></PhDetective>
+                Git Anonymous
+            </div>
             <hr class="absolute h-0.5 mt-10 w-full bg-gray-500 border-0"> <!-- Border below -->
         </div>
 
@@ -78,7 +81,7 @@
 
 
 <script setup lang="ts">
-    import { PhList, PhHouse, PhGitFork, PhGear } from "@phosphor-icons/vue";
+    import { PhList, PhDetective, PhHouse, PhGitFork, PhGear } from "@phosphor-icons/vue";
     import packagejson from "./package.json";
 
     /**
