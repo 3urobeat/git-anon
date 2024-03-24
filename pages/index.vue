@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 17:22:31
+ * Last Modified: 2024-03-24 17:36:17
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -18,11 +18,11 @@
 
 
 <template>
-    <div id="title" class="font-semibold underline underline-offset-4 pb-5 md:pb-10 pt-10 select-none">
+    <div id="title" class="font-semibold underline underline-offset-4 pb-5 md:pb-7 pt-10 select-none">
         Make a new commit
     </div>
 
-    <div class="text-center md:flex md:flex-col md:mx-16"> <!-- Offset content to the right on desktop to give headline more presence -->
+    <div class="text-center md:flex md:flex-col md:mx-12"> <!-- Offset content to the right on desktop to give headline more presence -->
 
         <!-- Make Commit section -->
         <div class="w-full md:flex">
@@ -32,11 +32,11 @@
                 <span class="md:flex md:mx-1 font-medium">Projects</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="projects-list" class="md:h-full min-h-8 max-h-64 rounded-sm mt-1 outline outline-black outline-2">
+                <ul id="projects-list" class="flex md:h-full min-h-8 max-h-64 rounded-sm mt-1 outline outline-black outline-2">
 
                     <!-- Get text into the list with some space all around -->
                     <div class="ml-2 float-left">
-                        <button class="flex mt-2.5 w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" v-for="e in storedProjects" :key="e.name" @click="selectedProject = e">
+                        <button class="flex my-2.5 w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" v-for="e in storedProjects" :key="e.name" @click="selectedProject = e">
                             <span class="font-extrabold ml-1 -mr-3 text-green-600" v-show="selectedProject.name == e.name">|</span>
                             <span class="px-5">{{e.name}}</span>
                         </button>
@@ -54,10 +54,10 @@
                 <span class="md:flex md:mx-1 font-medium">Details</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="details-list" class="md:h-full min-h-8 max-h-64 mt-1 rounded-sm outline outline-black outline-2">
+                <ul id="details-list" class="flex md:h-full min-h-8 max-h-64 mt-1 rounded-sm outline outline-black outline-2">
 
                     <!-- Get text into the list with some space all around -->
-                    <div class="w-full px-5 pt-1 pb-1 float-left">
+                    <div class="w-full px-2.5 pb-1 float-left">
                         <li class="flex flex-col clearfix mb-1" v-for="e in selectedProject.details" :key="e.name">
                             <span class="text-left mx-1">{{e.name}}:</span>
                             <input type="text" class="rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all">
