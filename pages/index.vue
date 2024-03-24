@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 14:12:18
+ * Last Modified: 2024-03-24 15:36:56
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -43,7 +43,7 @@
             </div>
 
             <!-- Dividers between each list, one for desktop layout, one for mobile -->
-            <PhCaretRight class="hidden md:block size-24 m-4 self-center"></PhCaretRight>
+            <PhCaretRight class="hidden md:block size-24 m-4 mt-16 self-center"></PhCaretRight>
             <PhCaretDown class="md:hidden size-7 my-2 w-full"></PhCaretDown>
 
             <!-- Details list for the selected project -->
@@ -62,11 +62,11 @@
             </div>
 
             <!-- Dividers between each list, one for desktop layout, one for mobile -->
-            <PhCaretRight class="hidden md:block size-24 m-4 self-center"></PhCaretRight>
+            <PhCaretRight class="hidden md:block size-24 m-4 mt-16 self-center"></PhCaretRight>
             <PhCaretDown class="md:hidden size-7 my-2 w-full"></PhCaretDown>
 
             <!-- Commit button -->
-            <button class="self-center py-1 px-3 w-fit h-fit rounded-sm outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="makeCommit">
+            <button class="self-center py-1 px-3 md:mt-12 w-fit h-fit rounded-sm outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="makeCommit">
                 <div class="flex items-center justify-center">
                     <PhCheck class="mr-2 size-5 text-green-600"></PhCheck>
                     Commit
