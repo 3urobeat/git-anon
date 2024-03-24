@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 17:36:17
+ * Last Modified: 2024-03-24 18:19:50
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -32,7 +32,7 @@
                 <span class="md:flex md:mx-1 font-medium">Projects</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="projects-list" class="flex md:h-full min-h-8 max-h-64 rounded-sm mt-1 outline outline-black outline-2">
+                <ul id="projects-list" class="flex overflow-auto md:h-full min-h-8 max-h-64 rounded-sm mt-1 outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
                     <div class="ml-2 float-left">
@@ -54,7 +54,7 @@
                 <span class="md:flex md:mx-1 font-medium">Details</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="details-list" class="flex md:h-full min-h-8 max-h-64 mt-1 rounded-sm outline outline-black outline-2">
+                <ul id="details-list" class="flex overflow-auto md:h-full min-h-8 max-h-64 mt-1 rounded-sm outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full px-2.5 pb-1 float-left">
@@ -87,11 +87,14 @@
             <span class="md:flex md:mx-1 font-medium">History for '{{ selectedProject.name }}'</span>
 
             <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-            <ul id="history-list" class="md:h-20 min-h-8 max-h-20 mt-1 rounded-sm outline outline-black outline-2"> <!-- Fixed size on desktop -->
+            <ul id="history-list" class="flex overflow-auto md:h-20 min-h-8 max-h-20 mt-1 rounded-sm outline outline-black outline-2"> <!-- Fixed size on desktop -->
 
                 <!-- Get text into the list with some space all around -->
-                <div class="ml-5 pt-1 pb-1 float-left">
-
+                <div class="mx-3 my-1.5 w-full float-left">
+                    <span class="flex w-full text-sm cursor-default opacity-60 hover:opacity-80 hover:transition-all" v-for="e in storedProjects" :key="e.name"> <!-- TODO: Currently displays dummy content -->
+                        <span class="">{{e.name}}</span>                           <!-- Commit fields, left aligned -->
+                        <span class="content-end text-right w-full">16h ago</span> <!-- Timestamp, right aligned -->
+                    </span>
                 </div>
 
             </ul>
@@ -109,9 +112,9 @@
 
 
     // Get all projects and their details on load
-    let res: any = await useFetch("/api/get-projects");
+    let res = await useFetch<{ name: string, details: { name: string }[] }[]>("/api/get-projects");
 
-    storedProjects.value  = res.data.value;
+    storedProjects.value  = res.data.value!;
     selectedProject.value = res.data.value![0];
 
 
