@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 13:38:24
+ * Last Modified: 2024-03-24 13:48:41
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -26,18 +26,17 @@
     <div class="flex flex-col justify-between h-screen w-screen overflow-auto">
 
         <!-- Title bar -->
-        <div id="titlebar" class="flex justify-center pb-5">
+        <div id="titlebar" class="absolute w-full mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0">
             <PhList class="absolute cursor-pointer left-3 top-2 md:hidden block" size="25px"></PhList>
 
             <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold"> <!-- Title -->
                 <PhDetective class="mr-2 size-5"></PhDetective>
                 Git Anonymous
             </div>
-            <hr class="absolute h-0.5 mt-10 w-full bg-gray-500 border-0"> <!-- Border below -->
         </div>
 
         <!-- Left navigation bar -->
-        <nav id="navbar" class="absolute hidden md:block h-full md:w-1/6 w-1/2 bg-white border-2 border-x-gray-500 border-l-0">
+        <nav id="navbar" class="absolute hidden md:block h-full md:w-1/6 w-1/2 bg-white border-x-2 border-x-gray-500 border-l-0">
             <div class="flex flex-col px-5 md:px-10">                          <!-- px-10 gives every element in this div space on the sides -->
                 <div class="my-2"></div>                                       <!-- Add some space above everything-->
                 <button class="flex items-center justify-center my-1 rounded-sm hover:bg-gray-200 hover:transition-all">
