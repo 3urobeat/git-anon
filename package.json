@@ -39,6 +39,7 @@
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@phosphor-icons/vue": "^2.1.6",
     "@seald-io/nedb": "^4.0.4",
-    "@vueuse/core": "^10.9.0"
+    "@vueuse/core": "^10.9.0",
+    "simple-git": "^3.23.0"
   }
 }

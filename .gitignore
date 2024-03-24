@@ -24,3 +24,4 @@ logs
 
 git-anon.code-workspace
 server/data/database.db
+data/repository/*

@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 21:26:14
+ * Last Modified: 2024-03-24 22:24:49
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -43,6 +43,6 @@ export function addCommit(projectName: string, projectDetails: { name: string, v
     // Let git handler make the commit and push it
     const commitMessage = projectDetails.find((e) => e.name.toLowerCase() == "commit message")!.value;
 
-    commitAndPush(`data/repository/${projectName}/${fileName}.json`, commitMessage);
+    commitAndPush(`${projectName}/${fileName}.json`, commitMessage);
 
 }
