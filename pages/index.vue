@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 18:19:50
+ * Last Modified: 2024-03-24 21:48:21
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -60,7 +60,13 @@
                     <div class="w-full px-2.5 pb-1 float-left">
                         <li class="flex flex-col clearfix mb-1" v-for="e in selectedProject.details" :key="e.name">
                             <span class="text-left mx-1">{{e.name}}:</span>
-                            <input type="text" class="rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all">
+
+                            <!-- Bind input with v-model to value prop of the corresponding detail for easy readout later on. The value prop might not exist yet so we use this notation to create it -->
+                            <input
+                                type="text"
+                                class="rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                v-model="e['value']"
+                            >
                         </li>
                     </div>
 
@@ -107,12 +113,13 @@
 <script setup lang="ts">
     import { PhCheck, PhCaretRight, PhCaretDown } from '@phosphor-icons/vue';
 
-    const storedProjects:  Ref<{ name: string, details: { name: string }[] }[]> = ref(null!);
-    const selectedProject: Ref<{ name: string, details: { name: string }[] }>   = ref(null!);
+    // The details.value field does not exist yet but is created when user inserts text into the input field by the v-model binding
+    const storedProjects:  Ref<{ name: string, details: { name: string, value?: string }[] }[]> = ref(null!);
+    const selectedProject: Ref<{ name: string, details: { name: string, value?: string }[] }>   = ref(null!);
 
 
     // Get all projects and their details on load
-    let res = await useFetch<{ name: string, details: { name: string }[] }[]>("/api/get-projects");
+    let res = await useFetch<{ name: string, details: { name: string, value?: string }[] }[]>("/api/get-projects");
 
     storedProjects.value  = res.data.value!;
     selectedProject.value = res.data.value![0];
@@ -122,6 +129,21 @@
      * Makes a commit request to the server
      */
     async function makeCommit() {
+
+        //console.log("Sending make-commit API request with details: ")
+        //console.log(selectedProject.value.details)
+
+        // Dispatch request to the server
+        let success = await useFetch("/api/make-commit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: selectedProject.value.name,
+                details: selectedProject.value.details
+            })
+        });
 
     }
 
