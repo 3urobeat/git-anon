@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 21:28:59
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-23 23:55:00
+ * Last Modified: 2024-03-24 21:17:10
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -35,7 +35,25 @@ export default defineEventHandler(async () => {
 
 
     // Get all projects and their details
-    const data = await db.findAsync({});
+    const data: { name: string, details: { name: string }[] }[] = await db.findAsync({});
+
+
+    // Make sure every project has "Commit Message" as first field
+    data.forEach((e, i) => {
+        // Sort to get Commit Message as the first field // TODO: We could do this only on project edit
+        const sorted = [
+            ...e.details.filter((detail) => detail.name === "Commit Message"),
+            ...e.details.filter((detail) => detail.name !== "Commit Message")
+        ];
+
+        // Overwrite details in original data array
+        data[i].details = sorted;
+
+        // Insert Commit Message field at first index if it does not exist
+        if (data[i].details[0].name !== "Commit Message") {
+            data[i].details.splice(0, 0, { name: "Commit Message" });
+        }
+    });
 
     return data;
 
