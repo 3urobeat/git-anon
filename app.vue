@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 13:48:41
+ * Last Modified: 2024-03-24 15:12:34
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -22,21 +22,22 @@
     <meta content="Git Anon" property="og:title" />
     <meta content="Track personal commit statistics without sharing company code" property="og:description" />
 
-    <!-- Page content -->
-    <div class="flex flex-col justify-between h-screen w-screen overflow-auto">
+    <!-- Title bar -->
+    <PhList class="absolute cursor-pointer left-3 top-2 md:hidden block" size="25px" @click="navBarToggleClick"></PhList>
 
-        <!-- Title bar -->
-        <div id="titlebar" class="absolute w-full mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0">
-            <PhList class="absolute cursor-pointer left-3 top-2 md:hidden block" size="25px"></PhList>
-
-            <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold"> <!-- Title -->
-                <PhDetective class="mr-2 size-5"></PhDetective>
-                Git Anonymous
-            </div>
+    <header id="titlebar" class="fixed -z-10 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0">
+        <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold"> <!-- Title -->
+            <PhDetective class="mr-2 size-5"></PhDetective>
+            Git Anonymous
         </div>
+    </header>
 
-        <!-- Left navigation bar -->
-        <nav id="navbar" class="absolute hidden md:block h-full md:w-1/6 w-1/2 bg-white border-x-2 border-x-gray-500 border-l-0">
+
+    <!-- Group navbar and main content so that they can share the screen width -->
+    <div class="flex overflow-auto">
+
+        <!-- Left navigation bar which offsets everything else to the right -->
+        <nav id="navbar" class="top-0 left-0 h-screen md:w-1/6 w-1/2 hidden md:block bg-white border-x-2 border-x-gray-500 border-l-0">
             <div class="flex flex-col px-5 md:px-10">                          <!-- px-10 gives every element in this div space on the sides -->
                 <div class="my-2"></div>                                       <!-- Add some space above everything-->
                 <button class="flex items-center justify-center my-1 rounded-sm hover:bg-gray-200 hover:transition-all">
@@ -55,33 +56,45 @@
             </div>
         </nav>
 
-        <!-- The main content itself -->
-        <div class="h-full w-full"> <!-- TODO: Offset by space taken up by navbar on desktop -->
-            <NuxtPage></NuxtPage>   <!-- Links to index.vue -->
-        </div>
+        <!-- The main content itself, pushed to the side by the navbar -->
+        <main class="w-screen mx-5 my-3">
+            <NuxtPage></NuxtPage> <!-- Links to index.vue -->
+        </main>
 
-        <!-- Footer for project details -->
-        <footer class="self-center flex flex-col items-center mb-2 mt-2 text-xs md:text-sm opacity-50">
+    </div>
+
+
+    <!-- Footer for project details -->
+    <footer class="fixed bottom-0 left-0 w-screen h-fit mb-2">
+        <div class="flex flex-col text-center text-xs md:text-sm opacity-50">
             git-anon v{{ packagejson.version }}
 
-            <button type="button" @click="clickGithub" class="mt-1 rounded-full px-2 text-white bg-[#24292F] hover:bg-[#24292F]/90 hover:transition-all focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 text-center flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 bg-opacity-80">
+            <button class="flex w-fit self-center items-center mt-0.5 rounded-full px-2 text-white bg-gray-700 hover:bg-gray-400 hover:transition-all bg-opacity-80" @click="clickGithub">
+
+                <!-- GitHub logo -->
                 <svg class="mr-1" width="1em" height="1em" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z" clip-rule="evenodd"/>
                 </svg>
+
                 <span class="text-white rounded-lg text-xm" href="https://github.com/3urobeat/git-anon" target="_blank">Source Code</span>
+
             </button>
 
             <p>This application is licensed under the <a class="underline hover:text-gray-500 rounded-lg" href="https://www.gnu.org/licenses/" target="_blank">GPLv3 license</a></p>
             <p>Copyright (c) 2024 <a class="underline hover:text-gray-500 rounded-lg" href="https://github.com/3urobeat" target="_blank">3urobeat</a></p>
-        </footer>
+        </div>
+    </footer>
 
-    </div>
 </template>
 
 
 <script setup lang="ts">
     import { PhList, PhDetective, PhHouse, PhGitFork, PhGear } from "@phosphor-icons/vue";
     import packagejson from "./package.json";
+
+    function navBarToggleClick(event: Event) {
+
+    }
 
     /**
      * Executed when user clicks the footer's GitHub icon
