@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 17:19:31
+ * Last Modified: 2024-03-25 17:41:22
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -18,10 +18,6 @@
 
 
 <template>
-    <title>Git Anon</title>
-    <meta content="Git Anon" property="og:title" />
-    <meta content="Track personal commit statistics without sharing company code" property="og:description" />
-
     <!-- Title bar -->
     <PhList class="absolute cursor-pointer left-3 top-2 md:hidden block" size="25px" @click="navBarToggleClick"></PhList>
 
@@ -91,6 +87,17 @@
 <script setup lang="ts">
     import { PhList, PhDetective, PhHouse, PhGitFork, PhGear } from "@phosphor-icons/vue";
     import packagejson from "./package.json";
+
+
+    // Specify page information
+    useSeoMeta({
+        title: "Git Anon",
+        ogTitle: "Git Anon",
+        description: "Track personal commit statistics without sharing company code",
+        ogDescription: "Track personal commit statistics without sharing company code",
+        //ogImage: ""
+    })
+
 
     function navBarToggleClick(event: Event) {
 
