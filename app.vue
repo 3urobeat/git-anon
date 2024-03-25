@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 17:41:22
+ * Last Modified: 2024-03-25 19:19:52
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -33,21 +33,27 @@
     <div class="flex overflow-auto">
 
         <!-- Left navigation bar which offsets everything else to the right -->
-        <nav id="navbar" class="top-0 left-0 h-screen md:w-1/6 w-1/2 hidden md:block bg-white border-x-2 border-x-gray-500 border-l-0">
-            <div class="flex flex-col px-5 md:px-10">                          <!-- px-10 gives every element in this div space on the sides -->
-                <div class="my-2"></div>                                       <!-- Add some space above everything-->
-                <button class="flex items-center justify-center my-1 rounded-sm hover:bg-gray-200 hover:transition-all">
-                    <PhHouse class="mr-2"></PhHouse>
-                    Home
+        <nav id="navbar" class="top-0 left-0 h-screen md:w-1/6 w-1/2 min-w-44 hidden md:block bg-white border-x-2 border-x-gray-500 border-l-0">
+            <div class="px-5 md:px-7">  <!-- px-10 gives every element in this div space on the sides -->
+                <div class="my-3"></div> <!-- Add some space above everything-->
+                <button class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 0">
+                    <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="selectedPage == 0">|</span>
+                    <div class="flex items-center justify-center w-full">
+                        <PhHouse class="mr-2"></PhHouse> Home
+                    </div>
                 </button>
                 <div class="my-2 w-full h-0.5 bg-gray-500 opacity-50"></div> <!-- Divider to give Home more presence -->
-                <button class="flex items-center justify-center my-1 rounded-sm hover:bg-gray-200 hover:transition-all">
-                    <PhGitFork class="mr-2"></PhGitFork>
-                    Projects
+                <button class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 1">
+                    <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="selectedPage == 1">|</span>
+                    <div class="flex items-center justify-center w-full">
+                        <PhGitFork class="mr-2"></PhGitFork> Projects
+                    </div>
                 </button>
-                <button class="flex items-center justify-center my-1 rounded-sm hover:bg-gray-200 hover:transition-all">
-                    <PhGear class="mr-2"></PhGear>
-                    Settings
+                <button class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 2">
+                    <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="selectedPage == 2">|</span>
+                    <div class="flex items-center justify-center w-full">
+                        <PhGear class="mr-2"></PhGear> Settings
+                    </div>
                 </button>
             </div>
         </nav>
@@ -96,7 +102,11 @@
         description: "Track personal commit statistics without sharing company code",
         ogDescription: "Track personal commit statistics without sharing company code",
         //ogImage: ""
-    })
+    });
+
+
+    // Page selector
+    let selectedPage = ref(0);
 
 
     function navBarToggleClick(event: Event) {
