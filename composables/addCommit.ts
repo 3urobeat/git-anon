@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 22:24:49
+ * Last Modified: 2024-03-25 17:29:45
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -26,7 +26,7 @@ import { commitAndPush } from "./handleGit";
  */
 export function addCommit(projectName: string, projectDetails: { name: string, value: string }[]) {
 
-    console.log(`addCommit: Adding new commit for '${projectName}' with '${projectDetails}'`);
+    console.log(`addCommit: Adding new commit for '${projectName}' with '${JSON.stringify(projectDetails)}'`);
 
     // Check if no folder exists yet for this project and create it
     if (!fs.existsSync("data/repository/" + projectName)) {

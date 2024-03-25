@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 22:25:55
+ * Last Modified: 2024-03-25 17:28:39
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -18,6 +18,11 @@
 import fs from "fs";
 import { simpleGit, SimpleGit, CleanOptions } from 'simple-git'; // eslint-disable-line
 
+
+if (!fs.existsSync("data/repository")) {
+    console.log("Repository folder missing! Creating folder...");
+    fs.mkdirSync("data/repository");
+}
 
 const git: SimpleGit = simpleGit({
     baseDir: "data/repository/",
