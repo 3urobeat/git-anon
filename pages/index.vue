@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 19:35:52
+ * Last Modified: 2024-03-25 19:41:14
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -18,21 +18,21 @@
 
 
 <template>
-    <div id="title" class="font-semibold underline underline-offset-4 pb-5 md:pb-7 pt-10 select-none">
+    <div id="title" class="font-semibold underline underline-offset-4 pb-5 lg:pb-7 pt-10 select-none">
         Make a new commit
     </div>
 
-    <div class="text-center md:flex md:flex-col md:mx-12"> <!-- Offset content to the right on desktop to give headline more presence -->
+    <div class="text-center lg:flex lg:flex-col lg:mx-12"> <!-- Offset content to the right on desktop to give headline more presence -->
 
         <!-- Make Commit section -->
-        <div class="w-full md:flex">
+        <div class="w-full lg:flex">
 
             <!-- Projects list -->
             <div class="w-full">
-                <span class="md:flex md:mx-1 font-medium">Projects</span>
+                <span class="lg:flex lg:mx-1 font-medium">Projects</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="projects-list" class="flex overflow-auto md:h-full min-h-8 max-h-64 rounded-sm mt-1 outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
+                <ul id="projects-list" class="flex overflow-auto lg:h-full min-h-8 max-h-64 rounded-sm mt-1 outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
                     <div class="mx-2">
@@ -48,15 +48,15 @@
             </div>
 
             <!-- Dividers between each list, one for desktop layout, one for mobile -->
-            <PhCaretRight class="hidden md:block size-24 m-4 mt-16 self-center"></PhCaretRight>
-            <PhCaretDown class="md:hidden size-7 my-2 w-full"></PhCaretDown>
+            <PhCaretRight class="hidden lg:block size-24 m-4 mt-16 self-center"></PhCaretRight>
+            <PhCaretDown class="lg:hidden size-7 my-2 w-full"></PhCaretDown>
 
             <!-- Details list for the selected project -->
             <div class="w-full">
-                <span class="md:flex md:mx-1 font-medium">Details</span>
+                <span class="lg:flex lg:mx-1 font-medium">Details</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="details-list" class="flex overflow-auto md:h-full min-h-8 max-h-64 mt-1 rounded-sm outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
+                <ul id="details-list" class="flex overflow-auto lg:h-full min-h-8 max-h-64 mt-1 rounded-sm outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2.5 pb-1">
@@ -76,11 +76,11 @@
             </div>
 
             <!-- Dividers between each list, one for desktop layout, one for mobile -->
-            <PhCaretRight class="hidden md:block size-24 m-4 mt-16 self-center"></PhCaretRight>
-            <PhCaretDown class="md:hidden size-7 my-2 w-full"></PhCaretDown>
+            <PhCaretRight class="hidden lg:block size-24 m-4 mt-16 self-center"></PhCaretRight>
+            <PhCaretDown class="lg:hidden size-7 my-2 w-full"></PhCaretDown>
 
             <!-- Commit button -->
-            <button class="self-center py-1 px-3 md:mt-12 w-fit h-fit rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="makeCommit">
+            <button class="self-center py-1 px-3 lg:mt-12 w-fit h-fit rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="makeCommit">
                 <div class="flex items-center justify-center">
                     <PhCheck class="mr-2 size-5 text-green-600"></PhCheck>
                     Commit
@@ -92,10 +92,10 @@
 
         <!-- History section -->
         <div class="w-full mt-10 mb-16">
-            <span class="md:flex md:mx-1 font-medium">History for '{{ selectedProject.name }}'</span>
+            <span class="lg:flex lg:mx-1 font-medium">History for '{{ selectedProject.name }}'</span>
 
             <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-            <ul id="history-list" class="flex overflow-auto md:h-20 min-h-8 max-h-20 mt-1 rounded-sm outline outline-black outline-2"> <!-- Fixed size on desktop -->
+            <ul id="history-list" class="flex overflow-auto lg:h-20 min-h-8 max-h-20 mt-1 rounded-sm outline outline-black outline-2"> <!-- Fixed size on desktop -->
 
                 <!-- Get text into the list with some space all around -->
                 <div class="mx-3 my-1.5 w-full float-left">

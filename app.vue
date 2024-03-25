@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 19:19:52
+ * Last Modified: 2024-03-25 19:38:15
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -19,7 +19,7 @@
 
 <template>
     <!-- Title bar -->
-    <PhList class="absolute cursor-pointer left-3 top-2 md:hidden block" size="25px" @click="navBarToggleClick"></PhList>
+    <PhList class="absolute cursor-pointer left-3 top-2 lg:hidden block" size="25px" @click="navBarToggleClick"></PhList>
 
     <header id="titlebar" class="fixed -z-10 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0">
         <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold"> <!-- Title -->
@@ -33,8 +33,8 @@
     <div class="flex overflow-auto">
 
         <!-- Left navigation bar which offsets everything else to the right -->
-        <nav id="navbar" class="top-0 left-0 h-screen md:w-1/6 w-1/2 min-w-44 hidden md:block bg-white border-x-2 border-x-gray-500 border-l-0">
-            <div class="px-5 md:px-7">  <!-- px-10 gives every element in this div space on the sides -->
+        <nav id="navbar" class="top-0 left-0 h-screen lg:w-1/6 w-1/2 min-w-44 hidden lg:block bg-white border-x-2 border-x-gray-500 border-l-0">
+            <div class="px-5 lg:px-7">  <!-- px-10 gives every element in this div space on the sides -->
                 <div class="my-3"></div> <!-- Add some space above everything-->
                 <button class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 0">
                     <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="selectedPage == 0">|</span>
@@ -68,7 +68,7 @@
 
     <!-- Footer for project details -->
     <footer class="fixed bottom-0 left-0 w-screen h-fit mb-2">
-        <div class="flex flex-col text-center text-xs md:text-sm opacity-50">
+        <div class="flex flex-col text-center text-xs lg:text-sm opacity-50">
             git-anon v{{ packagejson.version }}
 
             <a class="flex w-fit self-center items-center mt-0.5 rounded-full px-2 text-white bg-gray-700 hover:bg-gray-400 hover:transition-all bg-opacity-80" href="http://github.com/3urobeat/git-anon" target="_blank">
