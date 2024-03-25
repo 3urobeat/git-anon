@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 17:17:41
+ * Last Modified: 2024-03-25 19:35:52
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -35,10 +35,12 @@
                 <ul id="projects-list" class="flex overflow-auto md:h-full min-h-8 max-h-64 rounded-sm mt-1 outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
-                    <div class="ml-2 float-left">
+                    <div class="mx-2">
                         <button class="flex my-2.5 w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" v-for="thisProject in storedProjects" :key="thisProject.name" @click="selectedProject = thisProject">
-                            <span class="font-extrabold ml-1 -mr-3 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
-                            <span class="px-5">{{thisProject.name}}</span>
+                            <div class="relative">
+                                <span class="absolute text-lg font-bold -mt-1 ml-1 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
+                            </div>
+                            <div class="pl-4 pr-2">{{thisProject.name}}</div>
                         </button>
                     </div>
 
@@ -57,7 +59,7 @@
                 <ul id="details-list" class="flex overflow-auto md:h-full min-h-8 max-h-64 mt-1 rounded-sm outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
-                    <div class="w-full px-2.5 pb-1 float-left">
+                    <div class="w-full mx-2.5 pb-1">
                         <li class="flex flex-col clearfix mb-1" v-for="thisProject in selectedProject.details" :key="thisProject.name">
                             <span class="text-left mx-1">{{thisProject.name}}:</span>
 
@@ -116,7 +118,7 @@
 
     // The details.value field does not exist yet but is created when user inserts text into the input field by the v-model binding
     const storedProjects:  Ref<StoredProjects> = ref(null!);
-    const selectedProject: Ref<Project>   = ref(null!);
+    const selectedProject: Ref<Project>        = ref(null!);
 
 
     // Get all projects and their details on load
