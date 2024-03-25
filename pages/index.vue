@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 21:48:21
+ * Last Modified: 2024-03-25 17:17:41
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -36,9 +36,9 @@
 
                     <!-- Get text into the list with some space all around -->
                     <div class="ml-2 float-left">
-                        <button class="flex my-2.5 w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" v-for="e in storedProjects" :key="e.name" @click="selectedProject = e">
-                            <span class="font-extrabold ml-1 -mr-3 text-green-600" v-show="selectedProject.name == e.name">|</span>
-                            <span class="px-5">{{e.name}}</span>
+                        <button class="flex my-2.5 w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" v-for="thisProject in storedProjects" :key="thisProject.name" @click="selectedProject = thisProject">
+                            <span class="font-extrabold ml-1 -mr-3 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
+                            <span class="px-5">{{thisProject.name}}</span>
                         </button>
                     </div>
 
@@ -58,14 +58,14 @@
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full px-2.5 pb-1 float-left">
-                        <li class="flex flex-col clearfix mb-1" v-for="e in selectedProject.details" :key="e.name">
-                            <span class="text-left mx-1">{{e.name}}:</span>
+                        <li class="flex flex-col clearfix mb-1" v-for="thisProject in selectedProject.details" :key="thisProject.name">
+                            <span class="text-left mx-1">{{thisProject.name}}:</span>
 
                             <!-- Bind input with v-model to value prop of the corresponding detail for easy readout later on. The value prop might not exist yet so we use this notation to create it -->
                             <input
                                 type="text"
                                 class="rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                                v-model="e['value']"
+                                v-model="thisProject['value']"
                             >
                         </li>
                     </div>
@@ -97,8 +97,8 @@
 
                 <!-- Get text into the list with some space all around -->
                 <div class="mx-3 my-1.5 w-full float-left">
-                    <span class="flex w-full text-sm cursor-default opacity-60 hover:opacity-80 hover:transition-all" v-for="e in storedProjects" :key="e.name"> <!-- TODO: Currently displays dummy content -->
-                        <span class="">{{e.name}}</span>                           <!-- Commit fields, left aligned -->
+                    <span class="flex w-full text-sm cursor-default opacity-60 hover:opacity-80 hover:transition-all" v-for="thisProject in storedProjects" :key="thisProject.name"> <!-- TODO: Currently displays dummy content -->
+                        <span class="">{{thisProject.name}}</span>                           <!-- Commit fields, left aligned -->
                         <span class="content-end text-right w-full">16h ago</span> <!-- Timestamp, right aligned -->
                     </span>
                 </div>
@@ -112,14 +112,15 @@
 
 <script setup lang="ts">
     import { PhCheck, PhCaretRight, PhCaretDown } from '@phosphor-icons/vue';
+    import type { Project, StoredProjects } from "../model/projects";
 
     // The details.value field does not exist yet but is created when user inserts text into the input field by the v-model binding
-    const storedProjects:  Ref<{ name: string, details: { name: string, value?: string }[] }[]> = ref(null!);
-    const selectedProject: Ref<{ name: string, details: { name: string, value?: string }[] }>   = ref(null!);
+    const storedProjects:  Ref<StoredProjects> = ref(null!);
+    const selectedProject: Ref<Project>   = ref(null!);
 
 
     // Get all projects and their details on load
-    let res = await useFetch<{ name: string, details: { name: string, value?: string }[] }[]>("/api/get-projects");
+    let res = await useFetch<StoredProjects>("/api/get-projects");
 
     storedProjects.value  = res.data.value!;
     selectedProject.value = res.data.value![0];

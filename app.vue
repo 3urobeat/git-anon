@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-24 15:12:34
+ * Last Modified: 2024-03-25 17:19:31
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -69,7 +69,7 @@
         <div class="flex flex-col text-center text-xs md:text-sm opacity-50">
             git-anon v{{ packagejson.version }}
 
-            <button class="flex w-fit self-center items-center mt-0.5 rounded-full px-2 text-white bg-gray-700 hover:bg-gray-400 hover:transition-all bg-opacity-80" @click="clickGithub">
+            <a class="flex w-fit self-center items-center mt-0.5 rounded-full px-2 text-white bg-gray-700 hover:bg-gray-400 hover:transition-all bg-opacity-80" href="http://github.com/3urobeat/git-anon" target="_blank">
 
                 <!-- GitHub logo -->
                 <svg class="mr-1" width="1em" height="1em" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -78,7 +78,7 @@
 
                 <span class="text-white rounded-lg text-xm" href="https://github.com/3urobeat/git-anon" target="_blank">Source Code</span>
 
-            </button>
+            </a>
 
             <p>This application is licensed under the <a class="underline hover:text-gray-500 rounded-lg" href="https://www.gnu.org/licenses/" target="_blank">GPLv3 license</a></p>
             <p>Copyright (c) 2024 <a class="underline hover:text-gray-500 rounded-lg" href="https://github.com/3urobeat" target="_blank">3urobeat</a></p>
@@ -94,12 +94,5 @@
 
     function navBarToggleClick(event: Event) {
 
-    }
-
-    /**
-     * Executed when user clicks the footer's GitHub icon
-     */
-    function clickGithub(event: Event) {
-        window.open('http://github.com/3urobeat/git-anon', '_blank');
     }
 </script>
