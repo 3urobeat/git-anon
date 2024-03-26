@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 19:41:14
+ * Last Modified: 2024-03-26 22:43:16
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -60,14 +60,14 @@
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2.5 pb-1">
-                        <li class="flex flex-col clearfix mb-1" v-for="thisProject in selectedProject.details" :key="thisProject.name">
-                            <span class="text-left mx-1">{{thisProject.name}}:</span>
+                        <li class="flex flex-col clearfix mb-1" v-for="thisDetail in selectedProject.details" :key="thisDetail.name">
+                            <span class="text-left mx-1">{{thisDetail.name}}:</span>
 
                             <!-- Bind input with v-model to value prop of the corresponding detail for easy readout later on. The value prop might not exist yet so we use this notation to create it -->
                             <input
                                 type="text"
-                                class="rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                                v-model="thisProject['value']"
+                                class="rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                v-model="thisDetail['value']"
                             >
                         </li>
                     </div>
