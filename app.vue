@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 19:38:15
+ * Last Modified: 2024-03-26 17:49:56
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -36,25 +36,25 @@
         <nav id="navbar" class="top-0 left-0 h-screen lg:w-1/6 w-1/2 min-w-44 hidden lg:block bg-white border-x-2 border-x-gray-500 border-l-0">
             <div class="px-5 lg:px-7">  <!-- px-10 gives every element in this div space on the sides -->
                 <div class="my-3"></div> <!-- Add some space above everything-->
-                <button class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 0">
+                <NuxtLink to="/" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 0">
                     <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="selectedPage == 0">|</span>
                     <div class="flex items-center justify-center w-full">
                         <PhHouse class="mr-2"></PhHouse> Home
                     </div>
-                </button>
+                </NuxtLink>
                 <div class="my-2 w-full h-0.5 bg-gray-500 opacity-50"></div> <!-- Divider to give Home more presence -->
-                <button class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 1">
+                <NuxtLink to="/projects" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 1">
                     <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="selectedPage == 1">|</span>
                     <div class="flex items-center justify-center w-full">
                         <PhGitFork class="mr-2"></PhGitFork> Projects
                     </div>
-                </button>
-                <button class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 2">
+                </NuxtLink>
+                <NuxtLink to="/settings" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all" @click="selectedPage = 2">
                     <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="selectedPage == 2">|</span>
                     <div class="flex items-center justify-center w-full">
                         <PhGear class="mr-2"></PhGear> Settings
                     </div>
-                </button>
+                </NuxtLink>
             </div>
         </nav>
 
