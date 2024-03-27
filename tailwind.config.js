@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 14:31:06
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-23 14:31:06
+ * Last Modified: 2024-03-26 21:32:01
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -20,11 +20,7 @@ module.exports = {
     content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
     theme: {
         extend: {
-            colors: {
-                background: "rgb(184, 184, 184)",
-                playbtn: "rgb(0, 185, 99)",
-                footerColor: "rgb(102, 102, 102)"
-            }
+            colors: {}
         },
     },
     plugins: [],
