@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-26 22:42:57
+ * Last Modified: 2024-03-27 22:29:55
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -30,11 +30,7 @@
         </div>
     </div>
 
-
-
     <div class="text-center lg:flex lg:flex-col lg:mx-12"> <!-- Offset content to the right on desktop to give headline more presence -->
-
-        <!-- Make Commit section -->
         <div class="w-full lg:flex">
 
             <!-- Projects list -->
@@ -46,17 +42,26 @@
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2">
-                        <button class="flex my-2.5 pr-5 w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" v-for="thisProject in storedProjects" :key="thisProject.name" @click="selectedProject = thisProject">
-                            <div class="relative">
-                                <span class="absolute text-lg font-bold -mt-1 ml-1 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
-                            </div>
-                            <div class="pl-4 pr-2">{{thisProject.name}}</div>
-                            <div class="flex w-full justify-end">
-                                <button class="m-0.5 rounded-sm bg-gray-200 hover:bg-gray-300 hover:transition-all" @click="deleteProject(thisProject.name)">
-                                    <PhX class="size-5 text-red-500"></PhX>
-                                </button>
-                            </div>
-                        </button>
+                        <div class="flex my-2.5 w-full" v-for="thisProject in storedProjects" :key="thisProject.name">
+
+                            <!-- Project select & name edit button -->
+                            <button class="flex w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" @click="selectedProject = thisProject">
+                                <div class="relative">
+                                    <span class="absolute text-lg font-bold -mt-1 ml-1 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="rounded-sm w-full px-1 mx-4 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                    v-model="thisProject.name"
+                                >
+                            </button>
+
+                            <!-- Delete button -->
+                            <button class="flex ml-2 justify-end m-0.5 rounded-sm bg-gray-200 hover:bg-gray-300 hover:transition-all" @click="deleteProject(thisProject.name)">
+                                <PhX class="size-5 text-red-500"></PhX>
+                            </button>
+
+                        </div>
                     </div>
 
                 </ul>
@@ -83,15 +88,19 @@
                         <li class="flex w-full clearfix my-2" v-for="thisDetail in selectedProject.details" :key="thisDetail.name">
 
                             <!-- Bind input with v-model to value prop of the corresponding detail -->
-                            <input
-                                type="text"
-                                class="rounded-sm w-full pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                                v-model="thisDetail.name"
-                            >
+                            <div class="flex w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all">
+                                <input
+                                    type="text"
+                                    class="rounded-sm w-full px-1 mx-4 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                    v-model="thisDetail.name"
+                                >
+                            </div>
 
+                            <!-- Delete button -->
                             <button class="ml-2 m-0.5 rounded-sm bg-gray-200 hover:bg-gray-300 hover:transition-all" @click="deleteDetail(thisDetail.name)">
                                 <PhX class="size-5 text-red-500"></PhX>
                             </button>
+
                         </li>
                     </div>
 
@@ -104,7 +113,6 @@
             </div>
 
         </div>
-
     </div>
 </template>
 

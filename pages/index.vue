@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-26 22:43:16
+ * Last Modified: 2024-03-27 22:18:13
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -23,8 +23,6 @@
     </div>
 
     <div class="text-center lg:flex lg:flex-col lg:mx-12"> <!-- Offset content to the right on desktop to give headline more presence -->
-
-        <!-- Make Commit section -->
         <div class="w-full lg:flex">
 
             <!-- Projects list -->
