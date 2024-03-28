@@ -97,9 +97,11 @@
                             </div>
 
                             <!-- Delete button -->
-                            <button class="ml-2 m-0.5 rounded-sm bg-gray-200 hover:bg-gray-300 hover:transition-all" @click="deleteDetail(thisDetail.name)">
+                            <button class="ml-2 m-0.5 rounded-sm bg-gray-200 hover:bg-gray-300 hover:transition-all" @click="deleteDetail(thisDetail.name)" v-if="thisDetail.name !== 'Commit Message'">
                                 <PhX class="size-5 text-red-500"></PhX>
                             </button>
+
+                            <div class="ml-7 m-0.5" v-if="thisDetail.name === 'Commit Message'"></div> <!-- Dummy spacer for Commit Message field -->
 
                         </li>
                     </div>
