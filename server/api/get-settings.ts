@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 23:57:07
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-23 23:58:14
+ * Last Modified: 2024-03-28 22:07:02
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -21,7 +21,7 @@ import { useSettingsDb } from "../../composables/useSettingsDb";
 /**
  * This API route gets all stored settings and returns them
  * Params: {}
- * Returns: "{ name: string, value: any }[]"
+ * Returns: { name: string, value: any }[]
  */
 
 

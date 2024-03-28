@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-28 21:49:30
+ * Last Modified: 2024-03-28 21:58:46
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -108,10 +108,14 @@
 
                 </ul>
 
-                <button class="flex items-center justify-center mt-2 ml-1 py-1 px-3 rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="addDetail">
-                    <PhPlus class="mr-2 size-5 text-green-600"></PhPlus>
-                    Add Detail
-                </button>
+                <div class="flex items-center w-full">
+                    <button class="flex items-center justify-center mt-2 ml-1 py-1 px-3 rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="addDetail">
+                        <PhPlus class="mr-2 size-5 text-green-600"></PhPlus>
+                        Add Detail
+                    </button>
+
+                    <p class="ml-5 mt-2"><span class="font-bold">Note:</span> Each project must contain a 'Commit Message' field!</p>
+                </div>
             </div>
 
         </div>

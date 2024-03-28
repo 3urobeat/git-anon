@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-27 22:06:48
+ * Last Modified: 2024-03-28 21:10:21
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -33,7 +33,7 @@
     <div class="flex overflow-auto">
 
         <!-- Left navigation bar which offsets everything else to the right -->
-        <nav id="navbar" class="z-40 top-0 left-0 h-screen lg:w-1/6 w-1/2 min-w-48 hidden lg:block bg-white border-x-2 border-x-gray-500 border-l-0">
+        <nav id="navbar" class="z-40 top-0 left-0 h-screen lg:w-1/6 w-1/2 min-w-48 hidden lg:block bg-white border-x-2 border-x-gray-500 border-l-0 select-none">
             <div class="px-5 lg:px-7">   <!-- px-10 gives every element in this div space on the sides -->
                 <div class="my-3"></div> <!-- Add some space above everything-->
                 <NuxtLink to="/" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all">
