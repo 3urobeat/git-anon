@@ -4,7 +4,7 @@
  * Created Date: 2024-03-28 20:11:07
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-28 21:45:45
+ * Last Modified: 2024-03-28 22:03:39
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -61,14 +61,28 @@ export default defineEventHandler(async (event) => {
     });
 
 
-    // Save changes to database
-    const promises: Promise<{ numAffected: number; affectedDocuments: null; upsert: boolean; }>[] = [];
+    // Save updates and insertions to database
+    const updatePromises: Promise<{ numAffected: number; affectedDocuments: null; upsert: boolean; }>[] = [];
 
     params.forEach((e) => {
-        promises.push(db.updateAsync({ name: e.name }, e, { upsert: true }));
+        updatePromises.push(db.updateAsync({ name: e.name }, e, { upsert: true }));
     });
 
-    await Promise.allSettled(promises);
+    await Promise.allSettled(updatePromises);
+
+
+    // Remove all deleted projects from database
+    const removePromises: Promise<number>[] = [];
+
+    const projectsStored = await db.findAsync({});
+
+    projectsStored.forEach((project) => {
+        if (!params.find((e) => e.name == project.name)) {
+            removePromises.push(db.removeAsync({ name: project.name }, { }));
+        }
+    });
+
+    await Promise.allSettled(removePromises);
 
 
     // Indicate we're done

@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 21:28:59
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-28 21:30:30
+ * Last Modified: 2024-03-28 22:08:28
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -35,8 +35,23 @@ export default defineEventHandler(async () => {
 
 
     // Get all projects and their details
-    const data: { name: string, details: { name: string }[] }[] = await db.findAsync({});
+    const data: { name: string, details: { name: string, value?: string }[] }[] = await db.findAsync({});
 
+
+    // Insert default 'Anon' project if database is empty
+    if (data.length === 0) {
+        console.log("API get-projects: Database is empty, inserting default project 'Anon'...");
+
+        data.push({
+            name: "Anon (default)",
+            details: [
+                { name: "Commit Message", value: "" }
+            ]
+        });
+    }
+
+
+    // Return data
     return data;
 
 });
