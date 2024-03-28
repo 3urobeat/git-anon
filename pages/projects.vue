@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-27 22:29:55
+ * Last Modified: 2024-03-28 20:22:33
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -42,7 +42,7 @@
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2">
-                        <div class="flex my-2.5 w-full" v-for="thisProject in storedProjects" :key="thisProject.name">
+                        <div class="flex my-2.5 w-full" v-for="thisProject in storedProjects"> <!-- :key="thisProject.name" -->
 
                             <!-- Project select & name edit button -->
                             <button class="flex w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" @click="selectedProject = thisProject">
@@ -52,7 +52,7 @@
                                 <input
                                     type="text"
                                     class="rounded-sm w-full px-1 mx-4 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                                    v-model="thisProject.name"
+                                    v-model=thisProject.name
                                 >
                             </button>
 
@@ -85,14 +85,14 @@
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2.5">
-                        <li class="flex w-full clearfix my-2" v-for="thisDetail in selectedProject.details" :key="thisDetail.name">
+                        <li class="flex w-full clearfix my-2" v-for="thisDetail in selectedProject.details"> <!-- :key="thisDetail.name" -->
 
                             <!-- Bind input with v-model to value prop of the corresponding detail -->
                             <div class="flex w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all">
                                 <input
                                     type="text"
                                     class="rounded-sm w-full px-1 mx-4 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                                    v-model="thisDetail.name"
+                                    v-model=thisDetail.name
                                 >
                             </div>
 
