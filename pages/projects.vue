@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-28 20:22:33
+ * Last Modified: 2024-03-28 21:49:30
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -129,29 +129,69 @@
 
 
     // Get all projects and their details on load
-    let res = await useFetch<StoredProjects>("/api/get-projects");
+    async function getProjects() {
+        let res = await useFetch<StoredProjects>("/api/get-projects");
 
-    storedProjects.value  = res.data.value!;
-    selectedProject.value = res.data.value![0];
-
-
-    function saveChanges() {
-
+        storedProjects.value  = res.data.value!;
+        selectedProject.value = res.data.value![0];
     }
 
+    await getProjects();
+
+
+    // Sends changes to the database
+    async function saveChanges() {
+        await useFetch("/api/set-projects", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(storedProjects.value)
+        });
+
+        const currentlySelectedProjectName = selectedProject.value.name;
+
+        // Update page with database data
+        await getProjects();
+
+        // Select previously selected selectedProject again (woah that's a lot of selected)
+        const hit = storedProjects.value.find((e) => e.name == currentlySelectedProjectName);
+
+        if (hit) selectedProject.value = hit;
+    }
+
+    // Adds a new project to the list
     function addProject() {
-
+        storedProjects.value.push({
+            name: "New Project",
+            details: [
+                { name: "Commit Message", value: "" }
+            ]
+        });
     }
 
+    // Adds a new detail to this project
     function addDetail() {
-
+        selectedProject.value.details.push({
+            name: "New Detail",
+            value: ""
+        });
     }
 
     function deleteProject(projectName: string) {
+        let projectIndex = storedProjects.value.findIndex((e) => e.name == projectName);
 
+        storedProjects.value.splice(projectIndex, 1);
+
+        // Set selectedProject to nothing when the currently selected project was deleted
+        if (selectedProject.value.name == projectName) selectedProject.value = { name: "", details: [] };
     }
 
     function deleteDetail(detailName: string) {
+        if (detailName === "Commit Message") return; // Deny deletion of Commit Message field
 
+        let detailIndex = selectedProject.value.details.findIndex((e) => e.name == detailName);
+
+        selectedProject.value.details.splice(detailIndex, 1);
     }
 </script>
