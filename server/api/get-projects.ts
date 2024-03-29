@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 21:28:59
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-28 22:08:28
+ * Last Modified: 2024-03-29 12:42:38
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -15,13 +15,14 @@
  */
 
 
+import { StoredProjects } from "~/model/projects";
 import { useProjectsDb } from "../../composables/useProjectsDb";
 
 
 /**
  * This API route gets all projects and their details and returns them
  * Params: {}
- * Returns: { name: string, details: { name: string }[] }[]
+ * Returns: { name: string, commits: { message: string, timestamp: number }[] }
  */
 
 
@@ -35,7 +36,7 @@ export default defineEventHandler(async () => {
 
 
     // Get all projects and their details
-    const data: { name: string, details: { name: string, value?: string }[] }[] = await db.findAsync({});
+    const data: StoredProjects = await db.findAsync({});
 
 
     // Insert default 'Anon' project if database is empty

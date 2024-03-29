@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 13:00:56
+ * Last Modified: 2024-03-29 13:04:33
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -68,7 +68,7 @@ export function commitAndPush(filePath: string, commitMsg: string) {
 /**
  * Returns the general commit history of a project. If a project was not found, an empty object will be returned.
  * @param folderName Name of the project to get the history of
- * @returns {Promise.<ProjectHistory | {}>} Collection of all commits with message and timestamp
+ * @returns Collection of all commits with message and timestamp
  */
 export function getFolderHistory(folderName: string) {
     return new Promise<ProjectHistory | object>((resolve) => {

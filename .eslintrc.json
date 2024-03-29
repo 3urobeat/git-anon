@@ -58,10 +58,6 @@
         "jsdoc/require-jsdoc": "warn",
         "jsdoc/require-param": "warn",
         "jsdoc/require-param-name": "warn",
-        "jsdoc/valid-types": "warn",
-        //"jsdoc/require-returns": "warn", // Always requires @return, even when function does not return something
-        "jsdoc/require-returns-type": "warn",
-        //"jsdoc/require-returns-check": "warn", // Unnecessary when require-returns above is disabled
-        "jsdoc/require-returns-description": "warn"
+        "jsdoc/valid-types": "warn"
     }
 }
