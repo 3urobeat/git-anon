@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 11:40:04
+ * Last Modified: 2024-03-29 15:45:56
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -52,7 +52,7 @@
                                 <input
                                     type="text"
                                     class="rounded-sm w-full px-1 mx-4 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                                    v-model=thisProject.name
+                                    v-model.trim=thisProject.name
                                 >
                             </button>
 
@@ -92,7 +92,7 @@
                                 <input
                                     type="text"
                                     class="rounded-sm w-full px-1 mx-4 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                                    v-model=thisDetail.name
+                                    v-model.trim=thisDetail.name
                                 >
                             </div>
 

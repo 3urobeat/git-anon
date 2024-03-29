@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 15:31:04
+ * Last Modified: 2024-03-29 15:56:26
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -65,7 +65,7 @@
                             <input
                                 type="text"
                                 class="rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                                v-model="thisDetail['value']"
+                                v-model.trim="thisDetail['value']"
                             >
                         </li>
                     </div>
