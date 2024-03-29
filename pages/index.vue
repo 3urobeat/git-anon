@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 15:56:26
+ * Last Modified: 2024-03-29 16:24:51
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -128,7 +128,7 @@
     let res = await useFetch<StoredProjects>("/api/get-projects");
 
     storedProjects.value  = res.data.value!;
-    selectProject(res.data.value![0]);
+    await selectProject(res.data.value![0]);
 
 
     /**

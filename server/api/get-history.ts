@@ -4,7 +4,7 @@
  * Created Date: 2024-03-29 11:58:00
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 13:02:18
+ * Last Modified: 2024-03-29 16:26:09
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
 
     if (!params || !params.name) return false;
 
-    console.log("API get-history: Received get-history request");
+    console.log(`API get-history: Received get-history request for '${params.name}'`);
 
 
     // Get all projects and their details
