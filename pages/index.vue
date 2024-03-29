@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 11:44:32
+ * Last Modified: 2024-03-29 15:31:04
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -34,7 +34,7 @@
 
                     <!-- Get text into the list with some space all around -->
                     <div class="mx-2">
-                        <button class="flex my-2.5 w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" v-for="thisProject in storedProjects" :key="thisProject.name" @click="selectedProject = thisProject">
+                        <button class="flex my-2.5 w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" v-for="thisProject in storedProjects" :key="thisProject.name" @click="selectProject(thisProject)">
                             <div class="relative">
                                 <span class="absolute text-lg font-bold -mt-1 ml-1 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
                             </div>
@@ -97,10 +97,11 @@
 
                 <!-- Get text into the list with some space all around -->
                 <div class="mx-3 my-1.5 w-full float-left">
-                    <span class="flex w-full text-sm cursor-default opacity-60 hover:opacity-80 hover:transition-all" v-for="thisProject in storedProjects" :key="thisProject.name"> <!-- TODO: Currently displays dummy content -->
-                        <span class="">{{thisProject.name}}</span>                           <!-- Commit fields, left aligned -->
-                        <span class="content-end text-right w-full">16h ago</span> <!-- Timestamp, right aligned -->
+                    <span class="flex w-full text-sm cursor-pointer opacity-60 hover:opacity-80 hover:transition-all" v-if="selectedHistory" v-for="thisCommit in selectedHistory.commits" :key="thisCommit.timestamp">
+                        <span class="text-nowrap">{{ thisCommit.message }}</span>                                                          <!-- Commit fields, left aligned -->
+                        <span class="text-nowrap tabular-nums content-end text-right w-full">{{ formatTime(thisCommit.timestamp) }}</span> <!-- Formatted timestamp, right aligned and monospaced -->
                     </span>
+                    <span v-if="!selectedHistory">Loading...</span>
                 </div>
 
             </ul>
@@ -112,27 +113,94 @@
 
 <script setup lang="ts">
     import { PhCheck, PhCaretRight, PhCaretDown } from '@phosphor-icons/vue';
-    import type { Project, StoredProjects } from "../model/projects";
+    import type { Project, StoredProjects, ProjectHistory } from "../model/projects";
 
-    // The details.value field does not exist yet but is created when user inserts text into the input field by the v-model binding
-    const storedProjects:  Ref<StoredProjects> = ref(null!);
-    const selectedProject: Ref<Project>        = ref(null!);
+
+    // Cache all stored projects, reference the currently selected project and cache shallow histories of all projects that have been selected in the current session
+    const storedProjects:   Ref<StoredProjects>   = ref(null!);
+    const selectedProject:  Ref<Project>          = ref(null!);
+
+    const projectHistories: ProjectHistory[] = [];
+    const selectedHistory:  Ref<ProjectHistory>   = ref(null!);
 
 
     // Get all projects and their details on load
     let res = await useFetch<StoredProjects>("/api/get-projects");
 
     storedProjects.value  = res.data.value!;
-    selectedProject.value = res.data.value![0];
+    selectProject(res.data.value![0]);
+
+
+    /**
+     * Selects a project and loads its history
+     */
+    async function selectProject(project: Project, forceRefreshHistory?: boolean) {
+        let cachedHistory = projectHistories.find((e) => e.name == project.name);
+
+        // Load history if not cached yet
+        if (!cachedHistory || forceRefreshHistory) {
+            selectedHistory.value = null!; // Set to null to let Loading message appear
+
+            console.log(`No history cached for project '${project.name}' yet, fetching it...`);
+
+            // Make API request
+            const newHistory = await useFetch<ProjectHistory>("/api/get-history", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: project.name
+                })
+            });
+
+            // Set first commit to error message if request failed
+            if (!newHistory.data.value) {
+                selectedHistory.value = { name: project.name, commits: [{ message: "Failed to load history!", timestamp: 0 }] }; // TODO: Improve this kind of hacky thing?
+                return;
+            }
+
+            projectHistories.push(newHistory.data.value);
+            selectedHistory.value = newHistory.data.value;
+        } else {
+            selectedHistory.value = cachedHistory;
+        }
+
+        selectedProject.value = project;
+    }
+
+
+    /**
+     * Formats time to x hours ago if <48 hours, otherwise formats to ISO8601
+     * @param timestamp
+     * @returns
+     */
+    function formatTime(timestamp: number) {
+        let until = Math.abs((Date.now() - timestamp) / 1000);
+        let untilUnit = "seconds";
+
+        if (until < 172800) { // 48h in sec
+            if (until > 60) {
+                until = until / 60; untilUnit = "minutes";
+
+                if (until > 60) {
+                    until = until / 60; untilUnit = "hours";
+                }
+            }
+
+            return `${Math.round(until)} ${untilUnit} ago`;
+        } else {
+            const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
+
+            return ((new Date(timestamp - timezoneOffset)).toISOString().replace(/T/, " ").replace(/\..+/, ""));
+        }
+    }
 
 
     /**
      * Makes a commit request to the server
      */
     async function makeCommit() {
-
-        //console.log("Sending make-commit API request with details: ")
-        //console.log(selectedProject.value.details)
 
         // Dispatch request to the server
         let success = await useFetch("/api/make-commit", {
@@ -146,11 +214,15 @@
             })
         });
 
-        // Reset fields on success
+        // Reset fields on success and force refresh history
         if (success) {
             selectedProject.value.details.forEach((detail) => {
                 detail.value = "";
             });
+
+            setTimeout(() => {
+                selectProject(selectedProject.value, true);
+            }, 500); // TODO: Not really great if the backend takes longer
         }
 
     }
