@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-27 22:18:13
+ * Last Modified: 2024-03-29 11:44:32
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -145,6 +145,13 @@
                 details: selectedProject.value.details
             })
         });
+
+        // Reset fields on success
+        if (success) {
+            selectedProject.value.details.forEach((detail) => {
+                detail.value = "";
+            });
+        }
 
     }
 
