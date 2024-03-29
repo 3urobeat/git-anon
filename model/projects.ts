@@ -4,7 +4,7 @@
  * Created Date: 2024-03-25 16:24:30
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 16:25:22
+ * Last Modified: 2024-03-29 12:36:46
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -18,3 +18,5 @@
 export type Project = { name: string, details: { name: string, value: string }[] };
 
 export type StoredProjects = Project[];
+
+export type ProjectHistory = { name: string, commits: { message: string, timestamp: number }[] };

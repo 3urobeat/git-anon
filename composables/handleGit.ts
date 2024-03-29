@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 17:28:39
+ * Last Modified: 2024-03-29 13:00:56
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -16,9 +16,13 @@
 
 
 import fs from "fs";
-import { simpleGit, SimpleGit, CleanOptions } from 'simple-git'; // eslint-disable-line
+import { simpleGit } from "simple-git";
+
+import type { SimpleGit } from "simple-git";
+import type { ProjectHistory } from "~/model/projects"; // eslint-disable-line
 
 
+// Init repository and git library
 if (!fs.existsSync("data/repository")) {
     console.log("Repository folder missing! Creating folder...");
     fs.mkdirSync("data/repository");
@@ -58,4 +62,38 @@ export function commitAndPush(filePath: string, commitMsg: string) {
     // Push commit to remote
     //git.push();
 
+}
+
+
+/**
+ * Returns the general commit history of a project. If a project was not found, an empty object will be returned.
+ * @param folderName Name of the project to get the history of
+ * @returns {Promise.<ProjectHistory | {}>} Collection of all commits with message and timestamp
+ */
+export function getFolderHistory(folderName: string) {
+    return new Promise<ProjectHistory | object>((resolve) => {
+
+        git.log({ file: folderName }, (err, data) => {
+            if (err) {
+                console.log(`getFolderHistory: git log failed with '${err}'! Returning empty object...`);
+                return resolve({});
+            }
+
+            // Format data to ProjectHistory
+            const history: ProjectHistory = {
+                name: folderName,
+                commits: []
+            };
+
+            data.all.forEach((commit) => {
+                history.commits.push({
+                    message: commit.message,
+                    timestamp: Date.parse(commit.date)
+                });
+            });
+
+            resolve(history);
+        });
+
+    });
 }
