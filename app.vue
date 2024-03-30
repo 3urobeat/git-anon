@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-30 12:07:33
+ * Last Modified: 2024-03-30 12:44:47
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -19,10 +19,15 @@
 
 <template>
     <!-- Title bar -->
-    <PhList class="fixed z-30 cursor-pointer left-3 top-2 lg:hidden block" size="25px" @click="showNavbar = !showNavbar"></PhList>
+    <PhList :class="!showNavbar ? 'block' : 'opacity-0'" class="fixed z-30 cursor-pointer left-3 top-2 lg:hidden block transition-all" size="25px" @click="showNavbar = !showNavbar"></PhList>
 
-    <header id="titlebar" class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0">
-        <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold"> <!-- Title -->
+
+    <header
+        id="titlebar"
+        :class="showNavbar ? 'bg-slate-100 opacity-30 lg:bg-white lg:opacity-100' : ''"
+        class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0 transition-all duration-500"
+    >                                                                                                                                               <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open -->
+        <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold">
             <PhDetective class="mr-2 size-5"></PhDetective>
             Git Anonymous
         </div>
@@ -35,10 +40,10 @@
         <!-- Left navigation bar which offsets everything else to the right on desktop and overlays everything on mobile -->
         <nav
             id="navbar"
-            :class="showNavbar ? 'absolute' : 'hidden'"
-            class="z-40 top-0 left-0 h-screen lg:w-1/6 w-1/2 max-w-60 min-w-48 lg:relative lg:block bg-white border-x-2 border-x-gray-500 border-l-0 select-none transition-transform"
+            :class="showNavbar ? 'absolute backdrop-blur-sm bg-white/50 lg:bg-white' : 'absolute w-0 min-w-0 opacity-0'"
+            class="z-40 top-0 left-0 h-screen lg:w-1/6 w-1/2 max-w-60 min-w-48 lg:relative lg:block lg:opacity-100 bg-white border-x-2 border-x-gray-500 border-l-0 select-none duration-500 transition-all"
         >
-            <PhCaretLeft class="relative z-30 cursor-pointer left-3 top-2 mb-5 lg:hidden block" size="25px" @click="showNavbar = !showNavbar"></PhCaretLeft>
+            <PhCaretLeft :class="showNavbar ? 'block' : 'opacity-0'" class="relative z-30 cursor-pointer left-3 top-2 mb-5 lg:hidden block transition-all" size="25px" @click="showNavbar = !showNavbar"></PhCaretLeft>
 
             <div class="px-5 lg:px-7">   <!-- px-10 gives every element in this div space on the sides -->
                 <div class="my-3"></div> <!-- Add some space above everything-->
@@ -64,7 +69,7 @@
             </div>
 
             <!-- Footer for project details -->
-            <footer class="fixed bottom-0 left-0 h-fit mb-2 px-2">
+            <footer class="fixed text-nowrap bottom-0 left-0 h-fit mb-2 px-2">
                 <div class="flex flex-col text-xs lg:text-sm opacity-50">
                     git-anon v{{ packagejson.version }}
 
@@ -86,7 +91,7 @@
         </nav>
 
         <!-- The main content itself, pushed to the side by the navbar -->
-        <main class="z-10 w-screen h-screen px-5 pt-3" @click="showNavbar = false">
+        <main :class="showNavbar ? 'bg-slate-200 opacity-30 lg:bg-white lg:opacity-100' : ''" class="z-10 w-screen h-screen px-5 pt-3 transition-all duration-500" @click="showNavbar = false"> <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open -->
             <NuxtPage></NuxtPage> <!-- Links to index.vue -->
         </main>
 
