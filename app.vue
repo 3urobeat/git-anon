@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-28 21:10:21
+ * Last Modified: 2024-03-30 12:07:33
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -19,7 +19,7 @@
 
 <template>
     <!-- Title bar -->
-    <PhList class="fixed z-30 cursor-pointer left-3 top-2 lg:hidden block" size="25px" @click="navBarToggleClick"></PhList>
+    <PhList class="fixed z-30 cursor-pointer left-3 top-2 lg:hidden block" size="25px" @click="showNavbar = !showNavbar"></PhList>
 
     <header id="titlebar" class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0">
         <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold"> <!-- Title -->
@@ -32,8 +32,14 @@
     <!-- Group navbar and main content so that they can share the screen width -->
     <div class="flex overflow-auto">
 
-        <!-- Left navigation bar which offsets everything else to the right -->
-        <nav id="navbar" class="z-40 top-0 left-0 h-screen lg:w-1/6 w-1/2 min-w-48 hidden lg:block bg-white border-x-2 border-x-gray-500 border-l-0 select-none">
+        <!-- Left navigation bar which offsets everything else to the right on desktop and overlays everything on mobile -->
+        <nav
+            id="navbar"
+            :class="showNavbar ? 'absolute' : 'hidden'"
+            class="z-40 top-0 left-0 h-screen lg:w-1/6 w-1/2 max-w-60 min-w-48 lg:relative lg:block bg-white border-x-2 border-x-gray-500 border-l-0 select-none transition-transform"
+        >
+            <PhCaretLeft class="relative z-30 cursor-pointer left-3 top-2 mb-5 lg:hidden block" size="25px" @click="showNavbar = !showNavbar"></PhCaretLeft>
+
             <div class="px-5 lg:px-7">   <!-- px-10 gives every element in this div space on the sides -->
                 <div class="my-3"></div> <!-- Add some space above everything-->
                 <NuxtLink to="/" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all">
@@ -80,7 +86,7 @@
         </nav>
 
         <!-- The main content itself, pushed to the side by the navbar -->
-        <main class="z-10 w-screen mx-5 my-3">
+        <main class="z-10 w-screen h-screen px-5 pt-3" @click="showNavbar = false">
             <NuxtPage></NuxtPage> <!-- Links to index.vue -->
         </main>
 
@@ -90,10 +96,12 @@
 
 
 <script setup lang="ts">
-    import { PhList, PhDetective, PhHouse, PhGitFork, PhGear } from "@phosphor-icons/vue";
+    import { PhList, PhCaretLeft, PhDetective, PhHouse, PhGitFork, PhGear } from "@phosphor-icons/vue";
     import packagejson from "./package.json";
 
     const route = useRoute();
+
+    const showNavbar = ref(false);
 
 
     // Specify page information
