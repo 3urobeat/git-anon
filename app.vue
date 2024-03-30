@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-30 13:34:50
+ * Last Modified: 2024-03-30 14:31:28
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -24,7 +24,7 @@
     <header
         id="titlebar"
         :class="showNavbar ? 'bg-slate-100 lg:bg-white border-opacity-30 lg:border-opacity-100' : ''"
-        class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0 transition-color duration-500"
+        class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0 transition-colors duration-500"
     >                                                                                                                                                 <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open. The opacities are applied seperately here to avoid page elements fading through -->
         <div :class="showNavbar ? 'opacity-30 lg:opacity-100' : ''" class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold transition-opacity duration-500">
             <PhDetective class="mr-2 size-5"></PhDetective>
@@ -39,7 +39,7 @@
         <!-- Left navigation bar which offsets everything else to the right on desktop and overlays everything on mobile -->
         <nav
             id="navbar"
-            :class="showNavbar ? 'absolute backdrop-blur-sm bg-white/50 lg:bg-white' : 'absolute invisible w-0 min-w-0 opacity-0'"
+            :class="showNavbar ? 'absolute backdrop-blur-sm bg-white/50 lg:bg-white' : 'absolute invisible lg:visible w-0 min-w-0 opacity-0'"
             class="z-40 top-0 left-0 h-screen lg:w-1/6 w-1/2 max-w-60 min-w-48 lg:relative lg:block lg:opacity-100 bg-white border-x-2 border-x-gray-500 border-l-0 select-none duration-500 transition-all"
         >
             <PhCaretLeft :class="showNavbar ? 'block' : 'opacity-0'" class="relative z-30 cursor-pointer left-3 top-2 mb-5 lg:hidden block transition-all" size="25px" @click="showNavbar = !showNavbar"></PhCaretLeft>
@@ -68,7 +68,7 @@
             </div>
 
             <!-- Footer for project details -->
-            <footer class="fixed text-nowrap bottom-0 left-0 h-fit mb-2 px-2">
+            <footer class="fixed text-nowrap bottom-0 left-0 h-fit pb-2 px-2">
                 <div class="flex flex-col text-xs lg:text-sm opacity-50">
                     git-anon v{{ packagejson.version }}
 
