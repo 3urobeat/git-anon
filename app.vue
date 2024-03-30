@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-30 13:32:56
+ * Last Modified: 2024-03-30 13:34:50
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -117,9 +117,4 @@
         ogDescription: "Track personal commit statistics without sharing company code",
         //ogImage: ""
     });
-
-
-    function navBarToggleClick(event: Event) {
-
-    }
 </script>
