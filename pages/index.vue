@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 16:24:51
+ * Last Modified: 2024-04-01 15:11:32
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -97,7 +97,7 @@
 
                 <!-- Get text into the list with some space all around -->
                 <div class="mx-3 my-1.5 w-full float-left">
-                    <span class="flex w-full text-sm cursor-pointer opacity-60 hover:opacity-80 hover:transition-all" v-if="selectedHistory" v-for="thisCommit in selectedHistory.commits" :key="thisCommit.timestamp">
+                    <span class="flex w-full text-sm cursor-pointer opacity-60 hover:opacity-80 hover:transition-all" v-if="selectedHistory" v-for="thisCommit in selectedHistory.commits" :key="thisCommit.timestamp" @click="showCommitDetails(thisCommit.timestamp)">
                         <span class="text-nowrap">{{ thisCommit.message }}</span>                                                          <!-- Commit fields, left aligned -->
                         <span class="text-nowrap tabular-nums content-end text-right w-full">{{ formatTime(thisCommit.timestamp) }}</span> <!-- Formatted timestamp, right aligned and monospaced -->
                     </span>
@@ -107,13 +107,48 @@
             </ul>
         </div>
 
+        <!-- History commit details popup -->
+        <div class="absolute flex items-center justify-center inset-0 rounded-sm bg-slate-200 bg-opacity-30" v-if="historyPopupContent != null" @click="historyPopupContent = null">
+            <div class="flex flex-col w-1/2 h-64 py-4 px-5 gap-3 bg-white outline outline-black outline-2 rounded-sm shadow-black shadow-2xl" @click.stop="">
+                <!-- Title -->
+                <div class="flex h-fit font-bold text-xl">
+                    Commit Details
+                </div>
+
+                <!-- Description -->
+                <div class="flex h-full overflow-auto"> <!-- overflow-auto shows scrollbar only when necessary -->
+                    <!-- Detail names -->
+                    <div class="flex flex-col gap-y-0.5">
+                        <span class="flex">Project: </span>
+                        <span class="flex">Committed on: </span>
+                        <span class="flex" v-for="thisDetail in historyPopupContent.details" :key="thisDetail.name">{{ thisDetail.name }}: </span>
+                    </div>
+
+                    <!-- Detail values -->
+                    <div class="flex flex-col gap-y-0.5 ml-1">
+                        <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ selectedProject.name }}</span>
+                        <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ formatTime(historyPopupContent.timestamp, true) }}</span>
+                        <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200" v-for="thisDetail in historyPopupContent.details" :key="thisDetail.value">{{ thisDetail.value }}</span>
+                    </div>
+                </div>
+
+                <!-- Close button -->
+                <div class="flex w-full pb-1 justify-end">
+                    <button class="flex py-1 px-3 w-fit h-fit items-center justify-center rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="historyPopupContent = null">
+                        <PhX class="mr-2 size-5 text-red-500"></PhX>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
 
 <script setup lang="ts">
-    import { PhCheck, PhCaretRight, PhCaretDown } from '@phosphor-icons/vue';
-    import type { Project, StoredProjects, ProjectHistory } from "../model/projects";
+    import { PhCheck, PhCaretRight, PhCaretDown, PhX } from '@phosphor-icons/vue';
+    import type { Project, StoredProjects, ProjectHistory, CommitDetails } from "../model/projects";
 
 
     // Cache all stored projects, reference the currently selected project and cache shallow histories of all projects that have been selected in the current session
@@ -122,6 +157,8 @@
 
     const projectHistories: ProjectHistory[] = [];
     const selectedHistory:  Ref<ProjectHistory>   = ref(null!);
+
+    const historyPopupContent: Ref<CommitDetails | null> = ref(null);
 
 
     // Get all projects and their details on load
@@ -169,17 +206,22 @@
         selectedProject.value = project;
     }
 
+    async function showCommitDetails(timestamp: number) {
+
+    }
+
 
     /**
-     * Formats time to x hours ago if <48 hours, otherwise formats to ISO8601
-     * @param timestamp
-     * @returns
+     * Formats time to x hours ago if <24 hours, otherwise formats to ISO8601
+     * @param timestamp The timestamp to convert
+     * @param alwaysShowTimestamp Controls whether to always show the ISO8601 timestamp, even if <24h ago
+     * @returns Formatted time, either in "x hours ago" or ISO8601 format
      */
-    function formatTime(timestamp: number) {
+    function formatTime(timestamp: number, alwaysShowTimestamp?: boolean) {
         let until = Math.abs((Date.now() - timestamp) / 1000);
         let untilUnit = "seconds";
 
-        if (until < 172800) { // 48h in sec
+        if (until < 86400 && !alwaysShowTimestamp) { // 24h in sec
             if (until > 60) {
                 until = until / 60; untilUnit = "minutes";
 
