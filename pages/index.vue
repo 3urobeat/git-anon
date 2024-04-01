@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-01 19:59:30
+ * Last Modified: 2024-04-01 20:50:41
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -38,7 +38,7 @@
                             <div class="relative">
                                 <span class="absolute text-lg font-bold -mt-1 ml-1 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
                             </div>
-                            <div class="pl-4 pr-2">{{thisProject.name}}</div>
+                            <div class="pl-4 pr-2 text-nowrap">{{thisProject.name}}</div>
                         </button>
                     </div>
 
@@ -59,7 +59,7 @@
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2.5 pb-1">
                         <li class="flex flex-col clearfix mb-1" v-for="thisDetail in selectedProject.details" :key="thisDetail.name">
-                            <span class="text-left mx-1">{{thisDetail.name}}:</span>
+                            <span class="text-left mx-1 text-nowrap">{{thisDetail.name}}:</span>
 
                             <!-- Bind input with v-model to value prop of the corresponding detail for easy readout later on. The value prop might not exist yet so we use this notation to create it -->
                             <input
@@ -90,14 +90,14 @@
 
         <!-- History section -->
         <div class="w-full mt-10 pb-10">
-            <span class="lg:flex lg:mx-1 font-medium">History for '{{ selectedProject.name }}'</span>
+            <span class="lg:flex lg:mx-1 font-medium text-nowrap line-clamp-1">History for '{{ selectedProject.name }}'</span>
 
             <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
             <ul id="history-list" class="flex overflow-auto lg:h-32 min-h-8 max-h-32 mt-1 rounded-sm outline outline-black outline-2"> <!-- Fixed size on desktop -->
 
                 <!-- Get text into the list with some space all around -->
-                <div class="mx-3 my-1.5 w-full float-left">
-                    <span class="flex w-full text-sm cursor-pointer opacity-60 hover:opacity-80 hover:transition-all" v-if="selectedHistory" v-for="thisCommit in selectedHistory.commits" :key="thisCommit.timestamp" @click="showCommitDetails(thisCommit.timestamp)">
+                <div class="mx-3 my-1.5 w-full">
+                    <span class="flex gap-x-1 text-sm cursor-pointer opacity-60 hover:opacity-80 hover:transition-all" v-if="selectedHistory" v-for="thisCommit in selectedHistory.commits" :key="thisCommit.timestamp" @click="showCommitDetails(thisCommit.timestamp)">
                         <span class="text-nowrap">{{ thisCommit.message }}</span>                                                          <!-- Commit fields, left aligned -->
                         <span class="text-nowrap tabular-nums content-end text-right w-full">{{ formatTime(thisCommit.timestamp) }}</span> <!-- Formatted timestamp, right aligned and monospaced -->
                     </span>
