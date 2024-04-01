@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 17:29:45
+ * Last Modified: 2024-04-01 19:32:46
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -35,7 +35,7 @@ export function addCommit(projectName: string, projectDetails: { name: string, v
     }
 
     // Create new file with content
-    const fileName = Date.now().toString(); // Use timestamp as file name
+    const fileName = Math.trunc(Date.now() / 1000).toString() + "000"; // Use timestamp as file name. Cut the last 3 digits because that's the precision git uses. // TODO: This could break should the precision change
 
     fs.writeFileSync(`data/repository/${projectName}/${fileName}.json`, JSON.stringify(projectDetails));
 

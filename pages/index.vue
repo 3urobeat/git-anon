@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-01 15:11:32
+ * Last Modified: 2024-04-01 19:59:30
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -89,11 +89,11 @@
 
 
         <!-- History section -->
-        <div class="w-full mt-10 mb-16">
+        <div class="w-full mt-10 pb-10">
             <span class="lg:flex lg:mx-1 font-medium">History for '{{ selectedProject.name }}'</span>
 
             <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-            <ul id="history-list" class="flex overflow-auto lg:h-20 min-h-8 max-h-20 mt-1 rounded-sm outline outline-black outline-2"> <!-- Fixed size on desktop -->
+            <ul id="history-list" class="flex overflow-auto lg:h-32 min-h-8 max-h-32 mt-1 rounded-sm outline outline-black outline-2"> <!-- Fixed size on desktop -->
 
                 <!-- Get text into the list with some space all around -->
                 <div class="mx-3 my-1.5 w-full float-left">
@@ -109,14 +109,14 @@
 
         <!-- History commit details popup -->
         <div class="absolute flex items-center justify-center inset-0 rounded-sm bg-slate-200 bg-opacity-30" v-if="historyPopupContent != null" @click="historyPopupContent = null">
-            <div class="flex flex-col w-1/2 h-64 py-4 px-5 gap-3 bg-white outline outline-black outline-2 rounded-sm shadow-black shadow-2xl" @click.stop="">
+            <div class="flex flex-col lg:w-1/2 w-5/6 lg:h-2/3 h-2/3 py-4 px-5 gap-3 bg-white outline outline-black outline-2 rounded-sm shadow-black shadow-2xl" @click.stop="">
                 <!-- Title -->
                 <div class="flex h-fit font-bold text-xl">
                     Commit Details
                 </div>
 
                 <!-- Description -->
-                <div class="flex h-full overflow-auto"> <!-- overflow-auto shows scrollbar only when necessary -->
+                <div class="flex h-full text-start overflow-auto"> <!-- overflow-auto shows scrollbar only when necessary -->
                     <!-- Detail names -->
                     <div class="flex flex-col gap-y-0.5">
                         <span class="flex">Project: </span>
@@ -206,7 +206,26 @@
         selectedProject.value = project;
     }
 
+
+    /**
+     * Fetches commit details and populates historyPopupContent
+     * @param timestamp Timestamp of the selected commit, used for unique identification
+     */
     async function showCommitDetails(timestamp: number) {
+
+        // Make API request
+        const details = await useFetch<CommitDetails>("/api/get-commit-details", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                projectName: selectedProject.value.name,
+                timestamp: timestamp
+            })
+        });
+
+        historyPopupContent.value = details.data.value;
 
     }
 
