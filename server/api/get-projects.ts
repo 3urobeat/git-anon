@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 21:28:59
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 12:42:38
+ * Last Modified: 2024-04-01 18:49:50
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -32,7 +32,7 @@ export default defineEventHandler(async () => {
     // Get database instance
     const db = useProjectsDb();
 
-    console.log("API get-projects: Received get-projects request");
+    console.log("API get-projects: Received request");
 
 
     // Get all projects and their details

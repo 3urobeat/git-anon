@@ -4,7 +4,7 @@
  * Created Date: 2024-03-28 20:11:07
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 15:40:59
+ * Last Modified: 2024-04-01 18:50:03
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
 
     if (!params) return false;
 
-    console.log("API set-projects: Received set-projects request");
+    console.log("API set-projects: Received request");
 
 
     // Make sure every project has "Commit Message" as first field

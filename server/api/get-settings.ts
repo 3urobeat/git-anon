@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 23:57:07
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-28 22:07:02
+ * Last Modified: 2024-04-01 18:49:54
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -31,7 +31,7 @@ export default defineEventHandler(async () => {
     // Get database instance
     const db = useSettingsDb();
 
-    console.log("API get-settings: Received get-settings request");
+    console.log("API get-settings: Received request");
 
 
     // Get all settings and their values
