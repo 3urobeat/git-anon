@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-29 15:45:56
+ * Last Modified: 2024-04-05 19:30:38
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -93,32 +93,26 @@
                                     type="text"
                                     class="rounded-sm w-full px-1 mx-4 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
                                     v-model.trim=thisDetail.name
+                                    :disabled=thisDetail.locked
                                 >
                             </div>
 
                             <!-- Delete button -->
-                            <button class="ml-2 m-0.5 rounded-sm bg-gray-200 hover:bg-gray-300 hover:transition-all" @click="deleteDetail(thisDetail.name)" v-if="thisDetail.name !== 'Commit Message'">
+                            <button class="ml-2 m-0.5 rounded-sm bg-gray-200 hover:bg-gray-300 hover:transition-all" @click="deleteDetail(thisDetail.name)" v-if="!['Commit Message', 'Timestamp'].includes(thisDetail.name)">
                                 <PhX class="size-5 text-red-500"></PhX>
                             </button>
 
-                            <div class="ml-7 m-0.5" v-if="thisDetail.name === 'Commit Message'"></div> <!-- Dummy spacer for Commit Message field -->
+                            <div class="ml-7 m-0.5" v-if="['Commit Message', 'Timestamp'].includes(thisDetail.name)"></div> <!-- Dummy spacer for Commit Message field -->
 
                         </li>
                     </div>
 
                 </ul>
 
-                <div class="flex items-center w-full">
-                    <button class="flex items-center justify-center mt-2 ml-1 py-1 px-3 text-nowrap rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="addDetail">
-                        <PhPlus class="mr-2 size-5 text-green-600"></PhPlus>
-                        Add Detail
-                    </button>
-
-                    <p class="ml-5 mt-1 -mb-1 text-sm opacity-60">
-                        <span class="font-bold">Note:</span>
-                        Project must contain a 'Commit Message' field!
-                    </p>
-                </div>
+                <button class="flex items-center justify-center mt-2 ml-1 py-1 px-3 text-nowrap rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="addFile">
+                    <PhPlus class="mr-2 size-5 text-green-600"></PhPlus>
+                    Add File
+                </button>
             </div>
 
         </div>
@@ -128,7 +122,7 @@
 
 <script setup lang="ts">
     import { PhCheck, PhCaretRight, PhCaretDown, PhX, PhPlus } from '@phosphor-icons/vue';
-    import type { Project, StoredProjects } from "../model/projects";
+    import { DetailType, type Project, type StoredProjects } from "../model/projects";
 
     // The details.value field does not exist yet but is created when user inserts text into the input field by the v-model binding
     const storedProjects:  Ref<StoredProjects> = ref(null!);
@@ -171,17 +165,30 @@
     function addProject() {
         storedProjects.value.push({
             name: "New Project",
-            details: [
-                { name: "Commit Message", value: "" }
+            details: [           // Include default values
+                {
+                    name: "Commit Message",
+                    value: "",
+                    type: DetailType.TEXT,
+                    locked: true
+                },
+                {
+                    name: "Timestamp",
+                    value: 0,
+                    type: DetailType.TIMESTAMP,
+                    locked: true
+                }
             ]
         });
     }
 
     // Adds a new detail to this project
-    function addDetail() {
+    function addFile() {
         selectedProject.value.details.push({
-            name: "New Detail",
-            value: ""
+            name: "New File",
+            value: "",
+            type: DetailType.TEXT,
+            locked: false
         });
     }
 

@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 21:28:59
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-01 18:49:50
+ * Last Modified: 2024-04-05 18:37:45
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -15,7 +15,7 @@
  */
 
 
-import { StoredProjects } from "~/model/projects";
+import { DetailType, StoredProjects } from "~/model/projects";
 import { useProjectsDb } from "../../composables/useProjectsDb";
 
 
@@ -46,7 +46,18 @@ export default defineEventHandler(async () => {
         data.push({
             name: "Anon (default)",
             details: [
-                { name: "Commit Message", value: "" }
+                {
+                    name: "Commit Message",
+                    value: "",
+                    type: DetailType.TEXT,
+                    locked: true
+                },
+                {
+                    name: "Timestamp",
+                    value: 0,
+                    type: DetailType.TIMESTAMP,
+                    locked: true
+                }
             ]
         });
     }

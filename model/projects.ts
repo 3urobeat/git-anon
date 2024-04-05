@@ -4,7 +4,7 @@
  * Created Date: 2024-03-25 16:24:30
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-01 19:43:10
+ * Last Modified: 2024-04-05 19:37:38
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -15,7 +15,14 @@
  */
 
 
-export type Project = { name: string, details: { name: string, value: string }[] };
+export enum DetailType {
+    TEXT,
+    TIMESTAMP,
+    FILE_EXTENSION,
+    LINE_DIFF
+}
+
+export type Project = { name: string, details: { name: string, value: string | number, type: DetailType, locked?: boolean }[] };
 
 export type StoredProjects = Project[];
 

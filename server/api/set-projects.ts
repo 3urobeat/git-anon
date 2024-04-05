@@ -4,7 +4,7 @@
  * Created Date: 2024-03-28 20:11:07
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-01 18:50:03
+ * Last Modified: 2024-04-05 19:42:27
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -15,7 +15,7 @@
  */
 
 
-import { StoredProjects } from "~/model/projects";
+import { DetailType, StoredProjects } from "~/model/projects";
 import { useProjectsDb } from "../../composables/useProjectsDb";
 
 
@@ -43,10 +43,11 @@ export default defineEventHandler(async (event) => {
 
     // Make sure every project has "Commit Message" as first field
     params.forEach((e, i) => {
-        // Sort to get Commit Message as the first field
+        // Sort to get Commit Message as the first and Timestamp as the second field
         const sorted = [
             ...e.details.filter((detail) => detail.name === "Commit Message"),
-            ...e.details.filter((detail) => detail.name !== "Commit Message")
+            ...e.details.filter((detail) => detail.name === "Timestamp"),
+            ...e.details.filter((detail) => detail.name !== "Commit Message" && detail.name !== "Timestamp")
         ];
 
         // Overwrite details in original data array
@@ -54,9 +55,16 @@ export default defineEventHandler(async (event) => {
 
         // Insert Commit Message field at first index if it does not exist
         if (params[i].details[0].name !== "Commit Message") {
-            console.log("API set-projects: Project is missing Commit Message field! Inserting...");
+            console.log(`API set-projects: Project '${e.name}' is missing Commit Message field! Inserting...`);
 
-            params[i].details.splice(0, 0, { name: "Commit Message", value: "" });
+            params[i].details.splice(0, 0, { name: "Commit Message", value: "", type: DetailType.TEXT, locked: true });
+        }
+
+        // Insert Timestamp field at second index if it does not exist
+        if (params[i].details[1].name !== "Timestamp") {
+            console.log(`API set-projects: Project '${e.name}' is missing Timestamp field! Inserting...`);
+
+            params[i].details.splice(1, 0, { name: "Timestamp", value: 0, type: DetailType.TIMESTAMP, locked: true });
         }
     });
 
