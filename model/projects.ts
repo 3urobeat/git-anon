@@ -4,7 +4,7 @@
  * Created Date: 2024-03-25 16:24:30
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-05 19:37:38
+ * Last Modified: 2024-04-06 15:48:16
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -22,7 +22,16 @@ export enum DetailType {
     LINE_DIFF
 }
 
-export type Project = { name: string, details: { name: string, value: string | number, type: DetailType, locked?: boolean }[] };
+export type Detail = {
+    name: string,
+    value?: string,
+    lineDiffPlus?: number,
+    lineDiffMinus?: number,
+    type: DetailType,
+    locked?: boolean
+}
+
+export type Project = { name: string, details: Detail[] };
 
 export type StoredProjects = Project[];
 

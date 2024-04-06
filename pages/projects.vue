@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-05 19:30:38
+ * Last Modified: 2024-04-06 15:05:26
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -174,7 +174,7 @@
                 },
                 {
                     name: "Timestamp",
-                    value: 0,
+                    value: "",
                     type: DetailType.TIMESTAMP,
                     locked: true
                 }
@@ -187,7 +187,7 @@
         selectedProject.value.details.push({
             name: "New File",
             value: "",
-            type: DetailType.TEXT,
+            type: DetailType.LINE_DIFF,
             locked: false
         });
     }

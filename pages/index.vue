@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-01 20:50:41
+ * Last Modified: 2024-04-06 16:24:36
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -59,14 +59,41 @@
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2.5 pb-1">
                         <li class="flex flex-col clearfix mb-1" v-for="thisDetail in selectedProject.details" :key="thisDetail.name">
-                            <span class="text-left mx-1 text-nowrap">{{thisDetail.name}}:</span>
+                            <span class="text-left mx-1 text-nowrap">{{ thisDetail.name }}{{ thisDetail.type == DetailType.LINE_DIFF ? " line diff" : "" }}:</span>
 
-                            <!-- Bind input with v-model to value prop of the corresponding detail for easy readout later on. The value prop might not exist yet so we use this notation to create it -->
+                            <!-- Different inputs based on type -->
                             <input
+                                v-if="thisDetail.type == DetailType.TEXT"
                                 type="text"
                                 class="rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                                v-model.trim="thisDetail['value']"
+                                v-model.trim="thisDetail.value"
+                                :placeholder="'Update project ' + selectedProject.name"
                             >
+                            <input
+                                v-if="thisDetail.type == DetailType.TIMESTAMP"
+                                type="datetime-local"
+                                class="flex text-nowrap rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                v-model.trim="thisDetail.value"
+                            >
+                            <div class="flex gap-1" v-if="thisDetail.type == DetailType.LINE_DIFF">
+                                <div class="flex rounded-sm px-1 bg-gray-100">
+                                    <p class="text-nowrap">++</p>
+                                    <input
+                                        type="number"
+                                        class="flex ml-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                        v-model.trim="thisDetail.lineDiffPlus"
+                                    >
+                                </div>
+                                <div class="flex rounded-sm px-1 bg-gray-100">
+                                    <p class="text-nowrap">--</p>
+                                    <input
+                                        type="number"
+                                        class="ml-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                        v-model.trim="thisDetail.lineDiffMinus"
+                                    >
+                                </div>
+
+                            </div>
                         </li>
                     </div>
 
@@ -148,7 +175,7 @@
 
 <script setup lang="ts">
     import { PhCheck, PhCaretRight, PhCaretDown, PhX } from '@phosphor-icons/vue';
-    import type { Project, StoredProjects, ProjectHistory, CommitDetails } from "../model/projects";
+    import { type Project, type StoredProjects, type ProjectHistory, type CommitDetails, DetailType } from "../model/projects";
 
 
     // Cache all stored projects, reference the currently selected project and cache shallow histories of all projects that have been selected in the current session
@@ -173,6 +200,16 @@
      */
     async function selectProject(project: Project, forceRefreshHistory?: boolean) {
         let cachedHistory = projectHistories.find((e) => e.name == project.name);
+
+        // Update TIMESTAMP detail field with current time if empty
+        let timestampField = project.details.find((e) => e.type == DetailType.TIMESTAMP)!;
+
+        if (!timestampField.value) {
+            const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
+
+            // Add timezone offset to current date, change to ISO format and remove seconds, milliseconds and "Z" from the end for the browser to understand what is going on
+            timestampField.value = new Date(Date.now() - timezoneOffset).toISOString().slice(0, -8);
+        }
 
         // Load history if not cached yet
         if (!cachedHistory || forceRefreshHistory) {
@@ -263,6 +300,15 @@
      */
     async function makeCommit() {
 
+        // Find timestamp field and convert to UTC or insert a new timestamp if empty
+        let timestamp = selectedProject.value.details.find((e) => e.name == "Timestamp");
+
+        if (timestamp?.value) {
+            timestamp!.value = Date.parse(new Date(timestamp!.value).toUTCString()).toString();
+        } else {
+            timestamp!.value = Date.now().toString();
+        }
+
         // Dispatch request to the server
         let success = await useFetch("/api/make-commit", {
             method: "POST",
@@ -279,6 +325,8 @@
         if (success) {
             selectedProject.value.details.forEach((detail) => {
                 detail.value = "";
+                if (detail.lineDiffPlus) detail.lineDiffPlus = undefined;
+                if (detail.lineDiffMinus) detail.lineDiffMinus = undefined;
             });
 
             setTimeout(() => {
