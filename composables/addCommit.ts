@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-01 19:32:46
+ * Last Modified: 2024-04-06 18:37:38
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -17,16 +17,17 @@
 
 import fs from "fs";
 import { commitAndPush } from "./handleGit";
+import { DetailType, type Detail } from "~/model/projects";
 
 
 /**
- * Adds a new file with projectDetails to projectName folder in repository
+ * Makes line diff changes provided in commit in repository files
  * @param projectName Name of the project to make a new commit to
  * @param projectDetails Array of objects containing name and value prop for every detail
  */
-export function addCommit(projectName: string, projectDetails: { name: string, value: string }[]) {
+export function addCommit(projectName: string, projectDetails: Detail[]) {
 
-    console.log(`addCommit: Adding new commit for '${projectName}' with '${JSON.stringify(projectDetails)}'`);
+    console.log(`addCommit: Adding new commit for '${projectName}'`);
 
     // Check if no folder exists yet for this project and create it
     if (!fs.existsSync("data/repository/" + projectName)) {
@@ -34,15 +35,50 @@ export function addCommit(projectName: string, projectDetails: { name: string, v
         fs.mkdirSync("data/repository/" + projectName);
     }
 
-    // Create new file with content
-    const fileName = Math.trunc(Date.now() / 1000).toString() + "000"; // Use timestamp as file name. Cut the last 3 digits because that's the precision git uses. // TODO: This could break should the precision change
 
-    fs.writeFileSync(`data/repository/${projectName}/${fileName}.json`, JSON.stringify(projectDetails));
+    // Get every file that contains changes in this commit and create file for every LINE_DIFF detail that does not exist yet
+    const details: Detail[] = [];
+    const lineDiffDetails = projectDetails.filter((e) => e.type == DetailType.LINE_DIFF);
+
+    lineDiffDetails.forEach((detail) => {
+        if (!fs.existsSync(`data/repository/${projectName}/${detail.name}`)) {
+            fs.writeFileSync(`data/repository/${projectName}/${detail.name}`, "");
+        }
+
+        if (detail.lineDiffPlus || detail.lineDiffMinus) {
+            details.push(detail);
+        }
+    });
+
+
+    // Make provided line diff changes in every file
+    details.forEach((detail) => {
+        let content = fs.readFileSync(`data/repository/${projectName}/${detail.name}`).toString();
+
+        // Add lineDiffPlus at the bottom
+        if (detail.lineDiffPlus) {
+            for (let i = 0; i < detail.lineDiffPlus!; i++) {
+                content += Math.random().toString(36).substring(5, 4) + "\n";
+            }
+        }
+
+        // Remove lineDiffMinus at the start. Should the file not have enough lines, we need to make a dummy commit in our name first that adds the needed amount of lines.
+        if (detail.lineDiffMinus) {
+            if (detail.lineDiffMinus > content.length * 3) { // Length times 3 to account for newline character "\n"
+                // TODO: Make dummy commit
+            }
+
+            content = content.slice(detail.lineDiffMinus * 2);
+        }
+
+        // Write changes
+        fs.writeFileSync(`data/repository/${projectName}/${detail.name}`, content);
+    });
 
 
     // Let git handler make the commit and push it
     const commitMessage = projectDetails.find((e) => e.name.toLowerCase() == "commit message")!.value;
 
-    commitAndPush(`${projectName}/${fileName}.json`, commitMessage);
+    commitAndPush(projectName, commitMessage!); // TODO: Needs full details for timestamp etc
 
 }

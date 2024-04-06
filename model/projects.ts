@@ -4,7 +4,7 @@
  * Created Date: 2024-03-25 16:24:30
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-06 15:48:16
+ * Last Modified: 2024-04-06 17:14:52
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -18,7 +18,6 @@
 export enum DetailType {
     TEXT,
     TIMESTAMP,
-    FILE_EXTENSION,
     LINE_DIFF
 }
 
