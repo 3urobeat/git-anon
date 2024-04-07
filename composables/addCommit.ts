@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-06 18:37:38
+ * Last Modified: 2024-04-07 13:13:51
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -37,7 +37,7 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
 
 
     // Get every file that contains changes in this commit and create file for every LINE_DIFF detail that does not exist yet
-    const details: Detail[] = [];
+    const details: { detail: Detail, fileContent: string }[] = [];
     const lineDiffDetails = projectDetails.filter((e) => e.type == DetailType.LINE_DIFF);
 
     lineDiffDetails.forEach((detail) => {
@@ -46,39 +46,66 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
         }
 
         if (detail.lineDiffPlus || detail.lineDiffMinus) {
-            details.push(detail);
+            const content = fs.readFileSync(`data/repository/${projectName}/${detail.name}`).toString();
+
+            details.push({ detail: detail, fileContent: content });
         }
     });
+
+
+    // Iterate through every detail and check if the file does not have enough lines to fulfill the lineDiff request and make a anon commit under our name.
+    // We do this beforehand to group all files in one commit, instead of making a commit for every file in the loop below.
+    let doDummyCommit = false;
+
+    details.forEach((e) => {
+        const lineDiff = (e.detail.lineDiffMinus ? e.detail.lineDiffMinus : 0) - (e.detail.lineDiffPlus ? e.detail.lineDiffPlus : 0); // These ternaries might be unnecessary as `null` would eval to 0 but `undefined` evals to NaN sooooo yeah idk
+        const compensationAmount = Math.abs((e.fileContent.length / 2) - lineDiff); // Divided by 2 to remove newline character on every line from calculation
+
+        if (e.fileContent.length < lineDiff * 2) { // Times 2 to include newline character on every line
+            console.log(`addCommit: File '${e.detail.name}' requires a compensation commit of +${compensationAmount} lines!`);
+
+            for (let i = 0; i < compensationAmount; i++) {
+                e.fileContent += Math.random().toString(36).substring(5, 4) + "\n";
+            }
+
+            fs.writeFileSync(`data/repository/${projectName}/${e.detail.name}`, e.fileContent);
+
+            doDummyCommit = true;
+        }
+    });
+
+    if (doDummyCommit) {
+        commitAndPush(projectName, `Compensation commit for '${projectName}' to fulfill incoming line diff`, true);
+    }
 
 
     // Make provided line diff changes in every file
-    details.forEach((detail) => {
-        let content = fs.readFileSync(`data/repository/${projectName}/${detail.name}`).toString();
+    setTimeout(() => {
+        details.forEach((e) => {
+            const detail = e.detail;
+            let content  = e.fileContent;
 
-        // Add lineDiffPlus at the bottom
-        if (detail.lineDiffPlus) {
-            for (let i = 0; i < detail.lineDiffPlus!; i++) {
-                content += Math.random().toString(36).substring(5, 4) + "\n";
-            }
-        }
-
-        // Remove lineDiffMinus at the start. Should the file not have enough lines, we need to make a dummy commit in our name first that adds the needed amount of lines.
-        if (detail.lineDiffMinus) {
-            if (detail.lineDiffMinus > content.length * 3) { // Length times 3 to account for newline character "\n"
-                // TODO: Make dummy commit
+            // Add lineDiffPlus at the bottom
+            if (detail.lineDiffPlus) {
+                for (let i = 0; i < detail.lineDiffPlus!; i++) {
+                    content += Math.random().toString(36).substring(5, 4) + "\n";
+                }
             }
 
-            content = content.slice(detail.lineDiffMinus * 2);
-        }
+            // Remove lineDiffMinus at the start
+            if (detail.lineDiffMinus) {
+                content = content.slice(detail.lineDiffMinus * 2); // Times 2 to include newline character on every line
+            }
 
-        // Write changes
-        fs.writeFileSync(`data/repository/${projectName}/${detail.name}`, content);
-    });
+            // Write changes
+            fs.writeFileSync(`data/repository/${projectName}/${detail.name}`, content);
+        });
 
 
-    // Let git handler make the commit and push it
-    const commitMessage = projectDetails.find((e) => e.name.toLowerCase() == "commit message")!.value;
+        // Let git handler make the commit and push it
+        const commitMessage = projectDetails.find((e) => e.name == "Commit Message")!.value;
 
-    commitAndPush(projectName, commitMessage!); // TODO: Needs full details for timestamp etc
+        commitAndPush(projectName, commitMessage!); // TODO: Needs full details for timestamp etc
+    }, doDummyCommit ? 500 : 0); // Set timeout if a compensation commit was made because git stores commits with less precision
 
 }
