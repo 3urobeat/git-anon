@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-03 22:19:51
+ * Last Modified: 2024-04-07 11:37:19
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -44,8 +44,9 @@ if (!fs.existsSync("data/repository/.git")) {
  * Makes a new git commit and pushes it to remote
  * @param filePath File path to commit (from repository base!). Leave empty to commit every outstanding change
  * @param commitMsg Message to use for the commit
+ * @param anonCommit Whether this commit should be made under the project's name instead of the user's name
  */
-export function commitAndPush(filePath: string, commitMsg: string) {
+export function commitAndPush(filePath: string, commitMsg: string, anonCommit?: boolean) {
 
     console.log(`commitAndPush: Committing and pushing '${filePath}' with msg '${commitMsg}'`);
 
@@ -57,7 +58,11 @@ export function commitAndPush(filePath: string, commitMsg: string) {
     }
 
     // Make commit
-    git.commit(commitMsg);
+    if (anonCommit) {
+        git.raw("-c", "user.name=\"Git Anon\"", "-c", "user.email=\"anon@test.com\"", "-c", "commit.gpgsign=false", "commit", "-m", commitMsg);
+    } else {
+        git.commit(commitMsg);
+    }
 
     // Push commit to remote
     //git.push();
