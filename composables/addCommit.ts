@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-07 13:30:58
+ * Last Modified: 2024-04-07 21:01:50
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -26,6 +26,7 @@ import { DetailType, type Detail } from "~/model/projects";
  * @param projectDetails Array of objects containing name and value prop for every detail
  */
 export function addCommit(projectName: string, projectDetails: Detail[]) {
+    const timestamp = Number(projectDetails.find((e) => e.type === DetailType.TIMESTAMP)!.value);
 
     console.log(`addCommit: Adding new commit for '${projectName}'`);
 
@@ -75,7 +76,7 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
     });
 
     if (doDummyCommit) {
-        commitAndPush(projectName, `Compensation commit for '${projectName}' to fulfill incoming line diff`, true);
+        commitAndPush(projectName, `Compensation commit for '${projectName}' to fulfill incoming line diff`, timestamp - 501, true);
     }
 
 
@@ -105,7 +106,6 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
         // Let git handler make the commit and push it
         const commitMessage = projectDetails.find((e) => e.name == "Commit Message")!.value;
 
-        commitAndPush(projectName, commitMessage!); // TODO: Needs full details for timestamp etc
+        commitAndPush(projectName, commitMessage!, timestamp);
     }, doDummyCommit ? 500 : 0); // Set timeout if a compensation commit was made because git stores commits with less precision
-
 }

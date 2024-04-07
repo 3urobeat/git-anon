@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-07 15:21:06
+ * Last Modified: 2024-04-07 21:01:05
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -44,9 +44,10 @@ if (!fs.existsSync("data/repository/.git")) {
  * Makes a new git commit and pushes it to remote
  * @param filePath File path to commit (from repository base!). Leave empty to commit every outstanding change
  * @param commitMsg Message to use for the commit
+ * @param timestamp Timestamp to use for the commit
  * @param anonCommit Whether this commit should be made under the project's name instead of the user's name
  */
-export function commitAndPush(filePath: string, commitMsg: string, anonCommit?: boolean) {
+export function commitAndPush(filePath: string, commitMsg: string, timestamp: number, anonCommit?: boolean) {
 
     console.log(`commitAndPush: Committing ${anonCommit ? "anonymously " : ""}and pushing '${filePath}' with msg '${commitMsg}'`);
 
@@ -57,11 +58,30 @@ export function commitAndPush(filePath: string, commitMsg: string, anonCommit?: 
         git.add(".");
     }
 
+
+    // Set timestamp
+    const formattedTimestamp = new Date(timestamp).toISOString().slice(0, -5); // Remove dot, millis and "Z"
+
+    git.env({ ...process.env, "GIT_AUTHOR_DATE": formattedTimestamp, "GIT_COMMITTER_DATE": formattedTimestamp });
+
+
     // Make commit
     if (anonCommit) {
-        git.raw("-c", "user.name=\"Git Anon\"", "-c", "user.email=\"anon@test.com\"", "-c", "commit.gpgsign=false", "commit", "-m", commitMsg);
+        const response = git.raw("-c", "user.name=\"Git Anon\"", "-c", "user.email=\"anon@test.com\"", "-c", "commit.gpgsign=false", "commit", "-m", commitMsg);
+
+        console.log("commitAndPush: Anon git commit response:");
+        console.log(response);
+
     } else {
-        git.commit(commitMsg);
+
+        git.commit(commitMsg, undefined, undefined, (err, data) => {
+            if (err) {
+                console.log("commitAndPush: Failed to run git commit! Error:\n" + err.stack);
+                return;
+            }
+
+            console.log("commitAndPush: Successfully ran git commit. Response:\n" + JSON.stringify(data));
+        });
     }
 
     // Push commit to remote
