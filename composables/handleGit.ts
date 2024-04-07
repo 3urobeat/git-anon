@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-07 11:37:19
+ * Last Modified: 2024-04-07 13:36:39
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -48,7 +48,7 @@ if (!fs.existsSync("data/repository/.git")) {
  */
 export function commitAndPush(filePath: string, commitMsg: string, anonCommit?: boolean) {
 
-    console.log(`commitAndPush: Committing and pushing '${filePath}' with msg '${commitMsg}'`);
+    console.log(`commitAndPush: Committing ${anonCommit ? "anonymously" : ""} and pushing '${filePath}' with msg '${commitMsg}'`);
 
     // Stage commit
     if (filePath) {

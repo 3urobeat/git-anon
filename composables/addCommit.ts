@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-07 13:13:51
+ * Last Modified: 2024-04-07 13:30:58
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -59,13 +59,13 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
 
     details.forEach((e) => {
         const lineDiff = (e.detail.lineDiffMinus ? e.detail.lineDiffMinus : 0) - (e.detail.lineDiffPlus ? e.detail.lineDiffPlus : 0); // These ternaries might be unnecessary as `null` would eval to 0 but `undefined` evals to NaN sooooo yeah idk
-        const compensationAmount = Math.abs((e.fileContent.length / 2) - lineDiff); // Divided by 2 to remove newline character on every line from calculation
+        const compensationAmount = Math.abs((e.fileContent.length / 6) - lineDiff); // Divide by 6 to remove the 5 chars every line contains and the trailing newline character from calculation
 
-        if (e.fileContent.length < lineDiff * 2) { // Times 2 to include newline character on every line
+        if (e.fileContent.length < lineDiff * 6) { // Times 6 to include 5 chars and newline character on every line
             console.log(`addCommit: File '${e.detail.name}' requires a compensation commit of +${compensationAmount} lines!`);
 
             for (let i = 0; i < compensationAmount; i++) {
-                e.fileContent += Math.random().toString(36).substring(5, 4) + "\n";
+                e.fileContent += Math.random().toString(36).substring(2, 7) + "\n";
             }
 
             fs.writeFileSync(`data/repository/${projectName}/${e.detail.name}`, e.fileContent);
@@ -88,13 +88,13 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
             // Add lineDiffPlus at the bottom
             if (detail.lineDiffPlus) {
                 for (let i = 0; i < detail.lineDiffPlus!; i++) {
-                    content += Math.random().toString(36).substring(5, 4) + "\n";
+                    content += Math.random().toString(36).substring(2, 7) + "\n";
                 }
             }
 
             // Remove lineDiffMinus at the start
             if (detail.lineDiffMinus) {
-                content = content.slice(detail.lineDiffMinus * 2); // Times 2 to include newline character on every line
+                content = content.slice(detail.lineDiffMinus * 6); // Times 6 to include 5 chars and newline character on every line
             }
 
             // Write changes
