@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-07 13:36:39
+ * Last Modified: 2024-04-07 15:21:06
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -48,7 +48,7 @@ if (!fs.existsSync("data/repository/.git")) {
  */
 export function commitAndPush(filePath: string, commitMsg: string, anonCommit?: boolean) {
 
-    console.log(`commitAndPush: Committing ${anonCommit ? "anonymously" : ""} and pushing '${filePath}' with msg '${commitMsg}'`);
+    console.log(`commitAndPush: Committing ${anonCommit ? "anonymously " : ""}and pushing '${filePath}' with msg '${commitMsg}'`);
 
     // Stage commit
     if (filePath) {
@@ -93,11 +93,33 @@ export function getFolderHistory(folderName: string) {
             data.all.forEach((commit) => {
                 history.commits.push({
                     message: commit.message,
+                    hash: commit.hash,
                     timestamp: Date.parse(commit.date)
                 });
             });
 
             resolve(history);
+        });
+
+    });
+}
+
+
+/**
+ * Gets details about a commit from git
+ * @param hash Sha sum of the commit to get the details of
+ * @return Returns what git returns
+ */
+export function getCommitDetails(hash: string) {
+    return new Promise<string>((resolve) => {
+
+        git.show(hash, (err, data) => {
+            if (err) {
+                console.log(`getCommitDetails: git show failed with '${err}'! Returning empty string...`);
+                return resolve(`Failed to run 'git show ${hash}'!\nError: ${err}`);
+            }
+
+            resolve(data);
         });
 
     });

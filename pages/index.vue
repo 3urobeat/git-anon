@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-06 16:24:36
+ * Last Modified: 2024-04-07 15:29:40
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -124,7 +124,7 @@
 
                 <!-- Get text into the list with some space all around -->
                 <div class="mx-3 my-1.5 w-full">
-                    <span class="flex gap-x-1 text-sm cursor-pointer opacity-60 hover:opacity-80 hover:transition-all" v-if="selectedHistory" v-for="thisCommit in selectedHistory.commits" :key="thisCommit.timestamp" @click="showCommitDetails(thisCommit.timestamp)">
+                    <span class="flex gap-x-1 text-sm cursor-pointer opacity-60 hover:opacity-80 hover:transition-all" v-if="selectedHistory" v-for="thisCommit in selectedHistory.commits" :key="thisCommit.timestamp" @click="showCommitDetails(thisCommit.hash, thisCommit.timestamp)">
                         <span class="text-nowrap">{{ thisCommit.message }}</span>                                                          <!-- Commit fields, left aligned -->
                         <span class="text-nowrap tabular-nums content-end text-right w-full">{{ formatTime(thisCommit.timestamp) }}</span> <!-- Formatted timestamp, right aligned and monospaced -->
                     </span>
@@ -145,17 +145,17 @@
                 <!-- Description -->
                 <div class="flex h-full text-start overflow-auto"> <!-- overflow-auto shows scrollbar only when necessary -->
                     <!-- Detail names -->
-                    <div class="flex flex-col gap-y-0.5">
+                    <div class="flex flex-col text-nowrap gap-y-0.5">
                         <span class="flex">Project: </span>
                         <span class="flex">Committed on: </span>
-                        <span class="flex" v-for="thisDetail in historyPopupContent.details" :key="thisDetail.name">{{ thisDetail.name }}: </span>
+                        <span class="flex">Commit Details: </span>
                     </div>
 
                     <!-- Detail values -->
                     <div class="flex flex-col gap-y-0.5 ml-1">
                         <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ selectedProject.name }}</span>
                         <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ formatTime(historyPopupContent.timestamp, true) }}</span>
-                        <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200" v-for="thisDetail in historyPopupContent.details" :key="thisDetail.value">{{ thisDetail.value }}</span>
+                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200 whitespace-pre-wrap">{{ historyPopupContent.gitShow.replace(/\\n/, "<br>") }}</span>
                     </div>
                 </div>
 
@@ -175,7 +175,7 @@
 
 <script setup lang="ts">
     import { PhCheck, PhCaretRight, PhCaretDown, PhX } from '@phosphor-icons/vue';
-    import { type Project, type StoredProjects, type ProjectHistory, type CommitDetails, DetailType } from "../model/projects";
+    import { type Project, type StoredProjects, type ProjectHistory, DetailType } from "../model/projects";
 
 
     // Cache all stored projects, reference the currently selected project and cache shallow histories of all projects that have been selected in the current session
@@ -185,7 +185,7 @@
     const projectHistories: ProjectHistory[] = [];
     const selectedHistory:  Ref<ProjectHistory>   = ref(null!);
 
-    const historyPopupContent: Ref<CommitDetails | null> = ref(null);
+    const historyPopupContent: Ref<{ projectName: string, timestamp: number, gitShow: string } | null> = ref(null);
 
 
     // Get all projects and their details on load
@@ -230,7 +230,7 @@
 
             // Set first commit to error message if request failed
             if (!newHistory.data.value) {
-                selectedHistory.value = { name: project.name, commits: [{ message: "Failed to load history!", timestamp: 0 }] }; // TODO: Improve this kind of hacky thing?
+                selectedHistory.value = { name: project.name, commits: [{ message: "Failed to load history!", hash: "", timestamp: 0 }] }; // TODO: Improve this kind of hacky thing?
                 return;
             }
 
@@ -246,23 +246,27 @@
 
     /**
      * Fetches commit details and populates historyPopupContent
-     * @param timestamp Timestamp of the selected commit, used for unique identification
+     * @param hash Hash of the commit
+     * @param timestamp Timestamp of the commit
      */
-    async function showCommitDetails(timestamp: number) {
+    async function showCommitDetails(hash: string, timestamp: number) {
 
         // Make API request
-        const details = await useFetch<CommitDetails>("/api/get-commit-details", {
+        const gitShowData = await useFetch<string>("/api/get-commit-details", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                projectName: selectedProject.value.name,
-                timestamp: timestamp
+                hash: hash
             })
         });
 
-        historyPopupContent.value = details.data.value;
+        historyPopupContent.value = {
+            projectName: selectedProject.value.name,
+            timestamp: timestamp,
+            gitShow: gitShowData.data.value!
+        };
 
     }
 
