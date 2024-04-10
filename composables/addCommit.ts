@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-10 20:10:44
+ * Last Modified: 2024-04-10 20:17:23
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -61,10 +61,13 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
     details.forEach((e) => {
         let lineDiff = (e.detail.lineDiffMinus ? e.detail.lineDiffMinus : 0) - (e.detail.lineDiffPlus ? e.detail.lineDiffPlus : 0); // These ternaries might be unnecessary as `null` would eval to 0 but `undefined` evals to NaN sooooo yeah idk
 
-        if (e.fileContent.length == 0) lineDiff = 60; // Inflate lineDiff with 10 lines if file is empty to fix commits with lineDiffPlus == lineDiffMinus not working
+        // Inflate lineDiff with 10 lines if file is empty to fix commits with lineDiffPlus == lineDiffMinus not working
+        if (e.fileContent.length == 0) lineDiff += 60;
 
-        const compensationAmount = Math.abs((e.fileContent.length / 6) - lineDiff); // Divide by 6 to remove the 5 chars every line contains and the trailing newline character from calculation
+        // Divide by 6 to remove the 5 chars every line contains and the trailing newline character from calculation. Add 10 lines to fix file becoming empty, which can result in incorrect line diffs
+        const compensationAmount = Math.abs((e.fileContent.length / 6) - lineDiff) + 10;
 
+        // Check if file inflation is needed and make the required change
         if (e.fileContent.length < lineDiff * 6) { // Times 6 to include 5 chars and newline character on every line
             console.log(`addCommit: File '${e.detail.name}' requires a compensation commit of +${compensationAmount} lines!`);
 
