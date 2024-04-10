@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-07 21:01:50
+ * Last Modified: 2024-04-10 20:10:44
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -59,7 +59,10 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
     let doDummyCommit = false;
 
     details.forEach((e) => {
-        const lineDiff = (e.detail.lineDiffMinus ? e.detail.lineDiffMinus : 0) - (e.detail.lineDiffPlus ? e.detail.lineDiffPlus : 0); // These ternaries might be unnecessary as `null` would eval to 0 but `undefined` evals to NaN sooooo yeah idk
+        let lineDiff = (e.detail.lineDiffMinus ? e.detail.lineDiffMinus : 0) - (e.detail.lineDiffPlus ? e.detail.lineDiffPlus : 0); // These ternaries might be unnecessary as `null` would eval to 0 but `undefined` evals to NaN sooooo yeah idk
+
+        if (e.fileContent.length == 0) lineDiff = 60; // Inflate lineDiff with 10 lines if file is empty to fix commits with lineDiffPlus == lineDiffMinus not working
+
         const compensationAmount = Math.abs((e.fileContent.length / 6) - lineDiff); // Divide by 6 to remove the 5 chars every line contains and the trailing newline character from calculation
 
         if (e.fileContent.length < lineDiff * 6) { // Times 6 to include 5 chars and newline character on every line
