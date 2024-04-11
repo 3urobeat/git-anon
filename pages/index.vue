@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-07 15:29:40
+ * Last Modified: 2024-04-11 15:10:44
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -155,7 +155,7 @@
                     <div class="flex flex-col gap-y-0.5 ml-1">
                         <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ selectedProject.name }}</span>
                         <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ formatTime(historyPopupContent.timestamp, true) }}</span>
-                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200 whitespace-pre-wrap">{{ historyPopupContent.gitShow.replace(/\\n/, "<br>") }}</span>
+                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200 whitespace-pre-wrap">{{ historyPopupContent.gitShow }}</span>
                     </div>
                 </div>
 
@@ -174,7 +174,7 @@
 
 
 <script setup lang="ts">
-    import { PhCheck, PhCaretRight, PhCaretDown, PhX } from '@phosphor-icons/vue';
+    import { PhCheck, PhCaretRight, PhCaretDown, PhX } from "@phosphor-icons/vue";
     import { type Project, type StoredProjects, type ProjectHistory, DetailType } from "../model/projects";
 
 
