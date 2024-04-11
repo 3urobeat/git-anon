@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-25 21:05:46
+ * Last Modified: 2024-04-11 18:52:19
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -18,12 +18,53 @@
 
 
 <template>
-    <div id="title" class="font-semibold underline underline-offset-4 pb-5 lg:pb-7 pt-10 select-none">
-        Settings
+    <div id="title" class="flex w-full pb-5 lg:pb-7 pt-10 select-none">
+        <p class="w-full font-semibold underline underline-offset-4">Settings</p>
+
+        <!-- Save button -->
+        <div class="flex justify-end items-center">
+            <button class="flex items-center justify-center py-1 px-3 rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="saveChanges">
+                <PhCheck class="mr-2 size-5 text-green-600"></PhCheck>
+                Save
+            </button>
+        </div>
+    </div>
+
+    <div class="lg:flex lg:flex-col lg:mx-12"> <!-- Offset content to the right on desktop to give headline more presence -->
+        <div id="gitconfig">
+            <p class="font-semibold">Git Config:</p>
+            <textarea class="lg:w-2/4 w-full h-64 opacity-60 my-1 px-1 bg-slate-200 rounded-sm outline outline-black outline-2" v-model="settings.gitConfig"></textarea>
+        </div>
     </div>
 </template>
 
 
 <script setup lang="ts">
+    import { PhCheck } from "@phosphor-icons/vue";
+    import type { Settings } from "~/model/settings";
+
+
+    // Refs
+    const settings: Ref<Settings> = ref({
+        gitConfig: ""
+    });
+
+
+    // Load data
+    const serverData = await useFetch<any>("/api/get-settings");
+
+    settings.value = serverData.data.value;
+
+
+    // Sends changes to the database
+    async function saveChanges() {
+        await useFetch("/api/set-settings", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(settings.value)
+        });
+    }
 
 </script>
