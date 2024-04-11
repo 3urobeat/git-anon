@@ -1,10 +1,10 @@
 /*
- * File: get-settings.ts
+ * File: set-settings.ts
  * Project: git-anon
- * Created Date: 2024-03-23 23:57:07
+ * Created Date: 2024-04-11 15:44:00
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-11 18:45:37
+ * Last Modified: 2024-04-11 18:46:11
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -17,38 +17,34 @@
 
 import fs from "fs";
 import { useSettingsDb } from "../../composables/useSettingsDb";
-import { Settings } from "~/model/settings";
 
 
 /**
- * This API route gets all stored settings and returns them
- * Params: {}
- * Returns: { gitConfig: string }
+ * This API route saves all transmitted settings
+ * Params: { gitConfig: string }
+ * Returns: null
  */
 
 
 // This function is executed when this API route is called
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
 
     // Get database instance
     const db = useSettingsDb();
 
-    console.log("API get-settings: Received request");
+    console.log("API set-settings: Received request");
 
-    const data: Settings = {
-        gitConfig: ""
-    };
 
-    // Load local gitconfig
-    if (fs.existsSync("data/repository/.git/config")) {
-        data.gitConfig = fs.readFileSync("./data/repository/.git/config").toString();
-    } else {
-        fs.writeFileSync("data/repository/.git/config", "");
+    // Read body of the request we received
+    const params = await readBody(event);
+
+    if (!params) return false;
+
+
+    // Save gitconfig
+    if (params.gitConfig) {
+        fs.writeFileSync("data/repository/.git/config", params.gitConfig);
     }
 
-    // Get all other settings and their values
-    //Object.assign(data, await db.findAsync({}));
-
-    return data;
 
 });
