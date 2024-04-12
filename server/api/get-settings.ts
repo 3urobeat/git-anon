@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 23:57:07
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-11 18:45:37
+ * Last Modified: 2024-04-12 19:23:44
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -36,7 +36,8 @@ export default defineEventHandler(async () => {
     console.log("API get-settings: Received request");
 
     const data: Settings = {
-        gitConfig: ""
+        gitConfig: "",
+        pushToRemote: false
     };
 
     // Load local gitconfig
@@ -47,7 +48,11 @@ export default defineEventHandler(async () => {
     }
 
     // Get all other settings and their values
-    //Object.assign(data, await db.findAsync({}));
+    const dbData: { name: string, value: string | boolean }[] = await db.findAsync({});
+
+    dbData.forEach((e) => {
+        data[e.name] = e.value;
+    });
 
     return data;
 

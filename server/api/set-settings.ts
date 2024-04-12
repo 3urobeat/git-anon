@@ -4,7 +4,7 @@
  * Created Date: 2024-04-11 15:44:00
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-11 18:46:11
+ * Last Modified: 2024-04-12 19:11:35
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -45,6 +45,12 @@ export default defineEventHandler(async (event) => {
     if (params.gitConfig) {
         fs.writeFileSync("data/repository/.git/config", params.gitConfig);
     }
+
+
+    // Save database changes
+    const logDbError = (err: Error | null) => { if (err) console.log("Error updating settings database! " + err); };
+
+    if (params.pushToRemote != undefined) db.update({ name: "pushToRemote" }, { $set: { value: params.pushToRemote }}, { upsert: true }, logDbError);
 
 
 });

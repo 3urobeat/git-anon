@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-07 21:01:05
+ * Last Modified: 2024-04-12 21:20:33
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -17,6 +17,7 @@
 
 import fs from "fs";
 import { simpleGit } from "simple-git";
+import { useSettingsDb } from "./useSettingsDb";
 
 import type { SimpleGit } from "simple-git";
 import type { ProjectHistory } from "~/model/projects"; // eslint-disable-line
@@ -47,7 +48,7 @@ if (!fs.existsSync("data/repository/.git")) {
  * @param timestamp Timestamp to use for the commit
  * @param anonCommit Whether this commit should be made under the project's name instead of the user's name
  */
-export function commitAndPush(filePath: string, commitMsg: string, timestamp: number, anonCommit?: boolean) {
+export async function commitAndPush(filePath: string, commitMsg: string, timestamp: number, anonCommit?: boolean) {
 
     console.log(`commitAndPush: Committing ${anonCommit ? "anonymously " : ""}and pushing '${filePath}' with msg '${commitMsg}'`);
 
@@ -65,6 +66,11 @@ export function commitAndPush(filePath: string, commitMsg: string, timestamp: nu
     git.env({ ...process.env, "GIT_AUTHOR_DATE": formattedTimestamp, "GIT_COMMITTER_DATE": formattedTimestamp });
 
 
+    // Get pushToRemote setting value from database
+    const settingsDb = useSettingsDb();
+    const pushToRemote = await settingsDb.findOneAsync({ name: "pushToRemote" });
+
+
     // Make commit
     if (anonCommit) {
         const response = git.raw("-c", "user.name=\"Git Anon\"", "-c", "user.email=\"anon@test.com\"", "-c", "commit.gpgsign=false", "commit", "-m", commitMsg);
@@ -76,16 +82,28 @@ export function commitAndPush(filePath: string, commitMsg: string, timestamp: nu
 
         git.commit(commitMsg, undefined, undefined, (err, data) => {
             if (err) {
-                console.log("commitAndPush: Failed to run git commit! Error:\n" + err.stack);
+                console.log("commitAndPush: Failed to run 'git commit'! Error:\n" + err.stack);
                 return;
             }
 
-            console.log("commitAndPush: Successfully ran git commit. Response:\n" + JSON.stringify(data));
+            console.log("commitAndPush: Successfully ran 'git commit'. Response:\n" + JSON.stringify(data));
+
+            // Push if enabled
+            if (pushToRemote && pushToRemote.value) {
+                git.push(undefined, undefined, undefined, (err, data) => {
+                    if (err) {
+                        console.log("commitAndPush: Failed to run 'git push'! Error:\n" + err.stack);
+                        return;
+                    }
+
+                    console.log("commitAndPush: Successfully ran 'git push'. Response:\n" + JSON.stringify(data));
+
+                });
+            } else {
+                console.log("commitAndPush: pushToRemote is disabled in config, keeping commit local");
+            }
         });
     }
-
-    // Push commit to remote
-    //git.push();
 
 }
 

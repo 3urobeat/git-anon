@@ -4,7 +4,7 @@
  * Created Date: 2024-04-11 18:38:58
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-11 18:39:16
+ * Last Modified: 2024-04-12 19:29:53
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -16,5 +16,6 @@
 
 
 export type Settings = {
-    gitConfig: string
+    gitConfig: string,
+    pushToRemote: boolean
 }

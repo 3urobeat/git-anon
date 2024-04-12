@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-11 18:52:19
+ * Last Modified: 2024-04-12 18:57:04
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -31,9 +31,15 @@
     </div>
 
     <div class="lg:flex lg:flex-col lg:mx-12"> <!-- Offset content to the right on desktop to give headline more presence -->
-        <div id="gitconfig">
-            <p class="font-semibold">Git Config:</p>
-            <textarea class="lg:w-2/4 w-full h-64 opacity-60 my-1 px-1 bg-slate-200 rounded-sm outline outline-black outline-2" v-model="settings.gitConfig"></textarea>
+        <p class="font-semibold mb-1">Git Configuration:</p>
+
+        <div id="gitconfig" class="flex flex-col px-2 gap-y-2">
+            <div class="flex gap-x-2 select-none">
+                <input id="pushToRemote-input" type="checkbox" v-model="settings.pushToRemote">
+                <label for="pushToRemote-input">Push commits to remote</label>
+            </div>
+
+            <textarea class="lg:w-2/4 w-full h-64 opacity-60 px-1 bg-slate-200 rounded-sm outline outline-black outline-2" v-model="settings.gitConfig"></textarea>
         </div>
     </div>
 </template>
@@ -46,7 +52,8 @@
 
     // Refs
     const settings: Ref<Settings> = ref({
-        gitConfig: ""
+        gitConfig: "",
+        pushToRemote: false
     });
 
 
