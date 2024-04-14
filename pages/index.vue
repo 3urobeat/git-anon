@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-14 14:38:15
+ * Last Modified: 2024-04-14 19:36:25
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -308,6 +308,15 @@
      */
     async function makeCommit() {
 
+        // Check if every lineDiff field is empty and reject commit
+        let lineDiffFields = selectedProject.value.details.filter((e) => e.type == DetailType.LINE_DIFF);
+
+        if (!lineDiffFields.some((e) => e.lineDiffMinus || e.lineDiffPlus)) {
+            alert("Cannot make commit without any line diffs!");
+            return;
+        }
+
+
         // Find timestamp field and convert to UTC or insert a new timestamp if empty
         let timestamp = selectedProject.value.details.find((e) => e.name == "Timestamp");
 
@@ -316,6 +325,7 @@
         } else {
             timestamp!.value = Date.now().toString();
         }
+
 
         // Dispatch request to the server
         let success = await useFetch("/api/make-commit", {
@@ -329,8 +339,9 @@
             })
         });
 
+
         // Reset fields on success and force refresh history
-        if (success) {
+        if (success.data.value) {
             selectedProject.value.details.forEach((detail) => {
                 detail.value = "";
                 if (detail.lineDiffPlus) detail.lineDiffPlus = undefined;
@@ -339,7 +350,14 @@
 
             setTimeout(() => {
                 selectProject(selectedProject.value, true);
-            }, 500); // TODO: Not really great if the backend takes longer
+            }, 1000); // TODO: Not really great if the backend takes longer
+
+        } else {
+
+            // Restore time input field - Change to ISO format and remove seconds, milliseconds and "Z" from the end for the browser to understand what is going on
+            timestamp!.value = new Date(Number(timestamp!.value)).toISOString().slice(0, -8);
+
+            alert("Sorry, the commit failed!");
         }
 
     }
