@@ -11,7 +11,8 @@ WORKDIR /usr/src/git-anon
 
 # Update and install dependency
 RUN apk update && apk upgrade
-RUN apk add git gpg
+RUN apk add git gpg openrc openssh
+RUN rc-update add sshd
 
 # Copy the app, note .dockerignore
 COPY . /usr/src/git-anon/

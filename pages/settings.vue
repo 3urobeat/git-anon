@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-12 18:57:04
+ * Last Modified: 2024-04-14 22:02:24
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -39,7 +39,7 @@
                 <label for="pushToRemote-input">Push commits to remote</label>
             </div>
 
-            <textarea class="lg:w-2/4 w-full h-64 opacity-60 px-1 bg-slate-200 rounded-sm outline outline-black outline-2" v-model="settings.gitConfig"></textarea>
+            <textarea class="lg:w-2/4 w-full h-80 opacity-60 px-1 bg-slate-200 rounded-sm outline outline-black outline-2" v-model="settings.gitConfig"></textarea>
         </div>
     </div>
 </template>
