@@ -72,7 +72,7 @@ export async function commitAndPush(filePath: string, commitMsg: string, timesta
 
     // Make commit
     if (anonCommit) {
-        const response = git.raw("-c", "user.name=\"Git Anon\"", "-c", "user.email=\"anon@test.com\"", "-c", "commit.gpgsign=false", "commit", "-m", commitMsg);
+        const response = await git.raw("-c", "user.name=\"Git Anon\"", "-c", "user.email=\"anon@test.com\"", "-c", "commit.gpgsign=false", "commit", "-m", commitMsg);
 
         console.log("commitAndPush: Anon git commit response:");
         console.log(response);

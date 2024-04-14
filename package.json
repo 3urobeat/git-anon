@@ -13,7 +13,10 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "start": "node .output/server/index.mjs",
-    "update": "git pull && npm i && npm run build"
+    "update": "git pull && npm i && npm run build",
+    "docker-build": "docker build -t git-anon .",
+    "docker-start": "docker run -p 3000:3000 -v ~/git-anon-data:/usr/src/git-anon/data git-anon",
+    "docker-bs": "npm run docker-build && npm run docker-start"
   },
   "keywords": [
     "git",
