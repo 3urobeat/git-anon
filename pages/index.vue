@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-11 15:10:44
+ * Last Modified: 2024-04-14 14:38:15
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -143,19 +143,22 @@
                 </div>
 
                 <!-- Description -->
-                <div class="flex h-full text-start overflow-auto"> <!-- overflow-auto shows scrollbar only when necessary -->
-                    <!-- Detail names -->
-                    <div class="flex flex-col text-nowrap gap-y-0.5">
-                        <span class="flex">Project: </span>
-                        <span class="flex">Committed on: </span>
-                        <span class="flex">Commit Details: </span>
+                <div class="flex flex-col lg:gap-y-0.5 gap-y-1.5 h-full text-start overflow-auto"> <!-- overflow-auto shows scrollbar only when necessary -->
+                    <div class="flex lg:flex-row flex-col text-nowrap">
+                        <span class="w-36">Project:</span>
+                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ selectedProject.name }}</span>
                     </div>
-
-                    <!-- Detail values -->
-                    <div class="flex flex-col gap-y-0.5 ml-1">
-                        <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ selectedProject.name }}</span>
-                        <span class="flex w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ formatTime(historyPopupContent.timestamp, true) }}</span>
+                    <div class="flex lg:flex-row flex-col text-nowrap">
+                        <span class="w-36">Committed on:</span>
+                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ formatTime(historyPopupContent.timestamp, true) }}</span>
+                    </div>
+                    <div class="flex lg:flex-row flex-col text-nowrap">
+                        <span class="w-36">Commit Details:</span>
                         <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200 whitespace-pre-wrap">{{ historyPopupContent.gitShow }}</span>
+                    </div>
+                    <div class="flex lg:flex-row flex-col text-nowrap">
+                        <span class="w-36">Commit Signature:</span>
+                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200 whitespace-pre-wrap">{{ historyPopupContent.gitVerifyCommit }}</span>
                     </div>
                 </div>
 
@@ -185,7 +188,7 @@
     const projectHistories: ProjectHistory[] = [];
     const selectedHistory:  Ref<ProjectHistory>   = ref(null!);
 
-    const historyPopupContent: Ref<{ projectName: string, timestamp: number, gitShow: string } | null> = ref(null);
+    const historyPopupContent: Ref<{ projectName: string, timestamp: number, gitShow: string, gitVerifyCommit: string } | null> = ref(null);
 
 
     // Get all projects and their details on load
@@ -252,7 +255,7 @@
     async function showCommitDetails(hash: string, timestamp: number) {
 
         // Make API request
-        const gitShowData = await useFetch<string>("/api/get-commit-details", {
+        const gitShowData = await useFetch<{ show: string, verifyCommit: string }>("/api/get-commit-details", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -265,7 +268,8 @@
         historyPopupContent.value = {
             projectName: selectedProject.value.name,
             timestamp: timestamp,
-            gitShow: gitShowData.data.value!
+            gitShow: gitShowData.data.value!.show,
+            gitVerifyCommit: gitShowData.data.value!.verifyCommit
         };
 
     }

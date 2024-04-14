@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-12 21:20:33
+ * Last Modified: 2024-04-14 15:26:48
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -30,8 +30,7 @@ if (!fs.existsSync("data/repository")) {
 }
 
 const git: SimpleGit = simpleGit({
-    baseDir: "data/repository/",
-    binary: "git"
+    baseDir: "data/repository/"
 });
 
 // Init git repository if .git folder is missing
@@ -149,15 +148,39 @@ export function getFolderHistory(folderName: string) {
  * @return Returns what git returns
  */
 export function getCommitDetails(hash: string) {
-    return new Promise<string>((resolve) => {
+    return new Promise<{ show: string, verifyCommit: string }>((resolve) => {
 
+        // Pre-Construct return object
+        const resolveData = {
+            show: "",
+            verifyCommit: ""
+        };
+
+        // Get commit details from git show
         git.show(hash, (err, data) => {
             if (err) {
                 console.log(`getCommitDetails: git show failed with '${err}'! Returning empty string...`);
-                return resolve(`Failed to run 'git show ${hash}'!\nError: ${err}`);
+                resolveData.show = `Failed to run 'git show ${hash}'!\nError: ${err}`;
+            } else {
+                resolveData.show = data;
             }
 
-            resolve(data);
+            // Resolve if both vars are populated
+            if (resolveData.show && resolveData.verifyCommit) resolve(resolveData);
+        });
+
+        // Check if commit contains signature
+        git.raw(["verify-commit", hash], (err, data) => {
+            if (err) {
+                console.log(`getCommitDetails: git verify-commit failed with '${err}'! Returning empty string...`);
+                resolveData.verifyCommit = `Failed to run 'git verify-commit ${hash}'!\nError: ${err}`;
+            } else {
+                if (!data) data = "/";
+                resolveData.verifyCommit = data;
+            }
+
+            // Resolve if both vars are populated
+            if (resolveData.show && resolveData.verifyCommit) resolve(resolveData);
         });
 
     });
