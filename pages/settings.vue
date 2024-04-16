@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-16 21:54:52
+ * Last Modified: 2024-04-16 22:29:25
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -56,6 +56,7 @@
                         type="text"
                         class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
                         v-model.trim=guidedOptionsInputs.name
+                        @focusout="processGuidedGitConfig()"
                     >
                 </div>
                 <div class="lg:flex gap-x-2">
@@ -64,6 +65,7 @@
                         type="text"
                         class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
                         v-model.trim=guidedOptionsInputs.email
+                        @focusout="processGuidedGitConfig()"
                     >
                 </div>
 
@@ -72,7 +74,7 @@
                 <p class="font-semibold mt-4">GPG:</p>
 
                 <div class="flex items-center gap-x-2">
-                    <input id="enableGpg-input" type="checkbox" v-model="guidedOptionsInputs.enableGpg">
+                    <input id="enableGpg-input" type="checkbox" v-model="guidedOptionsInputs.enableGpg" @change="processGuidedGitConfig()">
                     <label for="enableGpg-input" class="select-none">Sign commits with GPG</label>
                 </div>
 
@@ -82,6 +84,7 @@
                         type="text"
                         class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
                         v-model.trim=guidedOptionsInputs.gpgKey
+                        @focusout="processGuidedGitConfig()"
                     >
                 </div>
 
@@ -100,6 +103,7 @@
                         type="text"
                         class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
                         v-model.trim=guidedOptionsInputs.remoteUrl
+                        @focusout="processGuidedGitConfig()"
                     >
                 </div>
                 <div class="flex lg:ml-6 my-0.5 opacity-60 font-semibold text-sm">
@@ -117,6 +121,7 @@
                         type="text"
                         class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
                         v-model.trim=guidedOptionsInputs.username
+                        @focusout="processGuidedGitConfig()"
                     >
                 </div>
 
@@ -126,6 +131,7 @@
                         type="text"
                         class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
                         v-model.trim=guidedOptionsInputs.password
+                        @focusout="processGuidedGitConfig()"
                     >
                 </div>
                 <div class="lg:ml-6 my-0.5 opacity-60 text-sm">
@@ -141,7 +147,12 @@
             <div id="gitconfig-raw" class="flex flex-col gap-y-2" v-if="enableRawGitConfig">
                 <p class="font-semibold">Raw local '.gitconfig':</p>
 
-                <textarea class="lg:w-2/4 w-full h-80 opacity-60 px-1 bg-slate-200 rounded-sm outline outline-black outline-2" v-model="settings.gitConfig"></textarea>
+                <textarea
+                    class="lg:w-2/4 w-full h-80 opacity-60 px-1 bg-slate-200 rounded-sm outline outline-black outline-2"
+                    v-model="settings.gitConfig"
+                    @focusout="processRawGitConfig()"
+                >
+                </textarea>
 
                 <div>
                     <p class="font-semibold mt-2">Other:</p>
@@ -165,7 +176,8 @@
 
 <script setup lang="ts">
     import { PhCheck, PhToggleLeft, PhToggleRight } from "@phosphor-icons/vue";
-    import type { Settings } from "~/model/settings";
+    import type { GitConfig, Settings } from "~/model/settings";
+    import ini from "ini";
 
 
     // Refs
@@ -194,9 +206,62 @@
 
     settings.value = serverData.data.value;
 
+    processRawGitConfig();
+
+
+    // Processes all current guided inputs to keep raw config up to date
+    function processGuidedGitConfig() {
+
+        // Decode raw config
+        const obj/* : GitConfig */ = ini.decode(settings.value.gitConfig);
+
+        // Write into settings.gitConfig
+        obj.user.name  = guidedOptionsInputs.value.name;
+        obj.user.email = guidedOptionsInputs.value.email;
+
+        obj.commit.gpgsign  = guidedOptionsInputs.value.enableGpg;
+        obj.user.signingkey = guidedOptionsInputs.value.gpgKey;
+
+        obj["remote \"origin\""].url = `https://${guidedOptionsInputs.value.username}:${guidedOptionsInputs.value.password}@${guidedOptionsInputs.value.remoteUrl.replace("https://", "")}`;
+
+        // Encode to raw config and write
+        settings.value.gitConfig = ini.encode(obj);
+
+    }
+
+    // Processes the current raw gitconfig to update guided inputs
+    function processRawGitConfig() {
+
+        // Decode raw config
+        const obj/* : GitConfig */ = ini.decode(settings.value.gitConfig);
+
+        // Deconstruct object and fill in guidedOptionsInputs
+        guidedOptionsInputs.value.name  = obj.user.name; // TODO: Some might fail here when removed from raw gitconfig
+        guidedOptionsInputs.value.email = obj.user.email;
+
+        guidedOptionsInputs.value.enableGpg = obj.commit.gpgsign;
+        guidedOptionsInputs.value.gpgKey    = obj.user.signingkey;
+
+        if (obj["remote \"origin\""] && obj["remote \"origin\""].url) {
+            let remoteUrlArr = obj["remote \"origin\""].url.replace("https://", "").split("@"); // Split credentials from repo path
+
+            guidedOptionsInputs.value.remoteUrl = "https://" + remoteUrlArr[1];
+
+            let gitCredentials = remoteUrlArr[0].split(":"); // Split credentials separated by :
+
+            guidedOptionsInputs.value.username = gitCredentials[0];
+            guidedOptionsInputs.value.password = gitCredentials[1];
+        }
+
+    }
+
 
     // Sends changes to the database
     async function saveChanges() {
+
+        // Encode the latest changes if in guided mode
+        if (!enableRawGitConfig) await processGuidedGitConfig();
+
         await useFetch("/api/set-settings", {
             method: "POST",
             headers: {
@@ -204,6 +269,7 @@
             },
             body: JSON.stringify(settings.value)
         });
+
     }
 
 </script>
