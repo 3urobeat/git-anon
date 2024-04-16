@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-15 22:04:58
+ * Last Modified: 2024-04-16 21:54:52
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -50,20 +50,20 @@
                 <!-- User Settings -->
                 <p class="font-semibold">User:</p>
 
-                <div class="flex gap-x-2">
+                <div class="lg:flex gap-x-2">
                     <p class="w-44">Name:</p>
                     <input
                         type="text"
-                        class="px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                        v-model.trim=guidedOptions.username
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        v-model.trim=guidedOptionsInputs.name
                     >
                 </div>
-                <div class="flex gap-x-2">
+                <div class="lg:flex gap-x-2">
                     <p class="w-44">Email:</p>
                     <input
                         type="text"
-                        class="px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                        v-model.trim=guidedOptions.email
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        v-model.trim=guidedOptionsInputs.email
                     >
                 </div>
 
@@ -71,17 +71,17 @@
                 <!-- GPG Settings -->
                 <p class="font-semibold mt-4">GPG:</p>
 
-                <div class="flex gap-x-2">
-                    <input id="enableGpg-input" type="checkbox" v-model="guidedOptions.enableGpg">
+                <div class="flex items-center gap-x-2">
+                    <input id="enableGpg-input" type="checkbox" v-model="guidedOptionsInputs.enableGpg">
                     <label for="enableGpg-input" class="select-none">Sign commits with GPG</label>
                 </div>
 
-                <div class="flex gap-x-2">
-                    <p class="w-44">Signing Key:</p>
+                <div class="lg:flex gap-x-2">
+                    <p class="w-44 text-nowrap">Signing Key:</p>
                     <input
                         type="text"
-                        class="px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                        v-model.trim=guidedOptions.gpgKey
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        v-model.trim=guidedOptionsInputs.gpgKey
                     >
                 </div>
 
@@ -89,20 +89,20 @@
                 <!-- Remote Repo Settings -->
                 <p class="font-semibold mt-4">Repository:</p>
 
-                <div class="flex gap-x-2">
+                <div class="flex items-center gap-x-2">
                     <input id="pushToRemote-input" type="checkbox" v-model="settings.pushToRemote">
                     <label for="pushToRemote-input" class="select-none">Push commits to remote</label>
                 </div>
 
-                <div class="flex gap-x-2">
+                <div class="lg:flex gap-x-2">
                     <p class="w-44">Remote URL:</p>
                     <input
                         type="text"
-                        class="px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                        v-model.trim=guidedOptions.remoteUrl
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        v-model.trim=guidedOptionsInputs.remoteUrl
                     >
                 </div>
-                <div class="flex ml-6 my-0.5 opacity-60 font-semibold text-sm">
+                <div class="flex lg:ml-6 my-0.5 opacity-60 font-semibold text-sm">
                     Note:
                     <p class="ml-1 font-normal">
                         Only GitHub is currently supported, unless your service uses the same authentication style:
@@ -111,15 +111,24 @@
                     </p>
                 </div>
 
-                <div class="flex gap-x-2">
-                    <p class="w-44">Password/Access Token:</p>
+                <div class="lg:flex gap-x-2">
+                    <p class="w-44">Username:</p>
                     <input
                         type="text"
-                        class="px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
-                        v-model.trim=guidedOptions.password
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        v-model.trim=guidedOptionsInputs.username
                     >
                 </div>
-                <div class="ml-6 my-0.5 opacity-60 text-sm">
+
+                <div class="lg:flex gap-x-2">
+                    <p class="w-44 text-nowrap">Password/Access Token:</p>
+                    <input
+                        type="text"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        v-model.trim=guidedOptionsInputs.password
+                    >
+                </div>
+                <div class="lg:ml-6 my-0.5 opacity-60 text-sm">
                     Generate your access token <a class="underline hover:text-gray-500 rounded-lg" href="https://github.com/settings/personal-access-tokens/new" target="_blank">here</a>.
                     <br>
                     Increase the expiration, select your repository and grant <span class="w-fit px-1 rounded-sm bg-slate-200">Read and Write</span> for the <span class="w-fit px-1 rounded-sm bg-slate-200">Contents</span> permission.
@@ -137,7 +146,7 @@
                 <div>
                     <p class="font-semibold mt-2">Other:</p>
 
-                    <div class="flex gap-x-2">
+                    <div class="flex items-center gap-x-2">
                         <input id="pushToRemote2-input" type="checkbox" v-model="settings.pushToRemote">
                         <label for="pushToRemote2-input" class="select-none">Push commits to remote</label>
                     </div>
@@ -167,15 +176,16 @@
 
     const enableRawGitConfig = ref(false);
 
-    const guidedOptions = ref({
-        username: "",
+    const guidedOptionsInputs = ref({
+        name: "",
         email: "",
         enableGpg: false,
         gpgKey: "",
         // Push to Remote is inserted directly into settings
         remoteUrl: "",
+        username: "",
         password: ""
-    })
+    });
 
 
 
