@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-17 21:23:43
+ * Last Modified: 2024-04-17 22:05:11
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -146,14 +146,35 @@
             <!-- Raw gitconfig -->
             <div id="gitconfig-raw" class="flex flex-col gap-y-2" v-if="enableRawGitConfig">
                 <p class="font-semibold">Raw local '.gitconfig':</p>
-                <p class="font-sm opacity-60">Please be careful! Do not remove any keys - git may expect them.</p>
+                <p class="text-sm opacity-60">Please be careful and rather use the guided mode unless you know what you are doing!</p>
 
-                <textarea
-                    class="lg:w-2/4 w-full h-80 opacity-60 px-1 bg-slate-200 rounded-sm outline outline-black outline-2"
-                    v-model="settings.gitConfig"
-                    @focusout="processRawGitConfig()"
-                >
-                </textarea>
+                <div class="lg:flex gap-2">
+                    <textarea
+                        class="lg:w-2/4 w-full h-80 opacity-60 px-1 bg-slate-200 rounded-sm outline outline-black outline-2"
+                        v-model="settings.gitConfig"
+                        @focusout="processRawGitConfig()"
+                    >
+                    </textarea>
+
+                    <div class="opacity-60 text-sm">
+                        <span class="font-semibold">Information:</span><br>
+                        <br>
+                        This textarea contains the raw <span class="w-fit px-1 rounded-sm bg-slate-200">config</span> file, placed inside the <span class="w-fit px-1 rounded-sm bg-slate-200">.git</span> folder of the repository.<br>
+                        <br>
+                        Set the name and email to use for committing at 'name' & 'email' in the <span class="w-fit px-1 rounded-sm bg-slate-200">user</span> section.<br>
+                        <br>
+                        The key at 'signingkey' specifies the gpg key to use when commit.gpgsign is set to 'true'.<br>
+                        You can leave the field empty if 'gpgsign' is disabled.<br>
+                        <br>
+                        When 'Push commits to remote' is enabled, you need to specify the remote repository URL and credentials.<br>
+                        GitHub expects this format: <span class="w-fit px-1 rounded-sm bg-slate-200">https://username:password@github.com/user/repo.git</span><br>
+                        <br>
+                        You can generate an access token, which you have to provide as the password in the URL, <a class="underline hover:text-gray-500 rounded-lg" href="https://github.com/settings/personal-access-tokens/new" target="_blank">here</a>.<br>
+                        Increase the expiration, select your repository and grant <span class="w-fit px-1 rounded-sm bg-slate-200">Read and Write</span> for the <span class="w-fit px-1 rounded-sm bg-slate-200">Contents</span> permission.<br>
+                        <br>
+                        Do not modify the sections <span class="w-fit px-1 rounded-sm bg-slate-200">core</span>, <span class="w-fit px-1 rounded-sm bg-slate-200">gpg</span> & <span class="w-fit px-1 rounded-sm bg-slate-200">branch "master"</span>.
+                    </div>
+                </div>
 
                 <div>
                     <p class="font-semibold mt-2">Other:</p>

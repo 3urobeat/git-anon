@@ -16,7 +16,7 @@
     gpgsign=false
 
 [remote "origin"]
-    url=https://username:password@github.com/user/testrepo.git
+    url=https://username:password@github.com/user/repo.git
 
 [branch "master"]
     remote=origin
