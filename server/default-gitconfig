@@ -1,0 +1,23 @@
+[core]
+    repositoryformatversion=0
+    filemode=true
+    bare=false
+    logallrefupdates=true
+
+[user]
+    name=Jon Doe
+    email=email@test.com
+    signingkey=
+
+[gpg]
+    program=/usr/bin/gpg
+
+[commit]
+    gpgsign=false
+
+[remote "origin"]
+    url=https://username:password@github.com/user/testrepo.git
+
+[branch "master"]
+    remote=origin
+    merge=refs/heads/master

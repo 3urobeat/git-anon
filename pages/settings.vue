@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-16 22:29:25
+ * Last Modified: 2024-04-17 21:23:43
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -146,6 +146,7 @@
             <!-- Raw gitconfig -->
             <div id="gitconfig-raw" class="flex flex-col gap-y-2" v-if="enableRawGitConfig">
                 <p class="font-semibold">Raw local '.gitconfig':</p>
+                <p class="font-sm opacity-60">Please be careful! Do not remove any keys - git may expect them.</p>
 
                 <textarea
                     class="lg:w-2/4 w-full h-80 opacity-60 px-1 bg-slate-200 rounded-sm outline outline-black outline-2"
@@ -213,7 +214,13 @@
     function processGuidedGitConfig() {
 
         // Decode raw config
-        const obj/* : GitConfig */ = ini.decode(settings.value.gitConfig);
+        const obj: GitConfig = ini.decode(settings.value.gitConfig);
+
+        // Restore every key the user deleted
+        if (!obj.user) obj.user = { name: "", email: "", signingkey: "" };
+        if (!obj.commit) obj.commit = { gpgsign: false };
+        if (!obj["remote \"origin\""]) obj["remote \"origin\""] = { url: "" };
+
 
         // Write into settings.gitConfig
         obj.user.name  = guidedOptionsInputs.value.name;
@@ -233,17 +240,23 @@
     function processRawGitConfig() {
 
         // Decode raw config
-        const obj/* : GitConfig */ = ini.decode(settings.value.gitConfig);
+        const obj: GitConfig = ini.decode(settings.value.gitConfig);
+
+        // Restore every key the user deleted
+        if (!obj.user) obj.user = { name: "", email: "", signingkey: "" };
+        if (!obj.commit) obj.commit = { gpgsign: false };
+        if (!obj["remote \"origin\""]) obj["remote \"origin\""] = { url: "" };
+
 
         // Deconstruct object and fill in guidedOptionsInputs
-        guidedOptionsInputs.value.name  = obj.user.name; // TODO: Some might fail here when removed from raw gitconfig
-        guidedOptionsInputs.value.email = obj.user.email;
+        guidedOptionsInputs.value.name  = obj.user.name ? obj.user.name : ""; // TODO: Some might fail here when removed from raw gitconfig
+        guidedOptionsInputs.value.email = obj.user.email ? obj.user.email : "";
 
-        guidedOptionsInputs.value.enableGpg = obj.commit.gpgsign;
-        guidedOptionsInputs.value.gpgKey    = obj.user.signingkey;
+        guidedOptionsInputs.value.enableGpg = obj.commit.gpgsign ? obj.commit.gpgsign : false;
+        guidedOptionsInputs.value.gpgKey    = obj.user.signingkey ? obj.user.signingkey : "";
 
-        if (obj["remote \"origin\""] && obj["remote \"origin\""].url) {
-            let remoteUrlArr = obj["remote \"origin\""].url.replace("https://", "").split("@"); // Split credentials from repo path
+        if (obj["remote \"origin\""]!.url) {
+            let remoteUrlArr = obj["remote \"origin\""]!.url.replace("https://", "").split("@"); // Split credentials from repo path
 
             guidedOptionsInputs.value.remoteUrl = "https://" + remoteUrlArr[1];
 
@@ -259,8 +272,8 @@
     // Sends changes to the database
     async function saveChanges() {
 
-        // Encode the latest changes if in guided mode
-        if (!enableRawGitConfig) await processGuidedGitConfig();
+        // Encode once again, also when user was in raw mode. This ensures all missing values will automatically be added again, hopefully preventing git from breaking
+        processGuidedGitConfig();
 
         await useFetch("/api/set-settings", {
             method: "POST",

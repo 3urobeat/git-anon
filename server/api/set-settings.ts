@@ -4,7 +4,7 @@
  * Created Date: 2024-04-11 15:44:00
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-12 19:11:35
+ * Last Modified: 2024-04-17 21:43:22
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -16,7 +16,10 @@
 
 
 import fs from "fs";
+import ini from "ini";
 import { useSettingsDb } from "../../composables/useSettingsDb";
+
+const defaultGitConfig = ini.decode(fs.readFileSync("server/default-gitconfig").toString());
 
 
 /**
@@ -43,6 +46,15 @@ export default defineEventHandler(async (event) => {
 
     // Save gitconfig
     if (params.gitConfig) {
+        // Make sure [core] and [branch] settings are not missing - those are not checked by the guided settings page
+        const obj = ini.decode(params.gitConfig);
+
+        if (!obj.core) obj.core = defaultGitConfig.core;
+        if (!obj["branch \"master\""]) obj["branch \"master\""] = defaultGitConfig["branch \"master\""];
+
+        params.gitConfig = ini.encode(obj);
+
+        // Write data to the file
         fs.writeFileSync("data/repository/.git/config", params.gitConfig);
     }
 

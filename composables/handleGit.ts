@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-14 15:26:48
+ * Last Modified: 2024-04-17 20:51:01
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -36,7 +36,11 @@ const git: SimpleGit = simpleGit({
 // Init git repository if .git folder is missing
 if (!fs.existsSync("data/repository/.git")) {
     console.log("commitAndPush: Repository not initialized yet! Running 'git init'...");
-    git.init();
+
+    git.init()
+        .then(() => {
+            fs.copyFileSync("server/default-gitconfig", "data/repository/.git/config");
+        });
 }
 
 
@@ -96,7 +100,6 @@ export async function commitAndPush(filePath: string, commitMsg: string, timesta
                     }
 
                     console.log("commitAndPush: Successfully ran 'git push'. Response:\n" + JSON.stringify(data));
-
                 });
             } else {
                 console.log("commitAndPush: pushToRemote is disabled in config, keeping commit local");
