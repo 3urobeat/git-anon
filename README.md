@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>Git Anonymous</h1>
+    <p align="center"><img width=45% src=".github/img/logo.png"></p>
     <h4>Track personal commit statistics without sharing company code!</h4>
     <div>
         <a href="#owo-whats-this">Introduction</a> •
@@ -14,11 +14,11 @@
 # OwO, what's this?
 Git Anon is a selfhosted webservice, which allows you to keep track of your personal git commits at work, without ever sharing any code itself.  
 
-<!-- TODO: Screenshots -->
-
 Git Anon presents you with a webinterface to input a commit message, modify the commit date and specify a line diff for every file.  
 Once pressing commit, the service produces your specified line diff by generating random characters, makes the commit and pushes it to your remote repository.  
 GitHub automatically detects the programming languages of your line diffs based on file extension and will show the generated commit as a contribution on your profile, even when the repository is private.
+
+<p align="center"><img width=90% src=".github/img/preview.png"></p>
 
 &nbsp;
 

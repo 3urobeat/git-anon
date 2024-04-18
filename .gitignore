@@ -22,6 +22,9 @@ logs
 .env.*
 !.env.example
 
+# Local gimp projects for logo and preview
+*.xcf
+
 git-anon.code-workspace
 server/data/database.db
 data/repository/*
