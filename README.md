@@ -18,6 +18,13 @@ Git Anon presents you with a webinterface to input a commit message, modify the 
 Once pressing commit, the service produces your specified line diff by generating random characters, makes the commit and pushes it to your remote repository.  
 GitHub automatically detects the programming languages of your line diffs based on file extension and will show the generated commit as a contribution on your profile, even when the repository is private.
 
+**But why?**  
+1. I like statistics
+2. We use internal git instances and have restricted systems
+3. I want to keep an accurate contribution graph to have a more meaningful profile when applying for another job.
+
+And you should too!
+
 <p align="center"><img width=90% src=".github/img/preview.png"></p>
 
 &nbsp;
