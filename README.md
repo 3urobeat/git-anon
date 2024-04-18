@@ -1,6 +1,6 @@
 <div align="center">
     <p align="center"><img width=45% src=".github/img/logo.png"></p>
-    <h4>Track personal commit statistics without sharing company code!</h4>
+    <h4>📊 Track personal commit statistics without sharing company code!</h4>
     <div>
         <a href="#owo-whats-this">Introduction</a> •
         <a href="#installation">Installation</a> •
@@ -11,7 +11,7 @@
 
 &nbsp;
 
-# OwO, what's this?
+# 👀 OwO, what's this?
 Git Anon is a selfhosted webservice, which allows you to keep track of your personal git commits at work, without ever sharing any code itself.  
 
 Git Anon presents you with a webinterface to input a commit message, modify the commit date and specify a line diff for every file.  
@@ -22,7 +22,7 @@ GitHub automatically detects the programming languages of your line diffs based 
 
 &nbsp;
 
-# Installation
+# 🚀 Installation
 ### Docker (recommended):
 TBA
 
@@ -40,7 +40,7 @@ Git Anon does not provide any authentication itself, so you should either enable
 
 &nbsp;
 
-# Configuration
+# ⚡ Configuration
 ### Settings
 Open the webpage in your browser and head to the `Settings` page.  
 
