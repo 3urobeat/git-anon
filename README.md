@@ -1,5 +1,5 @@
 <div align="center">
-    <p align="center"><img width=45% src=".github/img/logo.png"></p>
+    <p align="center"><img width=65% src=".github/img/logo.png"></p>
     <h4>📊 Track personal commit statistics without sharing company code!</h4>
     <div>
         <a href="#owo-whats-this">Introduction</a> •
