@@ -1,10 +1,10 @@
 <div align="center">
-    <p align="center"><img width=65% src=".github/img/logo.png"></p>
+    <p align="center"><img width=75% src=".github/img/logo.png"></p>
     <h4>📊 Track personal commit statistics without sharing company code!</h4>
     <div>
-        <a href="#owo-whats-this">Introduction</a> •
-        <a href="#installation">Installation</a> •
-        <a href="#configuration">Configuration</a>
+        <a href="#-owo-whats-this">Introduction</a> •
+        <a href="#-installation">Installation</a> •
+        <a href="#-configuration">Configuration</a>
     </div>
     <!-- <img src="./.github/img/demo.png"> -->
 </div>
@@ -25,7 +25,7 @@ GitHub automatically detects the programming languages of your line diffs based 
 
 And you should too!
 
-<p align="center"><img width=90% src=".github/img/preview.png"></p>
+<p align="center"><img src=".github/img/preview.png"></p>
 
 &nbsp;
 
