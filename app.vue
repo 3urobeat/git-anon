@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 20:03:50
+ * Last Modified: 2024-04-20 23:08:34
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -98,8 +98,12 @@
             </footer>
         </nav>
 
-        <!-- The main content itself, pushed to the side by the navbar -->
-        <main :class="showNavbar ? 'opacity-30 dark:opacity-70 lg:bg-bg-light lg:dark:bg-bg-dark lg:opacity-100 lg:dark:opacity-100' : ''" class="z-10 w-screen min-h-screen px-5 pt-3 bg-bg-light dark:bg-bg-dark dark:text-text-dark transition-all duration-500" @click="showNavbar = false"> <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open -->
+        <!-- The main content itself, pushed to the side by the navbar - The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open - The lg:pr-48 param subtracts the navbar (a bit hacky) -->
+        <main
+            :class="showNavbar ? 'opacity-30 dark:opacity-70 lg:bg-bg-light lg:dark:bg-bg-dark lg:opacity-100 lg:dark:opacity-100' : ''"
+            class="z-10 min-w-screen w-screen min-h-screen px-5 pt-3 bg-bg-light dark:bg-bg-dark dark:text-text-dark transition-all duration-500 lg:pr-48"
+            @click="showNavbar = false"
+        >
             <div :class="showNavbar ? 'fixed w-screen h-screen opacity-0 lg:w-0 lg:h-0' : ''" class="z-50"></div> <!-- Dummy to prevent NuxtPage button presses when the navbar is open -->
             <NuxtPage></NuxtPage> <!-- Links to index.vue -->
         </main>

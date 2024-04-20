@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 20:40:27
+ * Last Modified: 2024-04-20 23:06:40
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -26,7 +26,7 @@
         <div class="w-full lg:flex">
 
             <!-- Projects list -->
-            <div class="w-full">
+            <div class="w-full lg:max-w-[40%]">
                 <span class="lg:flex lg:mx-1 font-medium">Projects</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
@@ -46,11 +46,11 @@
             </div>
 
             <!-- Dividers between each list, one for desktop layout, one for mobile -->
-            <PhCaretRight class="hidden lg:block size-24 m-4 mt-16 self-center"></PhCaretRight>
+            <PhCaretRight class="hidden lg:block min-w-[4%] max-w-[4%] size-12 m-2 mt-16 self-center"></PhCaretRight> <!-- h-10 makes sure the caret is not scaling with window width -->
             <PhCaretDown class="lg:hidden size-7 my-2 w-full"></PhCaretDown>
 
             <!-- Details list for the selected project -->
-            <div class="w-full">
+            <div class="w-full lg:max-w-[40%]">
                 <span class="lg:flex lg:mx-1 font-medium">Details</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
@@ -101,11 +101,11 @@
             </div>
 
             <!-- Dividers between each list, one for desktop layout, one for mobile -->
-            <PhCaretRight class="hidden lg:block size-24 m-4 mt-16 self-center"></PhCaretRight>
+            <PhCaretRight class="hidden lg:block min-w-[4%] max-w-[4%] size-12 m-2 mt-16 self-center"></PhCaretRight>
             <PhCaretDown class="lg:hidden size-7 my-2 w-full"></PhCaretDown>
 
             <!-- Commit button -->
-            <button class="self-center py-1 px-3 lg:mt-12 w-fit h-fit rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="makeCommit">
+            <button class="lg:max-w-[15%] self-center py-1 px-3 lg:mt-12 w-fit h-fit rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="makeCommit">
                 <div class="flex items-center justify-center">
                     <PhCheck class="mr-2 size-5 text-green-600"></PhCheck>
                     Commit
