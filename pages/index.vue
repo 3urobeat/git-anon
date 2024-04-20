@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 16:27:29
+ * Last Modified: 2024-04-20 20:40:27
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -72,23 +72,23 @@
                             <input
                                 v-if="thisDetail.type == DetailType.TIMESTAMP"
                                 type="datetime-local"
-                                class="flex text-nowrap rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
+                                class="text-nowrap rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                 v-model.trim="thisDetail.value"
                             >
                             <div class="flex gap-1" v-if="thisDetail.type == DetailType.LINE_DIFF">
-                                <div class="flex rounded-sm px-1 bg-bg-input-light dark:bg-bg-input-dark">
+                                <div class="flex w-full rounded-sm px-1 bg-bg-input-light dark:bg-bg-input-dark">
                                     <p class="text-nowrap">++</p>
                                     <input
                                         type="number"
-                                        class="flex ml-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
+                                        class="ml-1 w-full rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                         v-model.trim="thisDetail.lineDiffPlus"
                                     >
                                 </div>
-                                <div class="flex rounded-sm px-1 bg-bg-input-light dark:bg-bg-input-dark">
+                                <div class="flex w-full rounded-sm px-1 bg-bg-input-light dark:bg-bg-input-dark">
                                     <p class="text-nowrap">--</p>
                                     <input
                                         type="number"
-                                        class="ml-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
+                                        class="ml-1 w-full rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                         v-model.trim="thisDetail.lineDiffMinus"
                                     >
                                 </div>
@@ -120,14 +120,14 @@
             <span class="lg:flex lg:mx-1 font-medium text-nowrap line-clamp-1">History for '{{ selectedProject.name }}'</span>
 
             <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-            <ul id="history-list" class="flex overflow-auto lg:h-32 min-h-8 max-h-32 mt-1 rounded-sm outline outline-border-primary-light dark:outline-border-primary-dark outline-2"> <!-- Fixed size on desktop -->
+            <ul id="history-list" class="flex overflow-y-auto overflow-x-clip lg:h-32 min-h-8 max-h-32 mt-1 rounded-sm outline outline-border-primary-light dark:outline-border-primary-dark outline-2"> <!-- Fixed size on desktop -->
 
                 <!-- Get text into the list with some space all around -->
-                <div class="mx-3 my-1.5 w-full">
-                    <span class="flex gap-x-1 text-sm cursor-pointer opacity-60 hover:opacity-80 hover:transition-all" v-if="selectedHistory" v-for="thisCommit in selectedHistory.commits" :key="thisCommit.timestamp" @click="showCommitDetails(thisCommit.hash, thisCommit.timestamp)">
-                        <span class="text-nowrap">{{ thisCommit.message }}</span>                                                          <!-- Commit fields, left aligned -->
-                        <span class="text-nowrap tabular-nums content-end text-right w-full">{{ formatTime(thisCommit.timestamp) }}</span> <!-- Formatted timestamp, right aligned and monospaced -->
-                    </span>
+                <div class="px-3 my-1.5 w-full">
+                    <div class="flex gap-x-1 text-sm cursor-pointer opacity-60 hover:opacity-80 hover:transition-all" v-if="selectedHistory" v-for="thisCommit in selectedHistory.commits" :key="thisCommit.timestamp" @click="showCommitDetails(thisCommit.hash, thisCommit.timestamp)">
+                        <span class="w-full text-left text-nowrap line-clamp-1">{{ thisCommit.message }}</span>                                                          <!-- Commit fields, left aligned -->
+                        <span class="w-full text-nowrap tabular-nums content-end text-right">{{ formatTime(thisCommit.timestamp) }}</span> <!-- Formatted timestamp, right aligned and monospaced -->
+                    </div>
                     <span v-if="!selectedHistory">Loading...</span>
                 </div>
 
@@ -143,7 +143,7 @@
                 </div>
 
                 <!-- Description -->
-                <div class="flex flex-col lg:gap-y-0.5 gap-y-1.5 h-full text-start overflow-auto"> <!-- overflow-auto shows scrollbar only when necessary -->
+                <div class="flex flex-col lg:gap-y-0.5 gap-y-1.5 h-full text-start overflow-y-auto"> <!-- overflow-auto shows scrollbar only when necessary -->
                     <div class="flex lg:flex-row flex-col text-nowrap">
                         <span class="w-36">Project:</span>
                         <span class="w-fit opacity-60 px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">{{ selectedProject.name }}</span>
