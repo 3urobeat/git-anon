@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-14 19:36:25
+ * Last Modified: 2024-04-20 16:27:29
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -30,11 +30,11 @@
                 <span class="lg:flex lg:mx-1 font-medium">Projects</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="projects-list" class="flex overflow-auto lg:h-full min-h-8 max-h-64 rounded-sm mt-1 outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
+                <ul id="projects-list" class="flex overflow-auto lg:h-full min-h-8 max-h-64 rounded-sm mt-1 outline outline-border-primary-light dark:outline-border-primary-dark outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
                     <div class="mx-2">
-                        <button class="flex my-2.5 w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" v-for="thisProject in storedProjects" :key="thisProject.name" @click="selectProject(thisProject)">
+                        <button class="flex my-2.5 w-full rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" v-for="thisProject in storedProjects" :key="thisProject.name" @click="selectProject(thisProject)">
                             <div class="relative">
                                 <span class="absolute text-lg font-bold -mt-1 ml-1 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
                             </div>
@@ -54,7 +54,7 @@
                 <span class="lg:flex lg:mx-1 font-medium">Details</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="details-list" class="flex overflow-auto lg:h-full min-h-8 max-h-64 mt-1 rounded-sm outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
+                <ul id="details-list" class="flex overflow-auto lg:h-full min-h-8 max-h-64 mt-1 rounded-sm outline outline-border-primary-light dark:outline-border-primary-dark outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2.5 pb-1">
@@ -65,30 +65,30 @@
                             <input
                                 v-if="thisDetail.type == DetailType.TEXT"
                                 type="text"
-                                class="rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                class="rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                 v-model.trim="thisDetail.value"
                                 :placeholder="'Update project ' + selectedProject.name"
                             >
                             <input
                                 v-if="thisDetail.type == DetailType.TIMESTAMP"
                                 type="datetime-local"
-                                class="flex text-nowrap rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                class="flex text-nowrap rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                 v-model.trim="thisDetail.value"
                             >
                             <div class="flex gap-1" v-if="thisDetail.type == DetailType.LINE_DIFF">
-                                <div class="flex rounded-sm px-1 bg-gray-100">
+                                <div class="flex rounded-sm px-1 bg-bg-input-light dark:bg-bg-input-dark">
                                     <p class="text-nowrap">++</p>
                                     <input
                                         type="number"
-                                        class="flex ml-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                        class="flex ml-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                         v-model.trim="thisDetail.lineDiffPlus"
                                     >
                                 </div>
-                                <div class="flex rounded-sm px-1 bg-gray-100">
+                                <div class="flex rounded-sm px-1 bg-bg-input-light dark:bg-bg-input-dark">
                                     <p class="text-nowrap">--</p>
                                     <input
                                         type="number"
-                                        class="ml-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                        class="ml-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                         v-model.trim="thisDetail.lineDiffMinus"
                                     >
                                 </div>
@@ -105,7 +105,7 @@
             <PhCaretDown class="lg:hidden size-7 my-2 w-full"></PhCaretDown>
 
             <!-- Commit button -->
-            <button class="self-center py-1 px-3 lg:mt-12 w-fit h-fit rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="makeCommit">
+            <button class="self-center py-1 px-3 lg:mt-12 w-fit h-fit rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="makeCommit">
                 <div class="flex items-center justify-center">
                     <PhCheck class="mr-2 size-5 text-green-600"></PhCheck>
                     Commit
@@ -120,7 +120,7 @@
             <span class="lg:flex lg:mx-1 font-medium text-nowrap line-clamp-1">History for '{{ selectedProject.name }}'</span>
 
             <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-            <ul id="history-list" class="flex overflow-auto lg:h-32 min-h-8 max-h-32 mt-1 rounded-sm outline outline-black outline-2"> <!-- Fixed size on desktop -->
+            <ul id="history-list" class="flex overflow-auto lg:h-32 min-h-8 max-h-32 mt-1 rounded-sm outline outline-border-primary-light dark:outline-border-primary-dark outline-2"> <!-- Fixed size on desktop -->
 
                 <!-- Get text into the list with some space all around -->
                 <div class="mx-3 my-1.5 w-full">
@@ -135,8 +135,8 @@
         </div>
 
         <!-- History commit details popup -->
-        <div class="absolute flex items-center justify-center inset-0 rounded-sm bg-slate-200 bg-opacity-30" v-if="historyPopupContent != null" @click="historyPopupContent = null">
-            <div class="flex flex-col lg:w-1/2 w-5/6 lg:h-2/3 h-2/3 py-4 px-5 gap-3 bg-white outline outline-black outline-2 rounded-sm shadow-black shadow-2xl" @click.stop="">
+        <div class="absolute flex items-center justify-center inset-0 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark bg-opacity-30 dark:bg-opacity-30" v-if="historyPopupContent != null" @click="historyPopupContent = null">
+            <div class="flex flex-col lg:w-1/2 w-5/6 lg:h-2/3 h-2/3 py-4 px-5 gap-3 bg-bg-light dark:bg-bg-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 rounded-sm shadow-black shadow-2xl" @click.stop="">
                 <!-- Title -->
                 <div class="flex h-fit font-bold text-xl">
                     Commit Details
@@ -146,25 +146,25 @@
                 <div class="flex flex-col lg:gap-y-0.5 gap-y-1.5 h-full text-start overflow-auto"> <!-- overflow-auto shows scrollbar only when necessary -->
                     <div class="flex lg:flex-row flex-col text-nowrap">
                         <span class="w-36">Project:</span>
-                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ selectedProject.name }}</span>
+                        <span class="w-fit opacity-60 px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">{{ selectedProject.name }}</span>
                     </div>
                     <div class="flex lg:flex-row flex-col text-nowrap">
                         <span class="w-36">Committed on:</span>
-                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200">{{ formatTime(historyPopupContent.timestamp, true) }}</span>
+                        <span class="w-fit opacity-60 px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">{{ formatTime(historyPopupContent.timestamp, true) }}</span>
                     </div>
                     <div class="flex lg:flex-row flex-col text-nowrap">
                         <span class="w-36">Commit Details:</span>
-                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200 whitespace-pre-wrap">{{ historyPopupContent.gitShow }}</span>
+                        <span class="w-fit opacity-60 px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark whitespace-pre-wrap">{{ historyPopupContent.gitShow }}</span>
                     </div>
                     <div class="flex lg:flex-row flex-col text-nowrap">
                         <span class="w-36">Commit Signature:</span>
-                        <span class="w-fit opacity-60 px-1 rounded-sm bg-slate-200 whitespace-pre-wrap">{{ historyPopupContent.gitVerifyCommit }}</span>
+                        <span class="w-fit opacity-60 px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark whitespace-pre-wrap">{{ historyPopupContent.gitVerifyCommit }}</span>
                     </div>
                 </div>
 
                 <!-- Close button -->
                 <div class="flex w-full pb-1 justify-end">
-                    <button class="flex py-1 px-3 w-fit h-fit items-center justify-center rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="historyPopupContent = null">
+                    <button class="flex py-1 px-3 w-fit h-fit items-center justify-center rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="historyPopupContent = null">
                         <PhX class="mr-2 size-5 text-red-500"></PhX>
                         Close
                     </button>

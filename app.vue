@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 14:12:49
+ * Last Modified: 2024-04-20 17:41:33
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -19,22 +19,22 @@
 
 <template>
     <!-- Title bar -->
-    <PhList :class="!showNavbar ? 'block' : 'opacity-0'" class="fixed z-30 cursor-pointer left-3 top-2 lg:hidden block transition-opacity" size="25px" @click="showNavbar = !showNavbar"></PhList>
+    <PhList :class="!showNavbar ? 'block' : 'opacity-0'" class="fixed z-30 cursor-pointer left-3 top-2 dark:text-text-dark lg:hidden block transition-opacity" size="25px" @click="showNavbar = !showNavbar"></PhList>
 
     <header
         id="titlebar"
-        :class="showNavbar ? 'bg-slate-100 lg:bg-white border-opacity-30 lg:border-opacity-100' : ''"
-        class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0 transition-colors duration-500"
+        :class="showNavbar ? 'opacity-30 dark:opacity-100 dark:text-text-dark dark:bg-[#5d5f5f] lg:bg-white lg:opacity-100' : ''"
+        class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-bg-light dark:bg-bg-dark dark:text-text-dark border-y-2 border-y-border-primary-light dark:border-y-border-primary-dark border-t-0 transition-[opacity,colors] duration-500"
     >                                                                                                                                                 <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open. The opacities are applied seperately here to avoid page elements fading through -->
         <!-- Title -->
-        <div :class="showNavbar ? 'opacity-30 lg:opacity-100' : ''" class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold transition-opacity duration-500">
+        <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold transition-opacity duration-500">
             <PhDetective class="mr-2 size-5"></PhDetective>
             Git Anonymous
         </div>
 
         <!-- Light/Dark Mode toggle -->
         <div class="fixed w-full pr-3 top-1.5 text-center select-none flex items-center justify-end font-semibold">
-            <button class="rounded-sm bg-gray-100 outline outline-gray-200 outline-2 hover:bg-gray-200 hover:transition-all" @click="setDarkMode(!darkModeEnabled)">
+            <button :class="showNavbar ? 'dark:opacity-30' : ''" class="rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="setDarkMode(!darkModeEnabled)">
                 <PhMoon :class="darkModeEnabled ? 'opacity-100' : 'opacity-0'" class="fixed size-7 p-0.5 transition-opacity"></PhMoon>
                 <PhSun :class="darkModeEnabled ? 'opacity-0' : 'opacity-100'" class="size-7 p-0.5 transition-opacity"></PhSun>
             </button>
@@ -48,27 +48,27 @@
         <!-- Left navigation bar which offsets everything else to the right on desktop and overlays everything on mobile -->
         <nav
             id="navbar"
-            :class="showNavbar ? 'absolute backdrop-blur-sm bg-white/50 lg:bg-white' : 'absolute invisible lg:visible w-0 min-w-0 opacity-0'"
-            class="z-40 top-0 left-0 h-screen lg:w-1/6 w-1/2 max-w-60 min-w-48 lg:relative lg:block lg:opacity-100 bg-white border-x-2 border-x-gray-500 border-l-0 select-none duration-500 transition-all"
+            :class="showNavbar ? 'absolute backdrop-blur-sm bg-bg-light/50 dark:bg-bg-dark/50 lg:bg-white' : 'absolute invisible lg:visible w-0 min-w-0 opacity-0'"
+            class="z-40 top-0 left-0 h-screen lg:w-1/6 w-1/2 max-w-60 min-w-48 lg:relative lg:block lg:opacity-100 bg-bg-light dark:bg-bg-dark dark:text-text-dark border-x-2 border-x-border-primary-light dark:border-x-border-primary-dark border-l-0 select-none duration-500 transition-all"
         >
             <PhCaretLeft :class="showNavbar ? 'block' : 'opacity-0'" class="relative z-30 cursor-pointer left-3 top-2 mb-5 lg:hidden block transition-all" size="25px" @click="showNavbar = !showNavbar"></PhCaretLeft>
 
             <div class="px-5 lg:px-7">   <!-- px-10 gives every element in this div space on the sides -->
                 <div class="my-3"></div> <!-- Add some space above everything-->
-                <NuxtLink to="/" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all">
+                <NuxtLink to="/" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all">
                     <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="route.name === 'index'">|</span>
                     <div class="flex items-center justify-center w-full">
                         <PhHouse class="mr-2"></PhHouse> Home
                     </div>
                 </NuxtLink>
-                <div class="my-2 w-full h-0.5 bg-gray-500 opacity-50"></div> <!-- Divider to give Home more presence -->
-                <NuxtLink to="/projects" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all">
+                <div class="my-2 w-full h-0.5 bg-border-secondary-light dark:bg-border-secondary-dark opacity-50"></div> <!-- Divider to give Home more presence -->
+                <NuxtLink to="/projects" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all">
                     <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="route.name === 'projects'">|</span>
                     <div class="flex items-center justify-center w-full">
                         <PhGitFork class="mr-2"></PhGitFork> Projects
                     </div>
                 </NuxtLink>
-                <NuxtLink to="/settings" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-gray-200 hover:transition-all">
+                <NuxtLink to="/settings" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all">
                     <span class="absolute mb-1 text-xl font-bold text-green-600" v-show="route.name === 'settings'">|</span>
                     <div class="flex items-center justify-center w-full">
                         <PhGear class="mr-2"></PhGear> Settings
@@ -99,7 +99,7 @@
         </nav>
 
         <!-- The main content itself, pushed to the side by the navbar -->
-        <main :class="showNavbar ? 'bg-slate-200 opacity-30 lg:bg-white lg:opacity-100' : ''" class="z-10 w-screen h-screen px-5 pt-3 bg-white transition-opacity duration-500" @click="showNavbar = false"> <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open -->
+        <main :class="showNavbar ? 'opacity-30 dark:opacity-70 lg:bg-white lg:opacity-100' : ''" class="z-10 w-screen h-screen px-5 pt-3 bg-bg-light dark:bg-bg-dark dark:text-text-dark transition-[opacity,colors] duration-500" @click="showNavbar = false"> <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open -->
             <div :class="showNavbar ? 'absolute w-screen h-screen opacity-0' : ''"></div> <!-- Dummy to prevent NuxtPage button presses when the navbar is open -->
             <NuxtPage></NuxtPage>                                                         <!-- Links to index.vue -->
         </main>
@@ -125,7 +125,7 @@
     onMounted(() => {
 
         // Enable dark mode if user had it enabled on the last visit (yeah, it is a string)
-        if (localStorage.darkModeEnabled == "true") darkModeEnabled.value = true;
+        if (localStorage.darkModeEnabled == "true") setDarkMode(true);
 
     });
 
@@ -138,6 +138,13 @@
 
         // Save to localstorage so that it will be saved when reloading the page
         localStorage.darkModeEnabled = enable;
+
+        // Tell tailwind to get crackin
+        if (enable) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
     }
 
 

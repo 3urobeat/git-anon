@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-17 22:05:11
+ * Last Modified: 2024-04-20 16:26:25
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -23,7 +23,7 @@
 
         <!-- Save button -->
         <div class="flex justify-end items-center">
-            <button class="flex items-center justify-center py-1 px-3 rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="saveChanges">
+            <button class="flex items-center justify-center py-1 px-3 rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="saveChanges">
                 <PhCheck class="mr-2 size-5 text-green-600"></PhCheck>
                 Save
             </button>
@@ -54,7 +54,7 @@
                     <p class="w-44">Name:</p>
                     <input
                         type="text"
-                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                         v-model.trim=guidedOptionsInputs.name
                         @focusout="processGuidedGitConfig()"
                     >
@@ -63,7 +63,7 @@
                     <p class="w-44">Email:</p>
                     <input
                         type="text"
-                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                         v-model.trim=guidedOptionsInputs.email
                         @focusout="processGuidedGitConfig()"
                     >
@@ -82,7 +82,7 @@
                     <p class="w-44 text-nowrap">Signing Key:</p>
                     <input
                         type="text"
-                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                         v-model.trim=guidedOptionsInputs.gpgKey
                         @focusout="processGuidedGitConfig()"
                     >
@@ -101,7 +101,7 @@
                     <p class="w-44">Remote URL:</p>
                     <input
                         type="text"
-                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                         v-model.trim=guidedOptionsInputs.remoteUrl
                         @focusout="processGuidedGitConfig()"
                     >
@@ -111,7 +111,7 @@
                     <p class="ml-1 font-normal">
                         Only GitHub is currently supported, unless your service uses the same authentication style:
                         <br>
-                        <span class="w-fit px-1 rounded-sm bg-slate-200">https://username:password@domain.tld/path/to/repo.git</span>
+                        <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">https://username:password@domain.tld/path/to/repo.git</span>
                     </p>
                 </div>
 
@@ -119,7 +119,7 @@
                     <p class="w-44">Username:</p>
                     <input
                         type="text"
-                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                         v-model.trim=guidedOptionsInputs.username
                         @focusout="processGuidedGitConfig()"
                     >
@@ -129,7 +129,7 @@
                     <p class="w-44 text-nowrap">Password/Access Token:</p>
                     <input
                         type="text"
-                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                         v-model.trim=guidedOptionsInputs.password
                         @focusout="processGuidedGitConfig()"
                     >
@@ -137,7 +137,7 @@
                 <div class="lg:ml-6 my-0.5 opacity-60 text-sm">
                     Generate your access token <a class="underline hover:text-gray-500 rounded-lg" href="https://github.com/settings/personal-access-tokens/new" target="_blank">here</a>.
                     <br>
-                    Increase the expiration, select your repository and grant <span class="w-fit px-1 rounded-sm bg-slate-200">Read and Write</span> for the <span class="w-fit px-1 rounded-sm bg-slate-200">Contents</span> permission.
+                    Increase the expiration, select your repository and grant <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">Read and Write</span> for the <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">Contents</span> permission.
                 </div>
 
             </div>
@@ -150,7 +150,7 @@
 
                 <div class="lg:flex gap-2">
                     <textarea
-                        class="lg:w-2/4 w-full h-80 opacity-60 px-1 bg-slate-200 rounded-sm outline outline-black outline-2"
+                        class="lg:w-2/4 w-full h-80 opacity-60 px-1 bg-bg-embed-light dark:bg-bg-embed-dark rounded-sm outline outline-border-primary-light dark:outline-border-primary-dark outline-2"
                         v-model="settings.gitConfig"
                         @focusout="processRawGitConfig()"
                     >
@@ -159,20 +159,20 @@
                     <div class="opacity-60 text-sm">
                         <span class="font-semibold">Information:</span><br>
                         <br>
-                        This textarea contains the raw <span class="w-fit px-1 rounded-sm bg-slate-200">config</span> file, placed inside the <span class="w-fit px-1 rounded-sm bg-slate-200">.git</span> folder of the repository.<br>
+                        This textarea contains the raw <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">config</span> file, placed inside the <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">.git</span> folder of the repository.<br>
                         <br>
-                        Set the name and email to use for committing at 'name' & 'email' in the <span class="w-fit px-1 rounded-sm bg-slate-200">user</span> section.<br>
+                        Set the name and email to use for committing at 'name' & 'email' in the <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">user</span> section.<br>
                         <br>
                         The key at 'signingkey' specifies the gpg key to use when commit.gpgsign is set to 'true'.<br>
                         You can leave the field empty if 'gpgsign' is disabled.<br>
                         <br>
                         When 'Push commits to remote' is enabled, you need to specify the remote repository URL and credentials.<br>
-                        GitHub expects this format: <span class="w-fit px-1 rounded-sm bg-slate-200">https://username:password@github.com/user/repo.git</span><br>
+                        GitHub expects this format: <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">https://username:password@github.com/user/repo.git</span><br>
                         <br>
                         You can generate an access token, which you have to provide as the password in the URL, <a class="underline hover:text-gray-500 rounded-lg" href="https://github.com/settings/personal-access-tokens/new" target="_blank">here</a>.<br>
-                        Increase the expiration, select your repository and grant <span class="w-fit px-1 rounded-sm bg-slate-200">Read and Write</span> for the <span class="w-fit px-1 rounded-sm bg-slate-200">Contents</span> permission.<br>
+                        Increase the expiration, select your repository and grant <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">Read and Write</span> for the <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">Contents</span> permission.<br>
                         <br>
-                        Do not modify the sections <span class="w-fit px-1 rounded-sm bg-slate-200">core</span>, <span class="w-fit px-1 rounded-sm bg-slate-200">gpg</span> & <span class="w-fit px-1 rounded-sm bg-slate-200">branch "master"</span>.
+                        Do not modify the sections <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">core</span>, <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">gpg</span> & <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">branch "master"</span>.
                     </div>
                 </div>
 

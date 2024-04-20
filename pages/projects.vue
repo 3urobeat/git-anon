@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-06 15:05:26
+ * Last Modified: 2024-04-20 16:21:31
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -23,7 +23,7 @@
 
         <!-- Save button -->
         <div class="flex justify-end items-center">
-            <button class="flex items-center justify-center py-1 px-3 rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="saveChanges">
+            <button class="flex items-center justify-center py-1 px-3 rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="saveChanges">
                 <PhCheck class="mr-2 size-5 text-green-600"></PhCheck>
                 Save
             </button>
@@ -38,26 +38,26 @@
                 <span class="lg:flex lg:mx-1 font-medium">Projects</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="projects-list" class="flex overflow-auto lg:h-full min-h-8 max-h-96 rounded-sm mt-1 outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
+                <ul id="projects-list" class="flex overflow-auto lg:h-full min-h-8 max-h-96 rounded-sm mt-1 outline outline-border-primary-light dark:outline-border-primary-dark outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2">
                         <div class="flex my-2.5 w-full" v-for="thisProject in storedProjects"> <!-- :key="thisProject.name" -->
 
                             <!-- Project select & name edit button -->
-                            <button class="flex w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all" @click="selectedProject = thisProject">
+                            <button class="flex w-full rounded-sm outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="selectedProject = thisProject">
                                 <div class="relative">
                                     <span class="absolute text-lg font-bold -mt-1 ml-1 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
                                 </div>
                                 <input
                                     type="text"
-                                    class="rounded-sm w-full px-1 mx-4 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                    class="rounded-sm w-full px-1 mx-4 bg-bg-input-light dark:bg-bg-input-dark hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:transition-all"
                                     v-model.trim=thisProject.name
                                 >
                             </button>
 
                             <!-- Delete button -->
-                            <button class="flex ml-2 justify-end m-0.5 rounded-sm bg-gray-200 hover:bg-gray-300 hover:transition-all" @click="deleteProject(thisProject.name)">
+                            <button class="flex ml-2 justify-end m-0.5 rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="deleteProject(thisProject.name)">
                                 <PhX class="size-5 text-red-500"></PhX>
                             </button>
 
@@ -66,7 +66,7 @@
 
                 </ul>
 
-                <button class="flex items-center justify-center mt-2 ml-1 py-1 px-3 text-nowrap rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="addProject">
+                <button class="flex items-center justify-center mt-2 ml-1 py-1 px-3 text-nowrap rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="addProject">
                     <PhPlus class="mr-2 size-5 text-green-600"></PhPlus>
                     Add Project
                 </button>
@@ -81,24 +81,24 @@
                 <span class="lg:flex lg:mx-1 font-medium">Details</span>
 
                 <!-- Give list with outline some reasonable min and max sizes for mobile and desktop -->
-                <ul id="details-list" class="flex overflow-auto lg:h-full min-h-8 max-h-96 mt-1 rounded-sm outline outline-black outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
+                <ul id="details-list" class="flex overflow-auto lg:h-full min-h-8 max-h-96 mt-1 rounded-sm outline outline-border-primary-light dark:outline-border-primary-dark outline-2"> <!-- overflow-auto shows scrollbar only when necessary -->
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2.5">
                         <li class="flex w-full clearfix my-2" v-for="thisDetail in selectedProject.details"> <!-- :key="thisDetail.name" -->
 
                             <!-- Bind input with v-model to value prop of the corresponding detail -->
-                            <div class="flex w-full rounded-sm bg-gray-100 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all">
+                            <div class="flex w-full rounded-sm outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all">
                                 <input
                                     type="text"
-                                    class="rounded-sm w-full px-1 mx-4 outline outline-gray-400 outline-2 hover:bg-gray-200 hover:transition-all"
+                                    class="rounded-sm w-full px-1 mx-4 outline bg-bg-input-light dark:bg-bg-input-dark outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                     v-model.trim=thisDetail.name
                                     :disabled=thisDetail.locked
                                 >
                             </div>
 
                             <!-- Delete button -->
-                            <button class="ml-2 m-0.5 rounded-sm bg-gray-200 hover:bg-gray-300 hover:transition-all" @click="deleteDetail(thisDetail.name)" v-if="!['Commit Message', 'Timestamp'].includes(thisDetail.name)">
+                            <button class="ml-2 m-0.5 rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="deleteDetail(thisDetail.name)" v-if="!['Commit Message', 'Timestamp'].includes(thisDetail.name)">
                                 <PhX class="size-5 text-red-500"></PhX>
                             </button>
 
@@ -109,7 +109,7 @@
 
                 </ul>
 
-                <button class="flex items-center justify-center mt-2 ml-1 py-1 px-3 text-nowrap rounded-sm bg-gray-100 outline outline-black outline-2 hover:bg-gray-200 hover:transition-all" @click="addFile">
+                <button class="flex items-center justify-center mt-2 ml-1 py-1 px-3 text-nowrap rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="addFile">
                     <PhPlus class="mr-2 size-5 text-green-600"></PhPlus>
                     Add File
                 </button>

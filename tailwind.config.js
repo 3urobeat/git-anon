@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 14:31:06
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-26 21:32:01
+ * Last Modified: 2024-04-20 16:25:23
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -20,8 +20,40 @@ module.exports = {
     content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
     theme: {
         extend: {
-            colors: {}
+            colors: {
+                bg: {
+                    light: "#FFFFFF",
+                    dark: "#181a1b",
+                    input: {
+                        hover: {
+                            light: "#e5e7eb",
+                            dark: "#25282a"
+                        },
+                        light: "#f3f4f6",
+                        dark: "#1e2022"
+                    },
+                    embed: {
+                        light: "#e2e8f0",
+                        dark: "#242729",
+                    }
+                },
+                text: {
+                    light: "#000000",
+                    dark: "#e8e6e3"
+                },
+                border: {
+                    primary: {
+                        light: "#000000",
+                        dark: "#8c8273"
+                    },
+                    secondary: {
+                        light: "#9ca3af",
+                        dark: "#565d5f"
+                    }
+                }
+            }
         },
     },
     plugins: [],
+    darkMode: "selector"
 };
