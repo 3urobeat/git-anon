@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-03-30 14:31:28
+ * Last Modified: 2024-04-20 14:12:49
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -26,9 +26,18 @@
         :class="showNavbar ? 'bg-slate-100 lg:bg-white border-opacity-30 lg:border-opacity-100' : ''"
         class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-white border-y-2 border-y-gray-500 border-t-0 transition-colors duration-500"
     >                                                                                                                                                 <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open. The opacities are applied seperately here to avoid page elements fading through -->
+        <!-- Title -->
         <div :class="showNavbar ? 'opacity-30 lg:opacity-100' : ''" class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold transition-opacity duration-500">
             <PhDetective class="mr-2 size-5"></PhDetective>
             Git Anonymous
+        </div>
+
+        <!-- Light/Dark Mode toggle -->
+        <div class="fixed w-full pr-3 top-1.5 text-center select-none flex items-center justify-end font-semibold">
+            <button class="rounded-sm bg-gray-100 outline outline-gray-200 outline-2 hover:bg-gray-200 hover:transition-all" @click="setDarkMode(!darkModeEnabled)">
+                <PhMoon :class="darkModeEnabled ? 'opacity-100' : 'opacity-0'" class="fixed size-7 p-0.5 transition-opacity"></PhMoon>
+                <PhSun :class="darkModeEnabled ? 'opacity-0' : 'opacity-100'" class="size-7 p-0.5 transition-opacity"></PhSun>
+            </button>
         </div>
     </header>
 
@@ -101,12 +110,35 @@
 
 
 <script setup lang="ts">
-    import { PhList, PhCaretLeft, PhDetective, PhHouse, PhGitFork, PhGear } from "@phosphor-icons/vue";
+    import { PhList, PhCaretLeft, PhDetective, PhMoon, PhSun, PhHouse, PhGitFork, PhGear } from "@phosphor-icons/vue";
     import packagejson from "./package.json";
 
     const route = useRoute();
 
-    const showNavbar = ref(false);
+
+    // Refs
+    const showNavbar      = ref(false);
+    const darkModeEnabled = ref(false);
+
+
+    // Executed on page load
+    onMounted(() => {
+
+        // Enable dark mode if user had it enabled on the last visit (yeah, it is a string)
+        if (localStorage.darkModeEnabled == "true") darkModeEnabled.value = true;
+
+    });
+
+
+    // Enables or disables dark mode
+    function setDarkMode(enable: boolean) {
+        console.log("setDarkMode: Set to " + enable);
+
+        darkModeEnabled.value = enable;
+
+        // Save to localstorage so that it will be saved when reloading the page
+        localStorage.darkModeEnabled = enable;
+    }
 
 
     // Specify page information
