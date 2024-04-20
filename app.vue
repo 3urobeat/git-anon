@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 23:08:34
+ * Last Modified: 2024-04-21 00:16:49
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -154,10 +154,13 @@
 
     // Specify page information
     useSeoMeta({
-        title: "Git Anon",
-        ogTitle: "Git Anon",
+        title: "Git Anonymous",
+        ogTitle: "Git Anonymous",
         description: "Track personal commit statistics without sharing company code",
-        ogDescription: "Track personal commit statistics without sharing company code",
-        //ogImage: ""
+        ogDescription: "Track personal commit statistics without sharing company code"
+    });
+
+    useHead({
+        link: [{ rel: "icon", type: "image/png", href: "favicon.png" }]
     });
 </script>
