@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 19:56:05
+ * Last Modified: 2024-04-20 20:03:50
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -48,7 +48,7 @@
         <!-- Left navigation bar which offsets everything else to the right on desktop and overlays everything on mobile -->
         <nav
             id="navbar"
-            :class="showNavbar ? 'fixed backdrop-blur-sm bg-bg-light/50 dark:bg-bg-dark/50 lg:bg-bg-light lg:dark:bg-bg-dark' : 'fixed invisible lg:visible w-0 min-w-0 opacity-0'"
+            :class="showNavbar ? 'fixed backdrop-blur-sm bg-bg-light/5 dark:bg-bg-dark/50 lg:bg-bg-light lg:dark:bg-bg-dark' : 'fixed invisible lg:visible w-0 min-w-0 opacity-0'"
             class="z-40 top-0 left-0 min-h-screen w-48 min-w-48 lg:relative lg:block lg:opacity-100 bg-bg-light dark:bg-bg-dark dark:text-text-dark border-x-2 border-x-border-primary-light dark:border-x-border-primary-dark border-l-0 select-none duration-500 transition-all"
         >
             <PhCaretLeft :class="showNavbar ? 'block' : 'opacity-0'" class="relative z-30 cursor-pointer left-3 top-2 mb-5 lg:hidden block transition-all" size="25px" @click="showNavbar = !showNavbar"></PhCaretLeft>
@@ -77,7 +77,7 @@
             </div>
 
             <!-- Footer for project details -->
-            <footer class="fixed text-nowrap bottom-0 left-0 h-fit pb-2 px-2">
+            <footer class="fixed text-nowrap bottom-0 left-0 h-fit pb-2 px-1.5">
                 <div class="flex flex-col text-xs lg:text-sm opacity-50">
                     git-anon v{{ packagejson.version }}
 

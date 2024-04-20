@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 16:26:25
+ * Last Modified: 2024-04-20 20:05:28
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -190,7 +190,7 @@
     </div>
 
 
-    <div class="lg:mx-12 opacity-60">
+    <div class="lg:mx-12 opacity-60 mb-5">
         Need more info? Read the README again <a class="underline hover:text-gray-500 rounded-lg" href="https://github.com/3urobeat/git-anon#readme" target="_blank">here</a>.
     </div>
 </template>
