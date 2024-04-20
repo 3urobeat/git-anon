@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 18:16:28
+ * Last Modified: 2024-04-20 19:10:55
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -24,7 +24,7 @@
     <header
         id="titlebar"
         :class="showNavbar ? 'opacity-30 dark:opacity-100 dark:text-text-dark dark:bg-[#5d5f5f] lg:bg-bg-light lg:dark:bg-bg-dark lg:opacity-100 lg:dark:opacity-100' : 'dark:bg-bg-dark'"
-        class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-bg-light dark:text-text-dark border-y-2 border-y-border-primary-light dark:border-y-border-primary-dark border-t-0 transition-[opacity,colors] duration-500"
+        class="fixed z-20 top-0 left-0 w-screen h-fit mb-5 pb-1.5 bg-bg-light dark:text-text-dark border-y-2 border-y-border-primary-light dark:border-y-border-primary-dark border-t-0 transition-all duration-500"
     >                                                                                                                                                 <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open. The opacities are applied seperately here to avoid page elements fading through -->
         <!-- Title -->
         <div class="pt-2 w-full text-center select-none flex items-center justify-center font-semibold transition-opacity duration-500">
@@ -99,7 +99,7 @@
         </nav>
 
         <!-- The main content itself, pushed to the side by the navbar -->
-        <main :class="showNavbar ? 'opacity-30 dark:opacity-70 lg:bg-bg-light lg:dark:bg-bg-dark lg:opacity-100 lg:dark:opacity-100' : ''" class="z-10 w-screen h-screen px-5 pt-3 bg-bg-light dark:bg-bg-dark dark:text-text-dark transition-[opacity,colors] duration-500" @click="showNavbar = false"> <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open -->
+        <main :class="showNavbar ? 'opacity-30 dark:opacity-70 lg:bg-bg-light lg:dark:bg-bg-dark lg:opacity-100 lg:dark:opacity-100' : ''" class="z-10 w-screen h-screen px-5 pt-3 bg-bg-light dark:bg-bg-dark dark:text-text-dark transition-all duration-500" @click="showNavbar = false"> <!-- The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open -->
             <div :class="showNavbar ? 'absolute w-screen h-screen opacity-0 lg:w-0 lg:h-0' : ''"></div> <!-- Dummy to prevent NuxtPage button presses when the navbar is open -->
             <NuxtPage></NuxtPage>                                                         <!-- Links to index.vue -->
         </main>
