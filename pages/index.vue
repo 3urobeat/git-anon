@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 23:06:40
+ * Last Modified: 2024-04-21 18:39:32
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -340,19 +340,42 @@
         });
 
 
-        // Reset fields on success and force refresh history
+        // Indicate result, reset fields on success and force refresh history
+        console.log(success.data.value)
+
         if (success.data.value) {
+
+            // Indicate success
+            document.getElementById("color-border")?.classList.remove("border-transparent");
+            document.getElementById("color-border")?.classList.add("border-green-500");
+
+            setTimeout(() => {
+                document.getElementById("color-border")?.classList.remove("border-green-500");
+                document.getElementById("color-border")?.classList.add("border-transparent");
+            }, 750);
+
+            // Reset fields
             selectedProject.value.details.forEach((detail) => {
                 detail.value = "";
                 if (detail.lineDiffPlus) detail.lineDiffPlus = undefined;
                 if (detail.lineDiffMinus) detail.lineDiffMinus = undefined;
             });
 
+            // Refresh history
             setTimeout(() => {
                 selectProject(selectedProject.value, true);
             }, 1000); // TODO: Not really great if the backend takes longer
 
         } else {
+
+            // Indicate failure
+            document.getElementById("color-border")?.classList.remove("border-transparent");
+            document.getElementById("color-border")?.classList.add("border-red-500");
+
+            setTimeout(() => {
+                document.getElementById("color-border")?.classList.remove("border-red-500");
+                document.getElementById("color-border")?.classList.add("border-transparent");
+            }, 750);
 
             // Restore time input field - Change to ISO format and remove seconds, milliseconds and "Z" from the end for the browser to understand what is going on
             timestamp!.value = new Date(Number(timestamp!.value)).toISOString().slice(0, -8);
