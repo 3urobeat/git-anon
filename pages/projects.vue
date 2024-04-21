@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-21 18:47:22
+ * Last Modified: 2024-04-21 19:53:59
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -45,13 +45,14 @@
                         <div class="flex my-2.5 w-full" v-for="thisProject in storedProjects"> <!-- :key="thisProject.name" -->
 
                             <!-- Project select & name edit button -->
-                            <button class="flex w-full rounded-sm outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="selectedProject = thisProject">
+                            <button :class="!thisProject.name ? 'outline-red-500' : 'outline-border-secondary-light dark:outline-border-secondary-dark'" class="flex w-full rounded-sm outline outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="selectedProject = thisProject">
                                 <div class="relative">
                                     <span class="absolute text-lg font-bold -mt-1 ml-1 text-green-600" v-show="selectedProject.name == thisProject.name">|</span>
                                 </div>
                                 <input
                                     type="text"
-                                    class="rounded-sm w-full px-1 mx-4 bg-bg-input-light dark:bg-bg-input-dark hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:transition-all"
+                                    :class="!thisProject.name ? 'outline-red-500' : 'outline-border-secondary-light dark:outline-border-secondary-dark'"
+                                    class="rounded-sm w-full px-1 mx-4 bg-bg-input-light dark:bg-bg-input-dark hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark outline outline-2 hover:transition-all"
                                     v-model.trim=thisProject.name
                                 >
                             </button>
@@ -142,6 +143,20 @@
 
     // Sends changes to the database
     async function saveChanges() {
+
+        // Check for missing name field
+        if (storedProjects.value.some(e => !e.name)) {
+            document.getElementById("color-border")?.classList.remove("border-transparent");
+            document.getElementById("color-border")?.classList.add("border-red-500");
+
+            setTimeout(() => {
+                document.getElementById("color-border")?.classList.remove("border-red-500");
+                document.getElementById("color-border")?.classList.add("border-transparent");
+            }, 750);
+
+            return;
+        }
+
         const success = await useFetch("/api/set-projects", {
             method: "POST",
             headers: {

@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-21 19:38:27
+ * Last Modified: 2024-04-21 19:47:17
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -305,6 +305,8 @@
                 document.getElementById("color-border")?.classList.remove("border-red-500");
                 document.getElementById("color-border")?.classList.add("border-transparent");
             }, 750);
+
+            return;
         }
 
 
