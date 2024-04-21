@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-10 20:17:23
+ * Last Modified: 2024-04-21 18:18:56
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -16,7 +16,8 @@
 
 
 import fs from "fs";
-import { commitAndPush } from "./handleGit";
+// import { useSettingsDb } from "./useSettingsDb";
+import { commitAndPush /*, gitPull */ } from "./handleGit";
 import { DetailType, type Detail } from "~/model/projects";
 
 
@@ -25,10 +26,17 @@ import { DetailType, type Detail } from "~/model/projects";
  * @param projectName Name of the project to make a new commit to
  * @param projectDetails Array of objects containing name and value prop for every detail
  */
-export function addCommit(projectName: string, projectDetails: Detail[]) {
+export async function addCommit(projectName: string, projectDetails: Detail[]) {
     const timestamp = Number(projectDetails.find((e) => e.type === DetailType.TIMESTAMP)!.value);
 
     console.log(`addCommit: Adding new commit for '${projectName}'`);
+
+
+    // Pull new commits from repository to prevent git push from failing
+    /* const pushToRemote = await useSettingsDb().findOneAsync({ name: "pushToRemote" });
+
+    if (pushToRemote) gitPull(); */
+
 
     // Check if no folder exists yet for this project and create it
     if (!fs.existsSync("data/repository/" + projectName)) {

@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-17 20:51:01
+ * Last Modified: 2024-04-17 22:32:43
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -107,6 +107,23 @@ export async function commitAndPush(filePath: string, commitMsg: string, timesta
         });
     }
 
+}
+
+
+/**
+ * Runs a git pull command
+ */
+export function gitPull() {
+    return new Promise<void>((resolve) => {
+        console.log("gitPull: Pulling new commits from remote");
+
+        git.pull((err, data) => {
+            if (err) console.log("gitPull: Failed to run 'git pull'! Error:\n" + err.stack);
+                else console.log("gitPull: Result:\n" + JSON.stringify(data));
+
+            resolve();
+        });
+    });
 }
 
 
