@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 16:21:31
+ * Last Modified: 2024-04-21 18:47:22
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -142,13 +142,32 @@
 
     // Sends changes to the database
     async function saveChanges() {
-        await useFetch("/api/set-projects", {
+        const success = await useFetch("/api/set-projects", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(storedProjects.value)
         });
+
+        // Indicate success/failure
+        if (success.data.value) {
+            document.getElementById("color-border")?.classList.remove("border-transparent");
+            document.getElementById("color-border")?.classList.add("border-green-500");
+
+            setTimeout(() => {
+                document.getElementById("color-border")?.classList.remove("border-green-500");
+                document.getElementById("color-border")?.classList.add("border-transparent");
+            }, 750);
+        } else {
+            document.getElementById("color-border")?.classList.remove("border-transparent");
+            document.getElementById("color-border")?.classList.add("border-red-500");
+
+            setTimeout(() => {
+                document.getElementById("color-border")?.classList.remove("border-red-500");
+                document.getElementById("color-border")?.classList.add("border-transparent");
+            }, 750);
+        }
 
         const currentlySelectedProjectName = selectedProject.value.name;
 

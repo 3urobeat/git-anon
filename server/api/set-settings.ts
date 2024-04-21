@@ -4,7 +4,7 @@
  * Created Date: 2024-04-11 15:44:00
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-17 21:43:22
+ * Last Modified: 2024-04-21 18:47:40
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -64,5 +64,8 @@ export default defineEventHandler(async (event) => {
 
     if (params.pushToRemote != undefined) db.update({ name: "pushToRemote" }, { $set: { value: params.pushToRemote }}, { upsert: true }, logDbError);
 
+
+    // Indicate we're done
+    return true;
 
 });

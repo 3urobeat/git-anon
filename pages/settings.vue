@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 20:05:28
+ * Last Modified: 2024-04-21 18:47:28
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -296,13 +296,32 @@
         // Encode once again, also when user was in raw mode. This ensures all missing values will automatically be added again, hopefully preventing git from breaking
         processGuidedGitConfig();
 
-        await useFetch("/api/set-settings", {
+        const success = await useFetch("/api/set-settings", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(settings.value)
         });
+
+        // Indicate success/failure
+        if (success.data.value) {
+            document.getElementById("color-border")?.classList.remove("border-transparent");
+            document.getElementById("color-border")?.classList.add("border-green-500");
+
+            setTimeout(() => {
+                document.getElementById("color-border")?.classList.remove("border-green-500");
+                document.getElementById("color-border")?.classList.add("border-transparent");
+            }, 750);
+        } else {
+            document.getElementById("color-border")?.classList.remove("border-transparent");
+            document.getElementById("color-border")?.classList.add("border-red-500");
+
+            setTimeout(() => {
+                document.getElementById("color-border")?.classList.remove("border-red-500");
+                document.getElementById("color-border")?.classList.add("border-transparent");
+            }, 750);
+        }
 
     }
 

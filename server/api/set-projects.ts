@@ -4,7 +4,7 @@
  * Created Date: 2024-03-28 20:11:07
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-05 19:42:27
+ * Last Modified: 2024-04-21 18:43:07
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -94,6 +94,6 @@ export default defineEventHandler(async (event) => {
 
 
     // Indicate we're done
-    return null;
+    return true;
 
 });

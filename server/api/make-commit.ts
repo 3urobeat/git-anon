@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 21:10:49
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-14 18:50:59
+ * Last Modified: 2024-04-21 18:39:41
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
 
 
     // Check if every lineDiff field is empty and reject commit
-    let lineDiffFields = params.details.filter((e: Detail) => e.type == DetailType.LINE_DIFF);
+    const lineDiffFields = params.details.filter((e: Detail) => e.type == DetailType.LINE_DIFF);
 
     if (!lineDiffFields.some((e: Detail) => e.lineDiffMinus || e.lineDiffPlus)) {
         console.log("API make-commit: Rejecting commit because all lineDiff fields are empty");
