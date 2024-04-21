@@ -31,7 +31,14 @@ And you should too!
 
 # 🚀 Installation
 ### Docker (recommended):
-TBA
+Run the container using:  
+`docker run -p 1234:3000 -v ~/git-anon-data:/usr/src/git-anon/data 3urobeat/git-anon:latest`
+
+To change the port on your host, change `1234` to something else.  
+To change the volume path or assign a proper volume instead of a bind, change `~/git-anon-data`.
+
+> [!NOTE]
+> If you are using Portainer, make sure to set the working directory at the bottom to `/usr/src/git-anon`
 
 &nbsp;
 
