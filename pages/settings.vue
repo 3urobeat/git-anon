@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-21 18:47:28
+ * Last Modified: 2024-04-21 19:38:27
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -54,7 +54,8 @@
                     <p class="w-44">Name:</p>
                     <input
                         type="text"
-                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
+                        :class="!guidedOptionsInputs.name ? 'outline-red-500' : 'outline-border-secondary-light dark:outline-border-secondary-dark'"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all transition-colors duration-500"
                         v-model.trim=guidedOptionsInputs.name
                         @focusout="processGuidedGitConfig()"
                     >
@@ -63,7 +64,8 @@
                     <p class="w-44">Email:</p>
                     <input
                         type="text"
-                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
+                        :class="!guidedOptionsInputs.email ? 'outline-red-500' : 'outline-border-secondary-light dark:outline-border-secondary-dark'"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all transition-colors duration-500"
                         v-model.trim=guidedOptionsInputs.email
                         @focusout="processGuidedGitConfig()"
                     >
@@ -101,7 +103,8 @@
                     <p class="w-44">Remote URL:</p>
                     <input
                         type="text"
-                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
+                        :class="settings.pushToRemote && !guidedOptionsInputs.remoteUrl ? 'outline-red-500' : 'outline-border-secondary-light dark:outline-border-secondary-dark'"
+                        class="lg:w-80 w-full px-1 rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                         v-model.trim=guidedOptionsInputs.remoteUrl
                         @focusout="processGuidedGitConfig()"
                     >
@@ -292,6 +295,18 @@
 
     // Sends changes to the database
     async function saveChanges() {
+
+        // Check for missing name and email fields, which are required by git
+        if (!guidedOptionsInputs.value.name || !guidedOptionsInputs.value.email || (settings.value.pushToRemote && !guidedOptionsInputs.value.remoteUrl)) {
+            document.getElementById("color-border")?.classList.remove("border-transparent");
+            document.getElementById("color-border")?.classList.add("border-red-500");
+
+            setTimeout(() => {
+                document.getElementById("color-border")?.classList.remove("border-red-500");
+                document.getElementById("color-border")?.classList.add("border-transparent");
+            }, 750);
+        }
+
 
         // Encode once again, also when user was in raw mode. This ensures all missing values will automatically be added again, hopefully preventing git from breaking
         processGuidedGitConfig();
