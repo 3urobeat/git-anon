@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-24 19:12:23
+ * Last Modified: 2024-04-24 20:11:17
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -31,7 +31,7 @@
     </div>
 
 
-    <div class="lg:flex lg:flex-col lg:mx-12 mb-5 lg:mb-7"> <!-- Offset content to the right on desktop to give headline more presence -->
+    <div class="lg:flex lg:flex-col lg:mx-12 mb-5 lg:mb-7" @change="changesMade = true"> <!-- Offset content to the right on desktop to give headline more presence -->
         <p class="font-semibold mb-1">Git Configuration:</p>
 
         <div id="gitconfig" class="flex flex-col px-2 ml-3">
@@ -226,6 +226,20 @@
     });
 
 
+    // Track if user made changes
+    const changesMade = ref(false);
+
+    onBeforeRouteLeave((to, from, next) => {
+        if (changesMade.value) {
+            if (!confirm("You have unsaved changes!\nWould you still like to continue?")) {
+                next(false);
+            }
+        }
+
+        next();
+    });
+
+
 
     // Load data
     const serverData = await useFetch<any>("/api/get-settings");
@@ -318,6 +332,8 @@
         // Indicate success/failure
         if (success.data.value) {
             responseIndicatorSuccess();
+
+            changesMade.value = false;
         } else {
             responseIndicatorFailure();
         }

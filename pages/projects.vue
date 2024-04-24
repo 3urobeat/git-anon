@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-24 19:34:08
+ * Last Modified: 2024-04-24 20:10:00
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="text-center lg:flex lg:flex-col lg:mx-12"> <!-- Offset content to the right on desktop to give headline more presence -->
+    <div class="text-center lg:flex lg:flex-col lg:mx-12" @change="changesMade = true"> <!-- Offset content to the right on desktop to give headline more presence -->
         <div class="w-full lg:flex">
 
             <!-- Projects list -->
@@ -132,6 +132,20 @@
     const selectedProject: Ref<Project>        = ref(null!);
 
 
+    // Track if user made changes
+    const changesMade = ref(false);
+
+    onBeforeRouteLeave((to, from, next) => {
+        if (changesMade.value) {
+            if (!confirm("You have unsaved changes!\nWould you still like to continue?")) {
+                next(false);
+            }
+        }
+
+        next();
+    });
+
+
     // Get all projects and their details on load
     async function getProjects() {
         let res = await useFetch<StoredProjects>("/api/get-projects");
@@ -183,6 +197,8 @@
         // Indicate success/failure
         if (success.data.value) {
             responseIndicatorSuccess();
+
+            changesMade.value = false;
         } else {
             responseIndicatorFailure();
         }

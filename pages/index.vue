@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-24 19:12:31
+ * Last Modified: 2024-04-24 20:26:48
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -58,7 +58,7 @@
 
                     <!-- Get text into the list with some space all around -->
                     <div class="w-full mx-2.5 pb-1">
-                        <li class="flex flex-col clearfix mb-1" v-for="thisDetail in selectedProject.details" :key="thisDetail.name">
+                        <li class="flex flex-col clearfix mb-1" v-for="thisDetail in selectedProject.details" :key="thisDetail.name" @change="!changesMade.includes(selectedProject.name) ? changesMade.push(selectedProject.name) : null">
                             <span class="text-left mx-1 text-nowrap">{{ thisDetail.name }}{{ thisDetail.type == DetailType.LINE_DIFF ? " line diff" : "" }}:</span>
 
                             <!-- Different inputs based on type -->
@@ -197,6 +197,21 @@
 
     storedProjects.value  = res.data.value!;
     await selectProject(res.data.value![0]);
+
+
+    // Track if user made changes
+    let changesMade: Ref<string[]> = ref([]);
+
+    onBeforeRouteLeave((to, from, next) => {
+        if (changesMade.value.length > 0) {
+            if (!confirm(`You have uncommited line diffs in these project(s):\n> ${changesMade.value.join(", ")}\nWould you still like to continue?`)) {
+                selectedProject.value = storedProjects.value.find((e) => e.name == changesMade.value[0])!; // Set selectedProject to the first project in changesMade for convenience
+                next(false);
+            }
+        }
+
+        next();
+    });
 
 
     /**
@@ -355,6 +370,9 @@
                 if (detail.lineDiffPlus) detail.lineDiffPlus = undefined;
                 if (detail.lineDiffMinus) detail.lineDiffMinus = undefined;
             });
+
+            // Remove project name from changesMade array
+            changesMade.value = changesMade.value.filter((e) => e != selectedProject.value.name);
 
             // Refresh history
             setTimeout(() => {
