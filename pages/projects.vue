@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-24 19:09:42
+ * Last Modified: 2024-04-24 19:34:08
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -152,6 +152,26 @@
             return;
         }
 
+        // Check for missing details name field and select project
+        let abort = false;
+
+        storedProjects.value.forEach((thisProject) => {
+            thisProject.details.forEach((thisDetail) => {
+                if (!thisDetail.name) {
+                    selectedProject.value = thisProject;
+                    abort = true;
+                    responseIndicatorFailure();
+                    return;
+                }
+            });
+
+            if (abort) return;
+        });
+
+        if (abort) return;
+
+
+        // Send request
         const success = await useFetch("/api/set-projects", {
             method: "POST",
             headers: {
@@ -166,6 +186,7 @@
         } else {
             responseIndicatorFailure();
         }
+
 
         const currentlySelectedProjectName = selectedProject.value.name;
 
