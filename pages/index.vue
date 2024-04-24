@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-21 18:39:32
+ * Last Modified: 2024-04-24 19:12:31
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -179,6 +179,7 @@
 <script setup lang="ts">
     import { PhCheck, PhCaretRight, PhCaretDown, PhX } from "@phosphor-icons/vue";
     import { type Project, type StoredProjects, type ProjectHistory, DetailType } from "../model/projects";
+    import { responseIndicatorFailure, responseIndicatorSuccess } from "./helpers/responseIndicator";
 
 
     // Cache all stored projects, reference the currently selected project and cache shallow histories of all projects that have been selected in the current session
@@ -346,13 +347,7 @@
         if (success.data.value) {
 
             // Indicate success
-            document.getElementById("color-border")?.classList.remove("border-transparent");
-            document.getElementById("color-border")?.classList.add("border-green-500");
-
-            setTimeout(() => {
-                document.getElementById("color-border")?.classList.remove("border-green-500");
-                document.getElementById("color-border")?.classList.add("border-transparent");
-            }, 750);
+            responseIndicatorSuccess();
 
             // Reset fields
             selectedProject.value.details.forEach((detail) => {
@@ -369,13 +364,7 @@
         } else {
 
             // Indicate failure
-            document.getElementById("color-border")?.classList.remove("border-transparent");
-            document.getElementById("color-border")?.classList.add("border-red-500");
-
-            setTimeout(() => {
-                document.getElementById("color-border")?.classList.remove("border-red-500");
-                document.getElementById("color-border")?.classList.add("border-transparent");
-            }, 750);
+            responseIndicatorFailure();
 
             // Restore time input field - Change to ISO format and remove seconds, milliseconds and "Z" from the end for the browser to understand what is going on
             timestamp!.value = new Date(Number(timestamp!.value)).toISOString().slice(0, -8);

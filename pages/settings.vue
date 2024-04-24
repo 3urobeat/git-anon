@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-21 19:47:17
+ * Last Modified: 2024-04-24 19:12:23
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -203,6 +203,7 @@
     import { PhCheck, PhToggleLeft, PhToggleRight } from "@phosphor-icons/vue";
     import type { GitConfig, Settings } from "~/model/settings";
     import ini from "ini";
+    import { responseIndicatorFailure, responseIndicatorSuccess } from "./helpers/responseIndicator";
 
 
     // Refs
@@ -298,14 +299,7 @@
 
         // Check for missing name and email fields, which are required by git
         if (!guidedOptionsInputs.value.name || !guidedOptionsInputs.value.email || (settings.value.pushToRemote && !guidedOptionsInputs.value.remoteUrl)) {
-            document.getElementById("color-border")?.classList.remove("border-transparent");
-            document.getElementById("color-border")?.classList.add("border-red-500");
-
-            setTimeout(() => {
-                document.getElementById("color-border")?.classList.remove("border-red-500");
-                document.getElementById("color-border")?.classList.add("border-transparent");
-            }, 750);
-
+            responseIndicatorFailure();
             return;
         }
 
@@ -323,21 +317,9 @@
 
         // Indicate success/failure
         if (success.data.value) {
-            document.getElementById("color-border")?.classList.remove("border-transparent");
-            document.getElementById("color-border")?.classList.add("border-green-500");
-
-            setTimeout(() => {
-                document.getElementById("color-border")?.classList.remove("border-green-500");
-                document.getElementById("color-border")?.classList.add("border-transparent");
-            }, 750);
+            responseIndicatorSuccess();
         } else {
-            document.getElementById("color-border")?.classList.remove("border-transparent");
-            document.getElementById("color-border")?.classList.add("border-red-500");
-
-            setTimeout(() => {
-                document.getElementById("color-border")?.classList.remove("border-red-500");
-                document.getElementById("color-border")?.classList.add("border-transparent");
-            }, 750);
+            responseIndicatorFailure();
         }
 
     }

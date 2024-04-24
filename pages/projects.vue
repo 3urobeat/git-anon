@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-21 19:53:59
+ * Last Modified: 2024-04-24 19:09:42
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -89,10 +89,11 @@
                         <li class="flex w-full clearfix my-2" v-for="thisDetail in selectedProject.details"> <!-- :key="thisDetail.name" -->
 
                             <!-- Bind input with v-model to value prop of the corresponding detail -->
-                            <div class="flex w-full rounded-sm outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all">
+                            <div :class="!thisDetail.name ? 'outline-red-500' : 'outline-border-secondary-light dark:outline-border-secondary-dark'" class="flex w-full rounded-sm outline outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all">
                                 <input
                                     type="text"
-                                    class="rounded-sm w-full px-1 mx-4 outline bg-bg-input-light dark:bg-bg-input-dark outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
+                                    :class="!thisDetail.name ? 'outline-red-500' : 'outline-border-secondary-light dark:outline-border-secondary-dark'"
+                                    class="rounded-sm w-full px-1 mx-4 outline bg-bg-input-light dark:bg-bg-input-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                     v-model.trim=thisDetail.name
                                     :disabled=thisDetail.locked
                                 >
@@ -124,6 +125,7 @@
 <script setup lang="ts">
     import { PhCheck, PhCaretRight, PhCaretDown, PhX, PhPlus } from '@phosphor-icons/vue';
     import { DetailType, type Project, type StoredProjects } from "../model/projects";
+    import { responseIndicatorFailure, responseIndicatorSuccess } from './helpers/responseIndicator';
 
     // The details.value field does not exist yet but is created when user inserts text into the input field by the v-model binding
     const storedProjects:  Ref<StoredProjects> = ref(null!);
@@ -146,14 +148,7 @@
 
         // Check for missing name field
         if (storedProjects.value.some(e => !e.name)) {
-            document.getElementById("color-border")?.classList.remove("border-transparent");
-            document.getElementById("color-border")?.classList.add("border-red-500");
-
-            setTimeout(() => {
-                document.getElementById("color-border")?.classList.remove("border-red-500");
-                document.getElementById("color-border")?.classList.add("border-transparent");
-            }, 750);
-
+            responseIndicatorFailure();
             return;
         }
 
@@ -167,21 +162,9 @@
 
         // Indicate success/failure
         if (success.data.value) {
-            document.getElementById("color-border")?.classList.remove("border-transparent");
-            document.getElementById("color-border")?.classList.add("border-green-500");
-
-            setTimeout(() => {
-                document.getElementById("color-border")?.classList.remove("border-green-500");
-                document.getElementById("color-border")?.classList.add("border-transparent");
-            }, 750);
+            responseIndicatorSuccess();
         } else {
-            document.getElementById("color-border")?.classList.remove("border-transparent");
-            document.getElementById("color-border")?.classList.add("border-red-500");
-
-            setTimeout(() => {
-                document.getElementById("color-border")?.classList.remove("border-red-500");
-                document.getElementById("color-border")?.classList.add("border-transparent");
-            }, 750);
+            responseIndicatorFailure();
         }
 
         const currentlySelectedProjectName = selectedProject.value.name;
