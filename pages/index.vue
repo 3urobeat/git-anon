@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-24 20:26:48
+ * Last Modified: 2024-04-26 11:20:08
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -341,6 +341,32 @@
         } else {
             timestamp!.value = Date.now().toString();
         }
+
+
+        // Fill commit message with default value if undefined
+        const messageField = selectedProject.value.details.find((e) => e.name == "Commit Message")!;
+
+        if (!messageField.value) messageField.value = `Update project ${selectedProject.value.name}`;
+
+
+        // Get confirmation if inputs are correct
+        const messageValue = messageField.value;
+        const dateValue = Number(selectedProject.value.details.find((e) => e.type == DetailType.TIMESTAMP)!.value);
+        const dateValueFormatted = formatTime(dateValue, true);
+
+        let confirmStr = `Are these changes correct?\n> Project: ${selectedProject.value.name}\n> Message: ${messageValue}\n> Date: ${dateValueFormatted}`
+
+        selectedProject.value.details.forEach((detail) => {
+            if (detail.type == DetailType.LINE_DIFF && (detail.lineDiffPlus || detail.lineDiffMinus)) {
+                confirmStr += `\n> Line Diff for '${detail.name}': +${detail.lineDiffPlus || 0} -${detail.lineDiffMinus || 0}`;
+            }
+        });
+
+        if (!confirm(confirmStr)) {
+            // Restore time input field - Change to ISO format and remove seconds, milliseconds and "Z" from the end for the browser to understand what is going on
+            timestamp!.value = new Date(Number(timestamp!.value)).toISOString().slice(0, -8);
+            return;
+        };
 
 
         // Dispatch request to the server
