@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-24 20:10:00
+ * Last Modified: 2024-04-26 14:16:31
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -170,6 +170,8 @@
         let abort = false;
 
         storedProjects.value.forEach((thisProject) => {
+            if (abort) return;
+
             thisProject.details.forEach((thisDetail) => {
                 if (!thisDetail.name) {
                     selectedProject.value = thisProject;
@@ -178,8 +180,31 @@
                     return;
                 }
             });
+        });
 
+        if (abort) return;
+
+        // Check for duplicate project names and files
+        storedProjects.value.forEach((project) => {
             if (abort) return;
+
+            if (storedProjects.value.filter((e) => e.name == project.name).length > 1) {
+                alert(`You cannot have duplicate project names!\nProject '${project.name}' exists multiple times.`);
+                abort = true;
+                responseIndicatorFailure();
+                return;
+            }
+
+            project.details.forEach((detail) => {
+                if (abort) return;
+
+                if (project.details.filter((e) => e.name == detail.name).length > 1) {
+                    alert(`You cannot have duplicate file names!\nProject '${project.name}' has multiple files called '${detail.name}'.`);
+                    abort = true;
+                    responseIndicatorFailure();
+                    return;
+                }
+            });
         });
 
         if (abort) return;
