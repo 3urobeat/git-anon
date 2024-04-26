@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-26 11:20:08
+ * Last Modified: 2024-04-26 13:39:21
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -370,7 +370,7 @@
 
 
         // Dispatch request to the server
-        let success = await useFetch("/api/make-commit", {
+        let makeCommitResponse = await useFetch<{ dummyCommitResponse: string | null, commitResponse: string | null }>("/api/make-commit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -383,10 +383,11 @@
 
 
         // Indicate result, reset fields on success and force refresh history
-        console.log(success.data.value)
+        const res = makeCommitResponse.data.value!;
 
-        if (success.data.value) {
+        console.log(res);
 
+        if (!res.commitResponse && !res.dummyCommitResponse) { // If both are null, both have succeeded
             // Indicate success
             responseIndicatorSuccess();
 
@@ -407,13 +408,13 @@
 
         } else {
 
-            // Indicate failure
-            responseIndicatorFailure();
-
             // Restore time input field - Change to ISO format and remove seconds, milliseconds and "Z" from the end for the browser to understand what is going on
             timestamp!.value = new Date(Number(timestamp!.value)).toISOString().slice(0, -8);
 
-            alert("Sorry, the commit failed!");
+            alert(`Sorry, the commit failed! Details:\n\nCompensation Commit: ${res.dummyCommitResponse}\nUser Commit: ${res.commitResponse}`);
+
+            // Indicate failure
+            responseIndicatorFailure();
         }
 
     }

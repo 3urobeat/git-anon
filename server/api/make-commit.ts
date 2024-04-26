@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 21:10:49
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-21 18:39:41
+ * Last Modified: 2024-04-26 13:36:15
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -22,7 +22,7 @@ import { Detail, DetailType } from "~/model/projects";
 /**
  * This API route adds a new file with the supplied info to a project, makes a commit and pushes it. Returns boolean if action was successful.
  * Params: { name: string, details: { name: string, value: string }[] }
- * Returns: boolean
+ * Returns: Error | null
  */
 
 
@@ -51,8 +51,8 @@ export default defineEventHandler(async (event) => {
     // Dispatch commit
     console.log(`API make-commit: Dispatching new commit for project '${params.name}'`);
 
-    addCommit(params.name, params.details);
+    const commitResult = await addCommit(params.name, params.details);
 
-    return true;
+    return commitResult;
 
 });
