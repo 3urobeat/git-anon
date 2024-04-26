@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-26 13:39:21
+ * Last Modified: 2024-04-26 13:56:09
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -135,7 +135,7 @@
         </div>
 
         <!-- History commit details popup -->
-        <div class="absolute flex items-center justify-center inset-0 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark bg-opacity-30 dark:bg-opacity-30" v-if="historyPopupContent != null" @click="historyPopupContent = null">
+        <div class="fixed flex items-center justify-center min-h-screen min-w-screen inset-0 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark bg-opacity-30 dark:bg-opacity-30" v-if="historyPopupContent != null" @click="historyPopupContent = null">
             <div class="flex flex-col lg:w-1/2 w-5/6 lg:h-2/3 h-2/3 py-4 px-5 gap-3 bg-bg-light dark:bg-bg-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 rounded-sm shadow-black shadow-2xl" @click.stop="">
                 <!-- Title -->
                 <div class="flex h-fit font-bold text-xl">
@@ -404,7 +404,7 @@
             // Refresh history
             setTimeout(() => {
                 selectProject(selectedProject.value, true);
-            }, 1000); // TODO: Not really great if the backend takes longer
+            }, 1000);
 
         } else {
 
