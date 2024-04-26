@@ -11,11 +11,11 @@
 
 &nbsp;
 
-# 👀 OwO, what's this?
+# 👀 What's this?
 Git Anon is a selfhosted webservice, which allows you to keep track of your personal git commits at work, without ever sharing any code itself.  
 
 Git Anon presents you with a webinterface to input a commit message, modify the commit date and specify a line diff for every file.  
-Once pressing commit, the service produces your specified line diff by generating random characters, makes the commit and pushes it to your remote repository.  
+Once pressing commit, the service produces your specified line diff by generating random lines, makes the commit and pushes it to your remote repository.  
 GitHub automatically detects the programming languages of your line diffs based on file extension and will show the generated commit as a contribution on your profile, even when the repository is private.
 
 **But why?**  
@@ -43,7 +43,17 @@ To change the volume path or assign a proper volume instead of a bind, change `~
 &nbsp;
 
 ### Local:
-TBA
+Clone the git repository:  
+`git clone https://github.com/3urobeat/git-anon`
+
+Install dependencies:  
+`npm i --omit=dev`
+
+Build the project:  
+`npm run build`
+
+Start the project:  
+`npm run start`
 
 &nbsp;
 
