@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-26 14:16:31
+ * Last Modified: 2024-04-27 23:16:58
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -100,11 +100,11 @@
                             </div>
 
                             <!-- Delete button -->
-                            <button class="ml-2 m-0.5 rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="deleteDetail(thisDetail.name)" v-if="!['Commit Message', 'Timestamp'].includes(thisDetail.name)">
+                            <button class="ml-2 m-0.5 rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="deleteDetail(thisDetail.name)" v-if="!['Commit Message', 'Timestamp', 'Co-Author'].includes(thisDetail.name)">
                                 <PhX class="size-5 text-red-500"></PhX>
                             </button>
 
-                            <div class="ml-7 m-0.5" v-if="['Commit Message', 'Timestamp'].includes(thisDetail.name)"></div> <!-- Dummy spacer for Commit Message field -->
+                            <div class="ml-7 m-0.5" v-if="['Commit Message', 'Timestamp', 'Co-Author'].includes(thisDetail.name)"></div> <!-- Dummy spacer for Commit Message, Timestamp & Co-Author fields -->
 
                         </li>
                     </div>
@@ -255,6 +255,12 @@
                     name: "Timestamp",
                     value: "",
                     type: DetailType.TIMESTAMP,
+                    locked: true
+                },
+                {
+                    name: "Co-Author",
+                    value: "",
+                    type: DetailType.CO_AUTHOR,
                     locked: true
                 }
             ]

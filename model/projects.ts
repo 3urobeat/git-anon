@@ -4,7 +4,7 @@
  * Created Date: 2024-03-25 16:24:30
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-07 14:52:00
+ * Last Modified: 2024-04-27 22:38:47
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -18,12 +18,14 @@
 export enum DetailType {
     TEXT,
     TIMESTAMP,
-    LINE_DIFF
+    LINE_DIFF,
+    CO_AUTHOR
 }
 
 export type Detail = {
     name: string,
     value?: string,
+    email?: string,
     lineDiffPlus?: number,
     lineDiffMinus?: number,
     type: DetailType,

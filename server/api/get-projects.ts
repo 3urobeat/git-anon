@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 21:28:59
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-05 18:37:45
+ * Last Modified: 2024-04-27 22:50:28
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -56,6 +56,13 @@ export default defineEventHandler(async () => {
                     name: "Timestamp",
                     value: 0,
                     type: DetailType.TIMESTAMP,
+                    locked: true
+                },
+                {
+                    name: "Co-Author",
+                    value: "",
+                    email: "",
+                    type: DetailType.CO_AUTHOR,
                     locked: true
                 }
             ]

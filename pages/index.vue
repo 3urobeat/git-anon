@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-26 13:56:09
+ * Last Modified: 2024-04-27 23:37:58
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -75,6 +75,24 @@
                                 class="text-nowrap rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
                                 v-model.trim="thisDetail.value"
                             >
+                            <div class="flex gap-1" v-if="thisDetail.type == DetailType.CO_AUTHOR">
+                                <div class="flex w-full rounded-sm px-1 bg-bg-input-light dark:bg-bg-input-dark">
+                                    <p class="text-nowrap">Name</p>
+                                    <input
+                                        type="text"
+                                        class="ml-1 w-full rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
+                                        v-model.trim="thisDetail.value"
+                                    >
+                                </div>
+                                <div class="flex w-full rounded-sm px-1 bg-bg-input-light dark:bg-bg-input-dark">
+                                    <p class="text-nowrap">Email</p>
+                                    <input
+                                        type="text"
+                                        class="ml-1 w-full rounded-sm pl-2 bg-bg-input-light dark:bg-bg-input-dark outline outline-border-secondary-light dark:outline-border-secondary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all"
+                                        v-model.trim="thisDetail.email"
+                                    >
+                                </div>
+                            </div>
                             <div class="flex gap-1" v-if="thisDetail.type == DetailType.LINE_DIFF">
                                 <div class="flex w-full rounded-sm px-1 bg-bg-input-light dark:bg-bg-input-dark">
                                     <p class="text-nowrap">++</p>
@@ -92,7 +110,6 @@
                                         v-model.trim="thisDetail.lineDiffMinus"
                                     >
                                 </div>
-
                             </div>
                         </li>
                     </div>
@@ -349,6 +366,12 @@
         if (!messageField.value) messageField.value = `Update project ${selectedProject.value.name}`;
 
 
+        // Add coauthor to commit message
+        const coAuthorField = selectedProject.value.details.find((e) => e.type == DetailType.CO_AUTHOR)!;
+
+        if (coAuthorField.value && coAuthorField.email) messageField.value += `\n\n\nCo-authored-by: ${coAuthorField.value} <${coAuthorField.email}>`;
+
+
         // Get confirmation if inputs are correct
         const messageValue = messageField.value;
         const dateValue = Number(selectedProject.value.details.find((e) => e.type == DetailType.TIMESTAMP)!.value);
@@ -394,6 +417,7 @@
             // Reset fields
             selectedProject.value.details.forEach((detail) => {
                 detail.value = "";
+                if (detail.email) detail.email = undefined;
                 if (detail.lineDiffPlus) detail.lineDiffPlus = undefined;
                 if (detail.lineDiffMinus) detail.lineDiffMinus = undefined;
             });
