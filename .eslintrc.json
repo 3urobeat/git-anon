@@ -59,5 +59,6 @@
         "jsdoc/require-param": "warn",
         "jsdoc/require-param-name": "warn",
         "jsdoc/valid-types": "warn"
-    }
+    },
+    "ignorePatterns": ["data/*"]
 }

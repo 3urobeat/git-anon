@@ -4,7 +4,7 @@
  * Created Date: 2024-03-25 16:24:30
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-27 22:38:47
+ * Last Modified: 2024-04-28 09:19:44
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -24,7 +24,7 @@ export enum DetailType {
 
 export type Detail = {
     name: string,
-    value?: string,
+    value?: string | number,
     email?: string,
     lineDiffPlus?: number,
     lineDiffMinus?: number,
