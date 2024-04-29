@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-29 20:24:01
+ * Last Modified: 2024-04-29 20:30:38
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -213,20 +213,20 @@
             body: JSON.stringify(storedProjects.value)
         });
 
+        const currentlySelectedProjectName = selectedProject.value.name;
+
         // Indicate success/failure
         if (success.data.value) {
             responseIndicatorSuccess();
 
             changesMade.value = false;
+
+            // Update page with database data
+            await getProjects();
         } else {
             responseIndicatorFailure();
         }
 
-
-        const currentlySelectedProjectName = selectedProject.value.name;
-
-        // Update page with database data
-        await getProjects();
 
         // Select previously selected selectedProject again (woah that's a lot of selected)
         const hit = storedProjects.value.find((e) => e.name == currentlySelectedProjectName);

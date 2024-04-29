@@ -4,7 +4,7 @@
  * Created Date: 2024-03-28 20:11:07
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-21 18:43:07
+ * Last Modified: 2024-04-29 20:28:52
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -20,10 +20,42 @@ import { useProjectsDb } from "../../composables/useProjectsDb";
 
 
 /**
- * This API route saves all projects and their details
+ * This API route saves all projects and their details to the database. Returns boolean if action was successful.
  * Params: { name: string, details: { name: string }[] }[]
- * Returns: null
+ * Returns: boolean
  */
+
+
+/**
+ * Validates incoming project data
+ * @param params Incoming data
+ * @returns Boolean if data passed checks
+ */
+function validateData(params: StoredProjects) {
+    let abort = false;
+
+    params.forEach((thisProject) => {
+        if (abort) return;
+
+        // Check for missing or duplicate project name
+        if (!thisProject.name || params.filter((e) => e.name == thisProject.name).length > 1) {
+            abort = true;
+            return;
+        }
+
+        // Check for missing or duplicate detail name
+        thisProject.details.forEach((thisDetail) => {
+            if (abort) return;
+
+            if (!thisDetail.name || thisProject.details.filter((e) => e.name == thisDetail.name).length > 1) {
+                abort = true;
+                return;
+            }
+        });
+    });
+
+    return !abort;
+}
 
 
 // This function is executed when this API route is called
@@ -46,8 +78,9 @@ export default defineEventHandler(async (event) => {
         // Sort to get Commit Message as the first and Timestamp as the second field
         const sorted = [
             ...e.details.filter((detail) => detail.name === "Commit Message"),
-            ...e.details.filter((detail) => detail.name === "Timestamp"),
-            ...e.details.filter((detail) => detail.name !== "Commit Message" && detail.name !== "Timestamp")
+            ...e.details.filter((detail) => detail.type === DetailType.TIMESTAMP),
+            ...e.details.filter((detail) => detail.type === DetailType.CO_AUTHOR),
+            ...e.details.filter((detail) => detail.name !== "Commit Message" && detail.type !== DetailType.TIMESTAMP && detail.type !== DetailType.CO_AUTHOR)
         ];
 
         // Overwrite details in original data array
@@ -67,6 +100,13 @@ export default defineEventHandler(async (event) => {
             params[i].details.splice(1, 0, { name: "Timestamp", value: 0, type: DetailType.TIMESTAMP, locked: true });
         }
     });
+
+
+    // Validate incoming data
+    if (!validateData(params)) {
+        console.log("API set-projects: Rejecting request because validateData() failed");
+        return false;
+    }
 
 
     // Remove all deleted projects from database
