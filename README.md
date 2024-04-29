@@ -2,14 +2,16 @@
     <p align="center"><img width=75% src=".github/img/logo.png"></p>
     <h4>📊 Track personal commit statistics without sharing company code!</h4>
     <div>
-        <a href="#-owo-whats-this">Introduction</a> •
-        <a href="#-installation">Installation</a> •
-        <a href="#-configuration">Configuration</a>
+        <a href="#introduction">Introduction</a> •
+        <a href="#installation">Installation</a> •
+        <a href="#configuration">Configuration</a>
     </div>
     <!-- <img src="./.github/img/demo.png"> -->
 </div>
 
 &nbsp;
+
+<a id="introduction"></a>
 
 # 👀 What's this?
 Git Anon is a selfhosted webservice, which allows you to keep track of your personal git commits at work, without ever sharing any code itself.  
@@ -28,6 +30,8 @@ And you should too!
 <p align="center"><img src=".github/img/preview.png"></p>
 
 &nbsp;
+
+<a id="installation"></a>
 
 # 🚀 Installation
 ### Docker (recommended):
@@ -63,6 +67,8 @@ You'll very probably want to expose the service to the outside to be able to acc
 Git Anon does not provide any authentication itself, so you should either enable a password protection in your reverse proxy - or even better - put it behind a VPN.
 
 &nbsp;
+
+<a id="configuration"></a>
 
 # ⚡ Configuration
 ### Settings
