@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:42
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-28 14:05:15
+ * Last Modified: 2024-04-29 20:24:01
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -160,46 +160,40 @@
     // Sends changes to the database
     async function saveChanges() {
 
-        // Check for missing name field
-        if (storedProjects.value.some(e => !e.name)) {
-            responseIndicatorFailure();
-            return;
-        }
-
-        // Check for missing details name field and select project
+        // Check for duplicate project names and files
         let abort = false;
 
         storedProjects.value.forEach((thisProject) => {
             if (abort) return;
 
+            // Check for missing name field
+            if (!thisProject.name) {
+                responseIndicatorFailure();
+                return;
+            }
+
+            // Check for duplicate project name
+            if (storedProjects.value.filter((e) => e.name == thisProject.name).length > 1) {
+                alert(`You cannot have duplicate project names!\nProject '${thisProject.name}' exists multiple times.`);
+                abort = true;
+                responseIndicatorFailure();
+                return;
+            }
+
             thisProject.details.forEach((thisDetail) => {
+                if (abort) return;
+
+                // Check for missing detail name field
                 if (!thisDetail.name) {
                     selectedProject.value = thisProject;
                     abort = true;
                     responseIndicatorFailure();
                     return;
                 }
-            });
-        });
 
-        if (abort) return;
-
-        // Check for duplicate project names and files
-        storedProjects.value.forEach((project) => {
-            if (abort) return;
-
-            if (storedProjects.value.filter((e) => e.name == project.name).length > 1) {
-                alert(`You cannot have duplicate project names!\nProject '${project.name}' exists multiple times.`);
-                abort = true;
-                responseIndicatorFailure();
-                return;
-            }
-
-            project.details.forEach((detail) => {
-                if (abort) return;
-
-                if (project.details.filter((e) => e.name == detail.name).length > 1) {
-                    alert(`You cannot have duplicate file names!\nProject '${project.name}' has multiple files called '${detail.name}'.`);
+                // Check for duplicate detail name field
+                if (thisProject.details.filter((e) => e.name == thisDetail.name).length > 1) {
+                    alert(`You cannot have duplicate file names!\nProject '${thisProject.name}' has multiple files called '${thisDetail.name}'.`);
                     abort = true;
                     responseIndicatorFailure();
                     return;
