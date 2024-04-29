@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-21 18:41:54
+ * Last Modified: 2024-04-29 23:03:05
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -49,11 +49,11 @@
         <nav
             id="navbar"
             :class="showNavbar ? 'fixed backdrop-blur-sm bg-bg-light/5 dark:bg-bg-dark/50 lg:bg-bg-light lg:dark:bg-bg-dark' : 'fixed invisible lg:visible w-0 min-w-0 opacity-0'"
-            class="z-40 top-0 left-0 min-h-screen w-48 min-w-48 lg:relative lg:block lg:opacity-100 bg-bg-light dark:bg-bg-dark dark:text-text-dark border-x-2 border-x-border-primary-light dark:border-x-border-primary-dark border-l-0 select-none duration-500 transition-all"
+            class="z-40 top-0 left-0 min-h-screen w-52 min-w-52 lg:relative lg:block lg:opacity-100 bg-bg-light dark:bg-bg-dark dark:text-text-dark border-x-2 border-x-border-primary-light dark:border-x-border-primary-dark border-l-0 select-none duration-500 transition-all"
         >
             <PhCaretLeft :class="showNavbar ? 'block' : 'opacity-0'" class="relative z-30 cursor-pointer left-3 top-2 mb-5 lg:hidden block transition-all" size="25px" @click="showNavbar = !showNavbar"></PhCaretLeft>
 
-            <div class="fixed px-7">
+            <div class="fixed left-9 lg:top-4">
                 <div class="my-3"></div> <!-- Add some space above everything-->
                 <NuxtLink to="/" class="flex items-center w-full h-full px-2 py-1 rounded-sm hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all">
                     <span class="fixed mb-1 text-xl font-bold text-green-600" v-show="route.name === 'index'">|</span>
@@ -77,8 +77,14 @@
             </div>
 
             <!-- Footer for project details -->
-            <footer class="fixed text-nowrap bottom-0 left-0 h-fit pb-2 px-1.5">
+            <footer class="fixed text-nowrap bottom-0 left-0 h-fit pb-2 px-2.5">
                 <div class="flex flex-col text-xs lg:text-sm opacity-50">
+                    <div :class="onlineVersion && onlineVersion != packagejson.version ? '' : 'hidden'" class="mb-4 px-1 py-0.5 bg-bg-embed-light dark:bg-bg-embed-dark outline outline-2 outline-border-secondary-light dark:outline-border-secondary-dark rounded-lg">
+                        <p class="font-semibold">Update available!</p>
+                        <p>New version: <span class="text-green-500">{{ onlineVersion }}</span></p>
+                        Read the patch notes <a class="underline hover:text-gray-500" :href="'https://github.com/3urobeat/git-anon/releases/tag/' + onlineVersion" target="_blank">here!</a>
+                    </div>
+
                     git-anon v{{ packagejson.version }}
 
                     <a class="flex w-fit items-center mt-0.5 -ml-1 rounded-full px-2 text-white bg-gray-700 hover:bg-gray-400 hover:transition-all bg-opacity-80" href="http://github.com/3urobeat/git-anon" target="_blank">
@@ -92,8 +98,8 @@
 
                     </a>
 
-                    <p>Licensed under <a class="underline hover:text-gray-500 rounded-lg" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPLv3</a></p>
-                    <p>Copyright (c) 2024 <a class="underline hover:text-gray-500 rounded-lg" href="https://github.com/3urobeat" target="_blank">3urobeat</a></p>
+                    <p>Licensed under <a class="underline hover:text-gray-500" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPLv3</a></p>
+                    <p>Copyright (c) 2024 <a class="underline hover:text-gray-500" href="https://github.com/3urobeat" target="_blank">3urobeat</a></p>
                 </div>
             </footer>
         </nav>
@@ -132,6 +138,7 @@
     // Refs
     const showNavbar      = ref(false);
     const darkModeEnabled = ref(false);
+    const onlineVersion   = ref("");
 
 
     // Executed on page load
@@ -139,6 +146,9 @@
 
         // Enable dark mode if user had it enabled on the last visit (yeah, it is a string)
         if (localStorage.darkModeEnabled == "true") setDarkMode(true);
+
+        // Check if update available note should be displayed in navbar
+        checkForUpdate();
 
     });
 
@@ -172,4 +182,21 @@
     useHead({
         link: [{ rel: "icon", type: "image/png", href: "favicon.png" }]
     });
+
+
+    // Checks for an available update and displays a notification in the navbar
+    async function checkForUpdate() {
+        try {
+            let output = await fetch("https://raw.githubusercontent.com/3urobeat/git-anon/main/package.json");
+            let parsed = await output.json();
+
+            console.log("checkForUpdate: Version found online: " + parsed.version);
+
+            onlineVersion.value = parsed.version;
+
+        } catch (err) {
+
+            console.log("checkForUpdate: Failed to check GitHub repository for an available update. " + err)
+        }
+    }
 </script>
