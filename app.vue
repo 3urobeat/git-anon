@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-29 23:03:05
+ * Last Modified: 2024-04-30 17:29:44
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -104,10 +104,10 @@
             </footer>
         </nav>
 
-        <!-- The main content itself, pushed to the side by the navbar - The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open - The lg:pr-48 param subtracts the navbar (a bit hacky) -->
+        <!-- The main content itself, pushed to the side by the navbar - The extra lg: tags in :class fix a bg color bug when the window is resized while the navbar was open - The lg:pr-52 param subtracts the navbar (a bit hacky) -->
         <main
             :class="showNavbar ? 'opacity-30 dark:opacity-70 lg:bg-bg-light lg:dark:bg-bg-dark lg:opacity-100 lg:dark:opacity-100' : ''"
-            class="fixed z-10 w-screen h-screen bg-bg-light dark:bg-bg-dark dark:text-text-dark transition-all duration-500 lg:pl-48 overflow-auto"
+            class="fixed z-10 w-screen h-screen bg-bg-light dark:bg-bg-dark dark:text-text-dark transition-all duration-500 lg:pl-52 overflow-auto"
             @click="showNavbar = false"
         >
             <div :class="showNavbar ? 'fixed w-screen h-screen opacity-0 lg:w-0 lg:h-0' : ''" class="z-50"></div> <!-- Dummy to prevent NuxtPage button presses when the navbar is open -->
@@ -115,7 +115,7 @@
             <!-- Page content wrapped into a border container, used to indicate success or failure for actions -->
             <div
                 id="color-border"
-                class="fixed bottom-0 top-10 right-0 lg:left-48 left-0 border-8 border-transparent rounded-2xl transition-colors duration-500 overflow-auto"
+                class="fixed bottom-0 top-10 right-0 lg:left-52 left-0 border-8 border-transparent rounded-2xl transition-colors duration-500 overflow-auto"
             >
                 <div class="absolute px-5 -mt-5 right-0 left-0">
                     <NuxtPage></NuxtPage> <!-- Links to index.vue -->
