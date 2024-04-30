@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-27 23:37:58
+ * Last Modified: 2024-04-30 18:06:00
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -173,10 +173,10 @@
                         <span class="w-36">Commit Details:</span>
                         <span class="w-fit opacity-60 px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark whitespace-pre-wrap">{{ historyPopupContent.gitShow }}</span>
                     </div>
-                    <div class="flex lg:flex-row flex-col text-nowrap">
+                    <!-- <div class="flex lg:flex-row flex-col text-nowrap">
                         <span class="w-36">Commit Signature:</span>
                         <span class="w-fit opacity-60 px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark whitespace-pre-wrap">{{ historyPopupContent.gitVerifyCommit }}</span>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Close button -->

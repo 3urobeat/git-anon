@@ -5,7 +5,7 @@
  * Created Date: 2024-03-25 17:46:47
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-24 20:11:17
+ * Last Modified: 2024-04-30 18:04:42
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -73,7 +73,7 @@
 
 
                 <!-- GPG Settings -->
-                <p class="font-semibold mt-4">GPG:</p>
+                <!-- <p class="font-semibold mt-4">GPG:</p>
 
                 <div class="flex items-center gap-x-2">
                     <input id="enableGpg-input" type="checkbox" v-model="guidedOptionsInputs.enableGpg" @change="processGuidedGitConfig()">
@@ -88,7 +88,7 @@
                         v-model.trim=guidedOptionsInputs.gpgKey
                         @focusout="processGuidedGitConfig()"
                     >
-                </div>
+                </div> -->
 
 
                 <!-- Remote Repo Settings -->
@@ -165,9 +165,9 @@
                         This textarea contains the raw <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">config</span> file, placed inside the <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">.git</span> folder of the repository.<br>
                         <br>
                         Set the name and email to use for committing at 'name' & 'email' in the <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">user</span> section.<br>
-                        <br>
+                        <!-- <br>
                         The key at 'signingkey' specifies the gpg key to use when commit.gpgsign is set to 'true'.<br>
-                        You can leave the field empty if 'gpgsign' is disabled.<br>
+                        You can leave the field empty if 'gpgsign' is disabled.<br> -->
                         <br>
                         When 'Push commits to remote' is enabled, you need to specify the remote repository URL and credentials.<br>
                         GitHub expects this format: <span class="w-fit px-1 rounded-sm bg-bg-embed-light dark:bg-bg-embed-dark">https://username:password@github.com/user/repo.git</span><br>
