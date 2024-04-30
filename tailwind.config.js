@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 14:31:06
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-20 16:25:23
+ * Last Modified: 2024-04-30 16:48:14
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -22,7 +22,7 @@ module.exports = {
         extend: {
             colors: {
                 bg: {
-                    light: "#FFFFFF",
+                    light: "#f1f2f3",
                     dark: "#181a1b",
                     input: {
                         hover: {
