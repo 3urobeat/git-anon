@@ -4,7 +4,7 @@
  * Created Date: 2024-03-23 14:31:06
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-30 16:48:14
+ * Last Modified: 2024-05-01 12:15:31
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -29,11 +29,11 @@ module.exports = {
                             light: "#e5e7eb",
                             dark: "#25282a"
                         },
-                        light: "#f3f4f6",
+                        light: "#e8e9eb",
                         dark: "#1e2022"
                     },
                     embed: {
-                        light: "#e2e8f0",
+                        light: "#d6dce4",
                         dark: "#242729",
                     }
                 },
