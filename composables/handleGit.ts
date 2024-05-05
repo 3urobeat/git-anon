@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-26 13:42:07
+ * Last Modified: 2024-05-05 12:21:57
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -20,7 +20,7 @@ import { simpleGit } from "simple-git";
 import { useSettingsDb } from "./useSettingsDb";
 
 import type { SimpleGit } from "simple-git";
-import type { ProjectHistory } from "~/model/projects"; // eslint-disable-line
+import type { ProjectHistory } from "~/model/projects";
 
 
 // Init repository and git library

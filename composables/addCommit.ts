@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-26 13:36:06
+ * Last Modified: 2024-05-05 12:21:50
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -17,7 +17,7 @@
 
 import fs from "fs";
 // import { useSettingsDb } from "./useSettingsDb";
-import { commitAndPush /*, gitPull */ } from "./handleGit";
+import { commitAndPush /* , gitPull */ } from "./handleGit";
 import { DetailType, type Detail } from "~/model/projects";
 
 
