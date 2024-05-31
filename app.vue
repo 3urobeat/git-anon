@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 12:52:57
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-30 17:29:44
+ * Last Modified: 2024-05-31 16:24:48
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -81,7 +81,7 @@
                 <div class="flex flex-col text-xs lg:text-sm opacity-50">
                     <div :class="onlineVersion && onlineVersion != packagejson.version ? '' : 'hidden'" class="mb-4 px-1 py-0.5 bg-bg-embed-light dark:bg-bg-embed-dark outline outline-2 outline-border-secondary-light dark:outline-border-secondary-dark rounded-lg">
                         <p class="font-semibold">Update available!</p>
-                        <p>New version: <span class="text-green-500">{{ onlineVersion }}</span></p>
+                        <p>New version: <span class="text-green-500 font-extrabold">{{ onlineVersion }}</span></p>
                         Read the patch notes <a class="underline hover:text-gray-500" :href="'https://github.com/3urobeat/git-anon/releases/tag/' + onlineVersion" target="_blank">here!</a>
                     </div>
 
