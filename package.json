@@ -17,7 +17,7 @@
     "update": "git pull && npm i && npm run build",
     "get-version": "grep \"\\\"version\\\":\" package.json | awk '{split($0,a,\" \"); print $2}' | sed -r 's/\"|,//g'",
     "docker-build": "docker build -t 3urobeat/git-anon:latest -t 3urobeat/git-anon:$(npm run get-version | tail -n 1) .",
-    "docker-start": "docker run -p 3000:3000 -v ~/git-anon-data:/usr/src/git-anon/data git-anon",
+    "docker-start": "docker run -p 3000:3000 -v ~/git-anon-data:/usr/src/git-anon/data 3urobeat/git-anon:latest",
     "docker-bs": "npm run docker-build && npm run docker-start",
     "docker-push": "docker image push 3urobeat/git-anon:latest && docker image push 3urobeat/git-anon:$(npm run get-version | tail -n 1)"
   },
