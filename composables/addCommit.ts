@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-05-05 12:21:50
+ * Last Modified: 2024-05-31 16:26:04
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -16,8 +16,8 @@
 
 
 import fs from "fs";
-// import { useSettingsDb } from "./useSettingsDb";
-import { commitAndPush /* , gitPull */ } from "./handleGit";
+
+import { gitCommit, gitPush} from "./handleGit";
 import { DetailType, type Detail } from "~/model/projects";
 
 
@@ -96,7 +96,8 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
             let dummyCommitResponse = null;
 
             if (doDummyCommit) {
-                dummyCommitResponse = await commitAndPush(projectName, `Compensation commit for '${projectName}' to fulfill incoming line diff`, timestamp - 501, true);
+                // Only commit, push both commits at once at the bottom
+                dummyCommitResponse = await gitCommit(projectName, `Compensation commit for '${projectName}' to fulfill incoming line diff`, timestamp - 501, true);
 
                 // Abort if commit failed and resolve instantly
                 if (dummyCommitResponse != null) {
@@ -130,9 +131,11 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
 
 
                 // Let git handler make the commit and push it
-                const commitMessage = projectDetails.find((e) => e.name == "Commit Message")!.value;
+                const commitMessage = projectDetails.find((e) => e.name == "Commit Message")!.value?.toString();
 
-                const commitResponse = await commitAndPush(projectName, commitMessage!, timestamp);
+                let commitResponse = await gitCommit(projectName, commitMessage!, timestamp);
+
+                if (!commitResponse) commitResponse = await gitPush(); // Only push if commit was successful and reuse commitResponse for this response
 
                 // Resolve promise
                 resolve({ commitResponse: commitResponse, dummyCommitResponse: dummyCommitResponse });
