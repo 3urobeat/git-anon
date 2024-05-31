@@ -15,10 +15,11 @@
     "start": "node .output/server/index.mjs",
     "bs": "npm run build && npm run start",
     "update": "git pull && npm i && npm run build",
-    "docker-build": "docker build -t 3urobeat/git-anon:latest -t 3urobeat/git-anon:1.0.0 .",
+    "get-version": "grep \"\\\"version\\\":\" package.json | awk '{split($0,a,\" \"); print $2}' | sed -r 's/\"|,//g'",
+    "docker-build": "docker build -t 3urobeat/git-anon:latest -t 3urobeat/git-anon:$(npm run get-version | tail -n 1) .",
     "docker-start": "docker run -p 3000:3000 -v ~/git-anon-data:/usr/src/git-anon/data git-anon",
     "docker-bs": "npm run docker-build && npm run docker-start",
-    "docker-push": "docker image push 3urobeat/git-anon:latest && docker image push 3urobeat/git-anon:1.0.0"
+    "docker-push": "docker image push 3urobeat/git-anon:latest && docker image push 3urobeat/git-anon:$(npm run get-version | tail -n 1)"
   },
   "keywords": [
     "git",
