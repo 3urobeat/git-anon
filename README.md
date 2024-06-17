@@ -53,6 +53,8 @@ Clone the git repository:
 Install dependencies:  
 `npm i --omit=dev`
 
+Make sure you have git installed on your system.
+
 Build the project:  
 `npm run build`
 
@@ -61,10 +63,10 @@ Start the project:
 
 &nbsp;
 
-**Note:**  
-No matter which method you chose, make sure to protect the service.  
-You'll very probably want to expose the service to the outside to be able to access it from your phone when at work.  
-Git Anon does not provide any authentication itself, so you should either enable a password protection in your reverse proxy - or even better - put it behind a VPN.
+> [!IMPORTANT]  
+> No matter which method you chose, make sure to protect the service.  
+> You'll very probably want to expose the service to the outside to be able to access it from your phone when at work.  
+> Git Anon does not provide any authentication itself, so you should either enable a password protection in your reverse proxy - or even better - put it behind a VPN.
 
 &nbsp;
 
