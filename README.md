@@ -23,7 +23,7 @@ GitHub automatically detects the programming languages of your line diffs based 
 **But why?**  
 1. I like statistics
 2. We use internal git instances and have restricted systems
-3. I want to keep an accurate contribution graph to have a more meaningful profile when applying for another job.
+3. I want to maintain an accurate contribution graph in order to have a more meaningful profile
 
 And you should too!
 
@@ -74,11 +74,12 @@ Start the project:
 
 # ⚡ Configuration
 ### Settings
-Open the webpage in your browser and head to the `Settings` page.  
+Please open the webpage in your browser and navigate to the `Settings` page.  
 
-Set your `Name` and `Email` to use for every commit. For GitHub to contribute the commit to your account, the email must be your GitHub Email (this usually looks like `id+username@users.noreply.github.com`).  
+Set your `Name` and `Email` to use for every commit.  
+For GitHub to contribute the commit to your account, the email must be the one connected to your GitHub account (in case of the GitHub provided Email this usually looks like `id+username@users.noreply.github.com`).  
 
-Create a new private repository on your GitHub profile. This will be used by Git Anon to push your commits to.
+Create a new private repository on your GitHub profile. This will be used by Git Anon to push your commits to.  
 Set the URL to this repository at `Remote URL` and provide your GitHub username at `Username`.  
 
 You now have to create an access token to this specific repository, so that Git Anon can authenticate itself and push to it.  
