@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:35
  * Author: 3urobeat
  *
- * Last Modified: 2024-05-31 16:39:54
+ * Last Modified: 2024-08-31 18:20:12
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -56,14 +56,17 @@ export async function gitCommit(filePath: string, commitMsg: string, timestamp: 
     return new Promise<string | null>((resolve) => {
         (async () => {
 
-            console.log(`gitCommit: Committing ${anonCommit ? "anonymously " : ""}and pushing '${filePath}' with msg '${commitMsg}'`);
+            console.log(`gitCommit: Committing ${anonCommit ? "anonymously " : ""} '${filePath}' with msg '${commitMsg}'`);
 
             // Stage commit
-            if (filePath) {
-                git.add(filePath);
-            } else {
-                git.add(".");
-            }
+            if (!filePath) filePath = ".";  // Set filePath to all files if no specific path was provided
+
+            await new Promise<void>((resolve) => {    // Wrap this in a promise to make sure git exited and deleted its lockfile before attempting to commit
+                git.add(filePath, (err) => {
+                    if (err) console.log(`gitCommit: Failed to stage '${filePath}'! Error:\n${err.stack}`); // If this fails, nothing should be staged and commit will do nothing (I guess)
+                    resolve();
+                });
+            });
 
 
             // Set timestamp
