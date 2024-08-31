@@ -29,27 +29,27 @@
     "url": "https://github.com/3urobeat/git-anon/issues"
   },
   "dependencies": {
-    "@nuxtjs/device": "^3.1.1",
+    "@nuxtjs/device": "^3.2.2",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@phosphor-icons/vue": "^2.2.1",
     "@seald-io/nedb": "^4.0.4",
     "ini": "^4.1.3",
-    "nuxt": "^3.12.4",
+    "nuxt": "^3.13.0",
     "simple-git": "^3.25.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.8.0",
+    "@eslint/js": "^9.9.1",
     "@nuxt/devtools": "latest",
     "@types/ini": "^4.1.1",
-    "@types/node": "^22.1.0",
-    "@typescript-eslint/parser": "^8.0.1",
-    "@vueuse/core": "^10.11.0",
+    "@types/node": "^22.5.1",
+    "@typescript-eslint/parser": "^8.3.0",
+    "@vueuse/core": "^11.0.3",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.8.0",
-    "eslint-plugin-jsdoc": "^48.11.0",
+    "eslint": "^9.9.1",
+    "eslint-plugin-jsdoc": "^50.2.2",
     "postcss": "^8.4.41",
-    "tailwindcss": "^3.4.7",
+    "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.0.1"
+    "typescript-eslint": "^8.3.0"
   }
 }
