@@ -4,7 +4,7 @@
  * Created Date: 2024-03-24 19:03:19
  * Author: 3urobeat
  *
- * Last Modified: 2024-05-31 16:26:04
+ * Last Modified: 2024-09-01 12:14:04
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -69,6 +69,7 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
             // Iterate through every detail and check if the file does not have enough lines to fulfill the lineDiff request and make a anon commit under our name.
             // We do this beforehand to group all files in one commit, instead of making a commit for every file in the loop below.
             let doDummyCommit = false;
+            let detailsBeforeModification = structuredClone(details); // Clone details before lines were modified to be able to revert should the commit fail
 
             details.forEach((e) => {
                 let lineDiff = (e.detail.lineDiffMinus ? e.detail.lineDiffMinus : 0) - (e.detail.lineDiffPlus ? e.detail.lineDiffPlus : 0); // These ternaries might be unnecessary as `null` would eval to 0 but `undefined` evals to NaN sooooo yeah idk
@@ -99,8 +100,13 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
                 // Only commit, push both commits at once at the bottom
                 dummyCommitResponse = await gitCommit(projectName, `Compensation commit for '${projectName}' to fulfill incoming line diff`, timestamp - 501, true);
 
-                // Abort if commit failed and resolve instantly
+                // Abort if commit failed, reset content and resolve instantly
                 if (dummyCommitResponse != null) {
+                    detailsBeforeModification.forEach((e) => {
+                        console.log(`addCommit: Commit failed, undoing ${(details.find((f) => f.detail.name == e.detail.name)!.fileContent.length - e.fileContent.length) / 6} lines in '${e.detail.name}'`);
+                        fs.writeFileSync(`data/repository/${projectName}/${e.detail.name}`, e.fileContent);
+                    });
+
                     resolve({ dummyCommitResponse: dummyCommitResponse, commitResponse: "Skipped because compensation commit failed" });
                     return;
                 }
@@ -109,24 +115,25 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
 
             // Make provided line diff changes in every file
             setTimeout(async () => {
+                detailsBeforeModification = structuredClone(details);   // Update our copy the unmodified details to be able to revert to after the compensation commit if the next commit fails
+
                 details.forEach((e) => {
                     const detail = e.detail;
-                    let content  = e.fileContent;
 
                     // Add lineDiffPlus at the bottom
                     if (detail.lineDiffPlus) {
                         for (let i = 0; i < detail.lineDiffPlus!; i++) {
-                            content += Math.random().toString(36).substring(2, 7) + "\n";
+                            e.fileContent += Math.random().toString(36).substring(2, 7) + "\n";
                         }
                     }
 
                     // Remove lineDiffMinus at the start
                     if (detail.lineDiffMinus) {
-                        content = content.slice(detail.lineDiffMinus * 6); // Times 6 to include 5 chars and newline character on every line
+                        e.fileContent = e.fileContent.slice(detail.lineDiffMinus * 6); // Times 6 to include 5 chars and newline character on every line
                     }
 
                     // Write changes
-                    fs.writeFileSync(`data/repository/${projectName}/${detail.name}`, content);
+                    fs.writeFileSync(`data/repository/${projectName}/${detail.name}`, e.fileContent);
                 });
 
 
@@ -135,7 +142,15 @@ export function addCommit(projectName: string, projectDetails: Detail[]) {
 
                 let commitResponse = await gitCommit(projectName, commitMessage!, timestamp);
 
-                if (!commitResponse) commitResponse = await gitPush(); // Only push if commit was successful and reuse commitResponse for this response
+                if (!commitResponse) {
+                    commitResponse = await gitPush(); // Only push if commit was successful and reuse commitResponse for this response
+                } else {
+                    detailsBeforeModification.forEach((e) => { // If the commits failed, reset the file content
+                        console.log(`addCommit: Commit failed, undoing ${(details.find((f) => f.detail.name == e.detail.name)!.fileContent.length - e.fileContent.length) / 6} lines in '${e.detail.name}'`);
+                        fs.writeFileSync(`data/repository/${projectName}/${e.detail.name}`, e.fileContent);
+                    });
+                }
+
 
                 // Resolve promise
                 resolve({ commitResponse: commitResponse, dummyCommitResponse: dummyCommitResponse });
