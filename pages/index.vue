@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-04-30 18:06:00
+ * Last Modified: 2024-09-01 11:24:30
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -425,11 +425,6 @@
             // Remove project name from changesMade array
             changesMade.value = changesMade.value.filter((e) => e != selectedProject.value.name);
 
-            // Refresh history
-            setTimeout(() => {
-                selectProject(selectedProject.value, true);
-            }, 1000);
-
         } else {
 
             // Restore time input field - Change to ISO format and remove seconds, milliseconds and "Z" from the end for the browser to understand what is going on
@@ -440,6 +435,11 @@
             // Indicate failure
             responseIndicatorFailure();
         }
+
+        // Refresh history, even on failure as maybe an compensation commit was made either way
+        setTimeout(() => {
+            selectProject(selectedProject.value, true);
+        }, 1000);
 
     }
 
