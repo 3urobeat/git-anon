@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-09-01 11:24:30
+ * Last Modified: 2024-09-01 12:23:58
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -408,18 +408,16 @@
         // Indicate result, reset fields on success and force refresh history
         const res = makeCommitResponse.data.value!;
 
-        console.log(res);
-
         if (!res.commitResponse && !res.dummyCommitResponse) { // If both are null, both have succeeded
             // Indicate success
             responseIndicatorSuccess();
 
-            // Reset fields
+            // Reset fields. Explicitly check for undefined to also clear fields containing 0 (which would obv cast to false)
             selectedProject.value.details.forEach((detail) => {
                 detail.value = "";
-                if (detail.email) detail.email = undefined;
-                if (detail.lineDiffPlus) detail.lineDiffPlus = undefined;
-                if (detail.lineDiffMinus) detail.lineDiffMinus = undefined;
+                if (detail.email         != undefined) detail.email         = undefined;
+                if (detail.lineDiffPlus  != undefined) detail.lineDiffPlus  = undefined;
+                if (detail.lineDiffMinus != undefined) detail.lineDiffMinus = undefined;
             });
 
             // Remove project name from changesMade array
