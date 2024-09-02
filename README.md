@@ -36,10 +36,12 @@ And you should too!
 # 🚀 Installation
 ### Docker (recommended):
 Run the container using:  
-`docker run -p 1234:3000 -v ~/git-anon-data:/usr/src/git-anon/data 3urobeat/git-anon:latest`
+`docker run -p <host_port>:3000 -v <path_on_host>:/usr/src/git-anon/data 3urobeat/git-anon:latest`
 
-To change the port on your host, change `1234` to something else.  
-To change the volume path or assign a proper volume instead of a bind, change `~/git-anon-data`.
+Replace `<host_port>` with the port you want to access git-anon at.
+
+Replace `<path_on_host>` with a path to where git-anon should store persistent data at on your system.  
+This can either be a bind (for example in your home folder `~/git-anon-data`) or a proper volume.
 
 > [!NOTE]
 > If you are using Portainer, make sure to set the working directory at the bottom to `/usr/src/git-anon`
@@ -47,13 +49,14 @@ To change the volume path or assign a proper volume instead of a bind, change `~
 &nbsp;
 
 ### Local:
+Make sure you have git, node & npm installed on your system.
+
 Clone the git repository:  
-`git clone https://github.com/3urobeat/git-anon`
+`git clone https://github.com/3urobeat/git-anon`  
+`cd git-anon`
 
 Install dependencies:  
 `npm i --omit=dev`
-
-Make sure you have git installed on your system.
 
 Build the project:  
 `npm run build`
