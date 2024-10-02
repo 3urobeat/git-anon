@@ -5,7 +5,7 @@
  * Created Date: 2024-03-23 13:03:16
  * Author: 3urobeat
  *
- * Last Modified: 2024-09-01 12:23:58
+ * Last Modified: 2024-10-02 20:47:43
  * Modified By: 3urobeat
  *
  * Copyright (c) 2024 3urobeat <https://github.com/3urobeat>
@@ -124,7 +124,8 @@
             <!-- Commit button -->
             <button class="lg:max-w-[15%] self-center py-1 px-3 lg:mt-12 w-fit h-fit rounded-sm bg-bg-input-light dark:bg-bg-input-dark outline outline-border-primary-light dark:outline-border-primary-dark outline-2 hover:bg-bg-input-hover-light hover:dark:bg-bg-input-hover-dark hover:transition-all" @click="makeCommit">
                 <div class="flex items-center justify-center">
-                    <PhCheck class="mr-2 size-5 text-green-600"></PhCheck>
+                    <PhCheck v-if="!awaitingCommitResponse" class="mr-2 size-5 text-green-600"></PhCheck>
+                    <PhSpinnerGap v-if="awaitingCommitResponse" class="mr-2 size-5 text-orange-500 animate-spin"></PhSpinnerGap>
                     Commit
                 </div>
             </button>
@@ -194,19 +195,21 @@
 
 
 <script setup lang="ts">
-    import { PhCheck, PhCaretRight, PhCaretDown, PhX } from "@phosphor-icons/vue";
+    import { PhCheck, PhSpinnerGap, PhCaretRight, PhCaretDown, PhX } from "@phosphor-icons/vue";
     import { type Project, type StoredProjects, type ProjectHistory, DetailType } from "../model/projects";
     import { responseIndicatorFailure, responseIndicatorSuccess } from "./helpers/responseIndicator";
 
 
     // Cache all stored projects, reference the currently selected project and cache shallow histories of all projects that have been selected in the current session
-    const storedProjects:   Ref<StoredProjects>   = ref(null!);
-    const selectedProject:  Ref<Project>          = ref(null!);
+    const storedProjects:   Ref<StoredProjects> = ref(null!);
+    const selectedProject:  Ref<Project>        = ref(null!);
 
-    const projectHistories: ProjectHistory[] = [];
-    const selectedHistory:  Ref<ProjectHistory>   = ref(null!);
+    const projectHistories: ProjectHistory[]    = [];
+    const selectedHistory:  Ref<ProjectHistory> = ref(null!);
 
     const historyPopupContent: Ref<{ projectName: string, timestamp: number, gitShow: string, gitVerifyCommit: string } | null> = ref(null);
+
+    const awaitingCommitResponse: Ref<boolean>  = ref(false);
 
 
     // Get all projects and their details on load
@@ -392,6 +395,9 @@
         };
 
 
+        // Replace check mark with spinner in commit button
+        awaitingCommitResponse.value = true;
+
         // Dispatch request to the server
         let makeCommitResponse = await useFetch<{ dummyCommitResponse: string | null, commitResponse: string | null }>("/api/make-commit", {
             method: "POST",
@@ -433,6 +439,9 @@
             // Indicate failure
             responseIndicatorFailure();
         }
+
+        // Disable spinner again
+        awaitingCommitResponse.value = false;
 
         // Refresh history, even on failure as maybe an compensation commit was made either way
         setTimeout(() => {
