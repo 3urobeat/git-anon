@@ -1,0 +1,48 @@
+/*
+ * File: main.css
+ * Project: git-anon
+ * Created Date: 2025-12-17 21:34:34
+ * Author: 3urobeat
+ *
+ * Last Modified: 2025-12-17 21:53:19
+ * Modified By: 3urobeat
+ *
+ * Copyright (c) 2025 3urobeat <https://github.com/3urobeat>
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+
+@import "tailwindcss";
+
+/* @config "../../tailwind.config.js"; */
+
+@theme {
+    --color-bg-light: #f1f2f3;
+    --color-bg-dark: #181a1b;
+    --color-bg-input-hover-light: #e5e7eb;
+    --color-bg-input-hover-dark: #25282a;
+    --color-bg-input-light: #e8e9eb;
+    --color-bg-input-dark: #1e2022;
+    --color-bg-embed-light: #d6dce4;
+    --color-bg-embed-dark: #242729;
+
+    --color-text-light: #000000;
+    --color-text-dark: #e8e6e3;
+
+    --color-border-primary-light: #000000;
+    --color-border-primary-dark: #8c8273;
+    --color-border-secondary-light: #9ca3af;
+    --color-border-secondary-dark: #565d5f;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+}
